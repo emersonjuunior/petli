@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Poppins;
+  --color-bgBlack: #252525;
+  --color-bgGray: #343434;
+  --color-textWhite: #fbf9ff;
+  --color-primaryYellow: #f6a93b;
+  --color-secondaryRed: #a63446;
+  --color-accentBlue: #55d6be;
+}
+
+@layer base {
+  input {
+    @apply bg-none px-2 py-1 outline-none border-b-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-gray-400;
+  }
+}
