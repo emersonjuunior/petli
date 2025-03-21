@@ -1,10 +1,11 @@
-import { auth, db } from "../firebase/firebaseConfig";
+import { auth, db, facebookProvider } from "../firebase/firebaseConfig";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
   signOut,
+  signInWithPopup,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
@@ -50,13 +51,50 @@ export const useAuthentication = () => {
 
       // salva o usuário no banco de dados
       await setDoc(usernameRef, { uid: user.uid });
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.message.includes("email-already")) {
+        setError("Esse usuário já existe.");
+      } else {
+        setError("Algo deu errado, tente novamente mais tarde.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
+
+  // cadastro com facebook
+  const createUserWithFacebook = async () => {
+    try {
+      // Abre o pop-up para autenticação
+      const result = await signInWithPopup(auth, facebookProvider);
+      const user = result.user;
+
+      // Verifica se o usuário já existe no Firestore
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        });
+        console.log("Novo usuário cadastrado:", user);
+      } else {
+        console.log("Usuário já cadastrado:", user);
+      }
+    } catch (error) {
+      console.error("Erro no cadastro:", error);
+    }
+  };
+
   return {
     createUser,
+    createUserWithFacebook,
     loading,
     error,
+    setError,
   };
 };

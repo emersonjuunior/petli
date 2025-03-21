@@ -2,16 +2,37 @@ import { FormEvent, useState } from "react";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { IUser } from "../interfaces/User";
 
+// components
+import Error from "../components/Error";
+import InputWarning from "../components/InputWarning";
+import CreateUserModal from "../components/CreateUserModal";
+
 const Register = () => {
   const [username, setUsername] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [viewPassword, setViewPassword] = useState<boolean>(false);
-  const { createUser, loading } = useAuthentication();
+  const [passwordStrength, setPasswordStrength] = useState<number>(0);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
+  const { createUser, createUserWithFacebook, loading, error, setError } =
+    useAuthentication();
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (passwordStrength < 3) {
+      setError("Sua senha não atende os requisitos.");
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      setError(
+        "O Nome de Usuário não pode conter espaços ou caracteres especiais."
+      );
+      return;
+    }
 
     const newUser: IUser = {
       username,
@@ -21,6 +42,29 @@ const Register = () => {
     };
 
     createUser(newUser);
+  };
+
+  const checkPasswordRequirements = (password: string): void => {
+    let strength = 0;
+
+    if (password.length >= 8) {
+      strength++;
+    }
+
+    if (/\d/.test(password)) {
+      strength++;
+    }
+
+    if (/[a-zA-Z]/.test(password)) {
+      strength++;
+    }
+
+    setPasswordStrength(strength);
+  };
+
+  const handleChange = (text: string) => {
+    const filteredValue = text.replace(/[^a-zA-Z0-9_]/g, "");
+    setUsername(filteredValue);
   };
 
   return (
@@ -47,49 +91,106 @@ const Register = () => {
             className="w-full flex flex-col gap-5 mb-5"
           >
             <h1 className="font-bold text-4xl self-start">Criar Conta</h1>
-            <input
-              type="text"
-              placeholder="Nome de Usuário"
-              required
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
-            />
-            <input
-              type="text"
-              placeholder="Nome"
-              required
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-            <div className="w-full flex relative">
+
+            <label className="relative">
               <input
-                type={viewPassword ? "text" : "password"}
-                placeholder="Senha"
+                type="text"
+                placeholder="Nome de Usuário"
                 required
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                className="w-full pr-15"
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  handleChange(e.target.value);
+                }}
+                onBlur={() => setIsFocused((prev) => !prev)}
+                onFocus={() => setIsFocused((prev) => !prev)}
+                className="w-full"
+                value={username}
+                minLength={4}
+                maxLength={20}
               />
+              {isFocused && (
+                <InputWarning
+                  text={
+                    "O Nome de Usuário não pode conter espaços ou caracteres especiais."
+                  }
+                />
+              )}
+            </label>
+            <label>
+              <input
+                type="text"
+                placeholder="Nome"
+                required
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                minLength={8}
+                maxLength={50}
+                className="w-full"
+              />
+            </label>
+            <label>
+              <input
+                type="email"
+                placeholder="Email"
+                required
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                minLength={10}
+                maxLength={50}
+                className="w-full"
+              />
+            </label>
+            <div className="w-full flex flex-col relative gap-3">
+              <label className="w-full">
+                <input
+                  type={viewPassword ? "text" : "password"}
+                  placeholder="Senha"
+                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    checkPasswordRequirements(e.target.value);
+                  }}
+                  onBlur={() => setIsPasswordFocused((prev) => !prev)}
+                  onFocus={() => setIsPasswordFocused((prev) => !prev)}
+                  value={password}
+                  className="w-full pr-15"
+                />
+              </label>
               <img
                 src={`./${viewPassword ? "no-" : ""}view-password.png`}
                 alt="Visualizar Senha"
                 className="size-6 absolute right-0 cursor-pointer"
                 onClick={() => setViewPassword((prev) => !prev)}
               />
+              {isPasswordFocused && (
+                <div className="w-full mt-4 p-3 bg-[#242424] text-white rounded-xl rounded-tl-none shadow-lg absolute z-10 bottom-[-60px]">
+                  <div className="flex w-full bg-gray-700 h-[4px]">
+                    <div
+                      className={`h-full transition-all duration-800 bg-green-600 ${
+                        passwordStrength === 1
+                          ? "w-1/3"
+                          : passwordStrength === 2
+                          ? "w-2/3"
+                          : passwordStrength === 3
+                          ? "w-full"
+                          : "w-0"
+                      }`}
+                    ></div>
+                  </div>
+                  <span className="text-xs">
+                    Sua senha deve conter pelo menos 8 caracteres, 1 letra e 1
+                    número.
+                  </span>
+                </div>
+              )}
             </div>
             <button
               type="submit"
-              className="text-lg font-medium bg-secondaryRed py-2 rounded-lg cursor-pointer duration-200 hover:bg-rose-700"
+              className="text-lg font-medium bg-secondaryRed py-2 rounded-lg cursor-pointer duration-200 hover:bg-rose-700 shadow-md"
             >
               Cadastrar
             </button>
+            <div>{error && <Error error={error} setError={setError} />}</div>
           </form>
           <div className="w-full">
             <div className="flex w-full items-center justify-center gap-2 mb-5">
@@ -99,7 +200,10 @@ const Register = () => {
             </div>
             <div className="flex justify-evenly mb-10">
               <div className="flex items-center justify-center bg-[#404040] p-3 rounded-full shadow-md cursor-pointer duration-300 hover:scale-110">
-                <i className="devicon-facebook-plain colored text-2xl"></i>
+                <i
+                  className="devicon-facebook-plain colored text-2xl"
+                  onClick={createUserWithFacebook}
+                ></i>
               </div>
               <div className="flex items-center justify-center bg-[#404040] p-3 rounded-full shadow-md cursor-pointer duration-300 hover:scale-110">
                 <img
@@ -117,6 +221,7 @@ const Register = () => {
             <span className="text-accentBlue">Fazer Login</span>
           </p>
         </div>
+        <CreateUserModal />
       </section>
     </main>
   );
