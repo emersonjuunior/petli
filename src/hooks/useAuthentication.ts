@@ -3,10 +3,12 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithPopup,
+  signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useState } from "react";
-import { IUser } from "../interfaces/User";
+import { ILogin, IUser } from "../interfaces/User";
 
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
@@ -71,11 +73,40 @@ export const useAuthentication = () => {
     }
   };
 
-  // cadastro com facebook
+  // login
+  const login = async (data: ILogin) => {
+    if (checkIfIsCancelled()) return;
+    setLoading(false);
+    setError(null);
+
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+
+      console.log("Login feito com sucesso.");
+    } catch (error: any) {
+      if (error.code === "auth/invalid-email") {
+        setError(
+          "Credenciais inválidas. Por favor, verifique suas informações."
+        );
+      } else {
+        setError("Algo deu errado, tente novamente mais tarde.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // logout
+  const logout = () => {
+    if (checkIfIsCancelled()) return;
+    signOut(auth);
+  };
 
   return {
     createUser,
     signInWithGoogle,
+    login,
+    logout,
     loading,
     error,
     setError,

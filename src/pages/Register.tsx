@@ -6,6 +6,7 @@ import { IUser } from "../interfaces/User";
 import Error from "../components/Error";
 import InputWarning from "../components/InputWarning";
 import CreateUserModal from "../components/CreateUserModal";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState<string>("");
@@ -209,10 +210,12 @@ const Register = () => {
               <p>Cadastrar com o Google</p>
             </div>
           </div>
-          <p>
-            Já tem uma conta?{" "}
-            <span className="text-accentBlue">Fazer Login</span>
-          </p>
+          <Link to="/login">
+            <p>
+              Já tem uma conta?{" "}
+              <span className="text-accentBlue">Fazer Login</span>
+            </p>
+          </Link>
         </div>
       </section>
     </main>
