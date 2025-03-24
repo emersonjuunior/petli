@@ -1,26 +1,39 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import InputWarning from "./InputWarning";
+import Error from "./Error";
+import { useAuthentication } from "../hooks/useAuthentication";
 
-const CreateUserModal = () => {
+interface Props {
+  register: string;
+}
+
+const CreateUserModal = ({ register }: Props) => {
   const [username, setUsername] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const { error, setError } = useAuthentication();
 
   const handleChange = (text: string) => {
     const filteredValue = text.replace(/[^a-zA-Z0-9_]/g, "");
     setUsername(filteredValue);
   };
 
-  const handleRegister = () => {
-    
-  }
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+
+  };
 
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-30">
       <div className="bg-bgGray w-full max-w-[500px] mx-2 rounded-lg">
-        <form className="flex flex-col gap-4 px-10 py-8">
+        <form
+          className="flex flex-col gap-4 px-10 py-8"
+          onSubmit={handleSubmit}
+        >
           <h3 className="text-lg">
-            Antes de prosseguir com o Cadastro pelo Facebook, escreva seu <span className="font-medium text-accentBlue">nome
-            de usuário</span>:
+            Antes de prosseguir com o Cadastro pelo Facebook, escreva seu{" "}
+            <span className="font-medium text-accentBlue">nome de usuário</span>
+            :
           </h3>
           <label className="relative">
             <input
@@ -41,7 +54,7 @@ const CreateUserModal = () => {
             {isFocused && (
               <InputWarning
                 text={
-                  "O Nome de Usuário não pode conter espaços ou caracteres especiais."
+                  "O Nome de Usuário deve conter pelo menos 4 caracteres, e não pode conter espaços ou caracteres especiais."
                 }
               />
             )}
@@ -52,6 +65,7 @@ const CreateUserModal = () => {
           >
             Cadastrar
           </button>
+          {error && <Error error={error} setError={setError} />}
         </form>
       </div>
     </div>

@@ -16,7 +16,7 @@ const Register = () => {
   const [passwordStrength, setPasswordStrength] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
-  const { createUser, createUserWithFacebook, loading, error, setError } =
+  const { createUser, signInWithGoogle, loading, error, setError } =
     useAuthentication();
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
@@ -111,7 +111,7 @@ const Register = () => {
               {isFocused && (
                 <InputWarning
                   text={
-                    "O Nome de Usuário não pode conter espaços ou caracteres especiais."
+                    "O Nome de Usuário deve conter pelo menos 4 caracteres, e não pode conter espaços ou caracteres especiais."
                   }
                 />
               )}
@@ -198,22 +198,15 @@ const Register = () => {
               <p className="whitespace-nowrap">Ou cadastre-se com</p>
               <div className="w-full bg-gray-400 h-[1px]"></div>
             </div>
-            <div className="flex justify-evenly mb-10">
-              <div className="flex items-center justify-center bg-[#404040] p-3 rounded-full shadow-md cursor-pointer duration-300 hover:scale-110">
-                <i
-                  className="devicon-facebook-plain colored text-2xl"
-                  onClick={createUserWithFacebook}
-                ></i>
-              </div>
-              <div className="flex items-center justify-center bg-[#404040] p-3 rounded-full shadow-md cursor-pointer duration-300 hover:scale-110">
-                <img
-                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg"
-                  className="w-6"
-                />
-              </div>
-              <div className="flex items-center justify-center bg-[#404040] p-3 rounded-full shadow-md cursor-pointer duration-300 hover:scale-110">
-                <i className="devicon-twitter-plain colored text-2xl"></i>
-              </div>
+            <div
+              className="mb-10 bg-[#404040] p-4 rounded-full shadow-md cursor-pointer duration-300 hover:scale-105 flex items-center justify-center gap-4 w-fit mx-auto"
+              onClick={signInWithGoogle}
+            >
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg"
+                className="w-6"
+              />
+              <p>Cadastrar com o Google</p>
             </div>
           </div>
           <p>
@@ -221,7 +214,6 @@ const Register = () => {
             <span className="text-accentBlue">Fazer Login</span>
           </p>
         </div>
-        <CreateUserModal />
       </section>
     </main>
   );

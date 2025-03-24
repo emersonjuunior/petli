@@ -1,14 +1,11 @@
-import { auth, db, facebookProvider } from "../firebase/firebaseConfig";
+import { auth, db, googleProvider } from "../firebase/firebaseConfig";
 import {
-  getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   updateProfile,
-  signOut,
   signInWithPopup,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IUser } from "../interfaces/User";
 
 export const useAuthentication = () => {
@@ -62,37 +59,23 @@ export const useAuthentication = () => {
     }
   };
 
-  // cadastro com facebook
-  const createUserWithFacebook = async () => {
+  // cadastro com google
+  const signInWithGoogle = async () => {
     try {
-      // Abre o pop-up para autenticação
-      const result = await signInWithPopup(auth, facebookProvider);
+      const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      // Verifica se o usuário já existe no Firestore
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          createdAt: new Date(),
-        });
-        console.log("Novo usuário cadastrado:", user);
-      } else {
-        console.log("Usuário já cadastrado:", user);
-      }
+      console.log("Usuário logado / cadastrado:", user);
     } catch (error) {
-      console.error("Erro no cadastro:", error);
+      console.error(error);
     }
   };
 
+  // cadastro com facebook
+
   return {
     createUser,
-    createUserWithFacebook,
+    signInWithGoogle,
     loading,
     error,
     setError,
