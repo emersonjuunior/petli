@@ -8,6 +8,8 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const { user, loading } = useUserContext();
@@ -19,11 +21,12 @@ function App() {
     <div className="min-h-screen min-w-screen bg-bgBlack text-textWhite">
       <BrowserRouter>
         <Header />
-        <p>{user && user.displayName}</p>
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/cadastro" element={user ? <Home /> : <Register />} />
           <Route path="/login" element={user ? <Home /> : <Login />} />
+          <Route path="/:username" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

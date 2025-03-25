@@ -50,7 +50,11 @@ export const useAuthentication = () => {
       });
 
       // salva o usuário no banco de dados
-      await setDoc(usernameRef, { uid: user.uid });
+      await setDoc(usernameRef, {
+        uid: user.uid,
+        displayName: user.displayName,
+        username: data.username,
+      });
     } catch (error: any) {
       if (error.message.includes("email-already")) {
         setError("Esse usuário já existe.");
