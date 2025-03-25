@@ -5,7 +5,6 @@ import { IUser } from "../interfaces/User";
 // components
 import Error from "../components/Error";
 import InputWarning from "../components/InputWarning";
-import CreateUserModal from "../components/CreateUserModal";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -187,9 +186,13 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className="text-lg font-medium bg-secondaryRed py-2 rounded-lg cursor-pointer duration-200 hover:bg-rose-700 shadow-md"
+              className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-rose-700 shadow-md ${
+                loading
+                  ? "bg-rose-700 cursor-progress opacity-90"
+                  : "bg-secondaryRed cursor-pointer"
+              }`}
             >
-              Cadastrar
+              {loading ? "Aguarde..." : "Cadastrar"}
             </button>
             <div>{error && <Error error={error} setError={setError} />}</div>
           </form>

@@ -80,9 +80,13 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="text-lg font-medium bg-secondaryRed py-2 rounded-lg cursor-pointer duration-200 hover:bg-rose-700 shadow-md"
+              className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-rose-700 shadow-md ${
+                loading
+                  ? "bg-rose-700 cursor-progress opacity-90"
+                  : "bg-secondaryRed cursor-pointer"
+              }`}
             >
-              Entrar
+             {loading ? "Aguarde..." : "Entrar"}
             </button>
             <div>{error && <Error error={error} setError={setError} />}</div>
           </form>

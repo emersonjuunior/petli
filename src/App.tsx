@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { auth } from "./firebase/firebaseConfig";
-import { onAuthStateChanged, User } from "firebase/auth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useUserContext } from "./context/UserContext";
+
+// components
+import Header from "./components/Header";
 
 // pages
 import Home from "./pages/Home";
@@ -9,25 +10,16 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  });
-
+  const { user, loading } = useUserContext();
   if (loading) {
     return <p>Carregando...</p>;
   }
 
   return (
-    <div className="min-h-screen min-w-screen pt-[100px] bg-bgBlack text-textWhite">
+    <div className="min-h-screen min-w-screen bg-bgBlack text-textWhite">
       <BrowserRouter>
+        <Header />
+        <p>{user && user.displayName}</p>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cadastro" element={user ? <Home /> : <Register />} />

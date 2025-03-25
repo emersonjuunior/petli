@@ -28,6 +28,7 @@ export const useAuthentication = () => {
   const createUser = async (data: IUser) => {
     if (checkIfIsCancelled()) return;
     setLoading(true);
+    setError(null);
 
     try {
       // verifica se o nome de usuário já existe no firestore
@@ -64,10 +65,7 @@ export const useAuthentication = () => {
   // cadastro com google
   const signInWithGoogle = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-
-      console.log("Usuário logado / cadastrado:", user);
+      await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error(error);
     }
@@ -76,7 +74,7 @@ export const useAuthentication = () => {
   // login
   const login = async (data: ILogin) => {
     if (checkIfIsCancelled()) return;
-    setLoading(false);
+    setLoading(true);
     setError(null);
 
     try {
