@@ -3,6 +3,7 @@ import { useUserContext } from "./context/UserContext";
 
 // components
 import Header from "./components/Header";
+import Loading from "./components/Loading";
 
 // pages
 import Home from "./pages/Home";
@@ -14,7 +15,7 @@ import NotFound from "./pages/NotFound";
 function App() {
   const { user, loading } = useUserContext();
   if (loading) {
-    return <p>Carregando...</p>;
+    return <Loading />;
   }
 
   return (

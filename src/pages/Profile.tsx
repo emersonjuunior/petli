@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { useGetDocuments } from "../hooks/useGetDocuments";
+import Loading from "../components/Loading";
 
 const Profile = () => {
   const { username } = useParams();
@@ -8,7 +9,7 @@ const Profile = () => {
   console.log(user);
 
   if(loading){
-    return <p>Carregando...</p>
+    return <Loading/>
   }
 
   if (user === null) {
