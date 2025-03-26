@@ -1,11 +1,11 @@
 import { FormEvent, useState } from "react";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { IUser } from "../interfaces/User";
+import { Link } from "react-router-dom";
 
 // components
 import Error from "../components/Error";
 import InputWarning from "../components/InputWarning";
-import { Link } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState<string>("");
@@ -93,7 +93,9 @@ const Register = () => {
               onSubmit={handleRegister}
               className="w-full flex flex-col gap-5 mb-5"
             >
-              <h1 className="font-bold text-3xl sm:text-4xl self-start">Criar Conta</h1>
+              <h1 className="font-bold text-3xl sm:text-4xl self-start">
+                Criar Conta
+              </h1>
 
               <label className="relative">
                 <input

@@ -69,7 +69,16 @@ export const useAuthentication = () => {
   // cadastro com google
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const { user } = await signInWithPopup(auth, googleProvider);
+
+      // verifica se o usuário está logando pela primeira vez
+      if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+        if (user.displayName !== "Google") {
+          await updateProfile(user, {
+            displayName: "Google",
+          });
+        }
+      }
     } catch (error) {
       console.error(error);
     }

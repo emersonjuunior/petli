@@ -3,11 +3,8 @@ import InputWarning from "./InputWarning";
 import Error from "./Error";
 import { useAuthentication } from "../hooks/useAuthentication";
 
-interface Props {
-  register: string;
-}
 
-const CreateUserModal = ({ register }: Props) => {
+const CreateUserModal = () => {
   const [username, setUsername] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const { error, setError } = useAuthentication();
@@ -19,7 +16,6 @@ const CreateUserModal = ({ register }: Props) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
 
   };
 
