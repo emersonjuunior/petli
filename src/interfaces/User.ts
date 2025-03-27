@@ -6,6 +6,11 @@ export interface IUser {
 }
 
 export interface ILogin {
-  email: string,
-  password: string
+  email: string;
+  password: string;
+}
+
+export interface IFirestoreUsername {
+  displayName: string;
+  username: string;
 }

@@ -8,11 +8,14 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useState } from "react";
-import { ILogin, IUser } from "../interfaces/User";
+import { ILogin, IUser, IFirestoreUsername } from "../interfaces/User";
+import { User } from "firebase/auth";
+import { useUserContext } from "../context/UserContext";
 
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
+  const { setDisplayName } = useUserContext();
 
   // lida com vazamento de memória
   const [cancelled, setCancelled] = useState(false);
@@ -77,6 +80,8 @@ export const useAuthentication = () => {
           await updateProfile(user, {
             displayName: "Google",
           });
+
+          setDisplayName("Google");
         }
       }
     } catch (error) {
@@ -92,8 +97,6 @@ export const useAuthentication = () => {
 
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-
-      console.log("Login feito com sucesso.");
     } catch (error: any) {
       if (error.code === "auth/invalid-email") {
         setError(
@@ -113,11 +116,46 @@ export const useAuthentication = () => {
     signOut(auth);
   };
 
+  // definir nome de usuário no firestore
+  const setFirestoreUsername = async (user: User, data: IFirestoreUsername) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // verifica se o nome de usuário já existe no firestore
+      const usernameRef = doc(db, "usernames", data.username);
+      const usernameSnapshot = await getDoc(usernameRef);
+
+      if (usernameSnapshot.exists()) {
+        console.log("Esse nome de usuário já está em uso.");
+        return;
+      }
+
+      await updateProfile(user, {
+        displayName: data.displayName,
+      });
+
+      // salva o usuário no banco de dados
+      await setDoc(usernameRef, {
+        uid: user.uid,
+        displayName: user.displayName,
+        username: data.username,
+      });
+
+      setDisplayName(data.displayName);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     createUser,
     signInWithGoogle,
     login,
     logout,
+    setFirestoreUsername,
     loading,
     error,
     setError,
