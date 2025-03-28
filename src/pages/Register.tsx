@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 // components
 import Error from "../components/Error";
 import InputWarning from "../components/InputWarning";
-import Success from "../components/Success";
 
 const Register = () => {
   const [username, setUsername] = useState<string>("");
@@ -23,8 +22,6 @@ const Register = () => {
     loading,
     error,
     setError,
-    successMsg,
-    successNotification,
   } = useAuthentication();
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
@@ -235,7 +232,6 @@ const Register = () => {
           </div>
         </section>
       </div>
-      {successNotification && <Success msg={successMsg} />}
     </main>
   );
 };

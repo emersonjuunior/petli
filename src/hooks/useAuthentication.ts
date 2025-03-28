@@ -15,10 +15,8 @@ import { useUserContext } from "../context/UserContext";
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
-  const [successMsg, setSuccessMsg] = useState<string>("");
-  const [successNotification, setSuccessNotification] =
-    useState<boolean>(false);
-  const { setDisplayName } = useUserContext();
+  const { user, setDisplayName, setSuccessMsg, showSuccessNotification } =
+    useUserContext();
 
   // lida com vazamento de memória
   const [cancelled, setCancelled] = useState(false);
@@ -64,8 +62,8 @@ export const useAuthentication = () => {
 
       setDisplayName(data.displayName);
 
-      setSuccessMsg("Cadastro concluído com sucesso!");
-      setSuccessNotification(true);
+      setSuccessMsg("Conta criada com sucesso! 🐾");
+      showSuccessNotification();
     } catch (error: any) {
       if (error.message.includes("email-already")) {
         setError("Esse usuário já existe.");
@@ -90,6 +88,12 @@ export const useAuthentication = () => {
         });
 
         setDisplayName("Google");
+
+        setSuccessMsg("Conta criada com sucesso! 🐾");
+        showSuccessNotification();
+      } else {
+        setSuccessMsg("Bem-vindo de volta! 🐱");
+        showSuccessNotification();
       }
     } catch (error) {
       console.error(error);
@@ -104,6 +108,8 @@ export const useAuthentication = () => {
 
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
+      setSuccessMsg("Bem-vindo de volta! 🐱");
+      showSuccessNotification();
     } catch (error: any) {
       if (error.code === "auth/invalid-email") {
         setError(
@@ -121,6 +127,8 @@ export const useAuthentication = () => {
   const logout = () => {
     if (checkIfIsCancelled()) return;
     signOut(auth);
+    setSuccessMsg("Até logo, volte sempre! 🐶");
+    showSuccessNotification();
   };
 
   // definir nome de usuário no firestore
@@ -150,6 +158,8 @@ export const useAuthentication = () => {
       });
 
       setDisplayName(data.displayName);
+      setSuccessMsg("Nome de usuário definido com sucesso. 🐶");
+      showSuccessNotification();
     } catch (error) {
       console.log(error);
     } finally {
@@ -166,7 +176,5 @@ export const useAuthentication = () => {
     loading,
     error,
     setError,
-    successMsg,
-    successNotification,
   };
 };

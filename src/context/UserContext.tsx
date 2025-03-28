@@ -14,6 +14,10 @@ interface IUserContext {
   loading: boolean;
   displayName: string | null;
   setDisplayName: (name: string | null) => void;
+  successMsg: string;
+  setSuccessMsg: (msg: string) => void;
+  successNotification: boolean;
+  showSuccessNotification: () => void;
 }
 
 const UserContext = createContext<IUserContext | null>(null);
@@ -24,6 +28,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [successNotification, setSuccessNotification] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -38,9 +45,26 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     setDisplayName(user ? user.displayName : null);
   }, [user]);
 
+  const showSuccessNotification = (): void => {
+    setSuccessNotification(true);
+    setTimeout(() => {
+      setSuccessNotification(false);
+    }, 4000);
+  };
+
   return (
     <UserContext.Provider
-      value={{ user, setUser, loading, displayName, setDisplayName }}
+      value={{
+        user,
+        setUser,
+        loading,
+        displayName,
+        setDisplayName,
+        successMsg,
+        setSuccessMsg,
+        successNotification,
+        showSuccessNotification,
+      }}
     >
       {children}
     </UserContext.Provider>

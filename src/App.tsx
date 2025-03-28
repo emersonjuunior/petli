@@ -11,9 +11,10 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import Success from "./components/Success";
 
 function App() {
-  const { user, loading } = useUserContext();
+  const { user, loading, successNotification, successMsg } = useUserContext();
   if (loading) {
     return <Loading />;
   }
@@ -22,6 +23,7 @@ function App() {
     <div className="min-h-screen min-w-screen bg-bgBlack text-textWhite">
       <BrowserRouter>
         <Header />
+        {successNotification && <Success msg={successMsg} />}
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
