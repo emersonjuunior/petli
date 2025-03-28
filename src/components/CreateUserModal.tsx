@@ -9,7 +9,7 @@ const CreateUserModal = () => {
   const [username, setUsername] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const { setFirestoreUsername, error, setError } = useAuthentication();
+  const { setFirestoreUsername, error, setError, loading } = useAuthentication();
 
   const handleChange = (text: string) => {
     const filteredValue = text.replace(/[^a-zA-Z0-9_]/g, "");
@@ -41,10 +41,22 @@ const CreateUserModal = () => {
             </h2>
             <p className="text-lg">
               Antes de prosseguir, por favor escreva seu{" "}
-              <span className="text-accentBlue">nome de usuário</span> e seu{" "}
-              <span className="text-accentBlue">nome de exibição</span>.
+              <span className="text-accentBlue">nome</span> e seu{" "}
+              <span className="text-accentBlue">nome de usuário</span>.
             </p>
           </div>
+          <label>
+            <input
+              type="text"
+              placeholder="Nome"
+              required
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              minLength={8}
+              maxLength={50}
+              className="w-full"
+            />
+          </label>
           <label className="relative">
             <input
               type="text"
@@ -69,25 +81,13 @@ const CreateUserModal = () => {
               />
             )}
           </label>
-          <label>
-            <input
-              type="text"
-              placeholder="Nome"
-              required
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              minLength={8}
-              maxLength={50}
-              className="w-full"
-            />
-          </label>
+          {error && <Error error={error} setError={setError} />}
           <button
             type="submit"
-            className="text-lg font-medium bg-[#1877F2] py-2 rounded-lg cursor-pointer duration-200 hover:bg-[#1852f2] shadow-md"
+            className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-[#1852f2] shadow-md ${loading ? "cursor-progress opacity-90 bg-[#1852f2]" : "bg-[#1877F2] cursor-pointer"}`}
           >
-            Enviar
+           {loading ? "Aguarde..." : "Enviar"}
           </button>
-          {error && <Error error={error} setError={setError} />}
         </form>
       </div>
     </div>

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 // components
 import Error from "../components/Error";
 import InputWarning from "../components/InputWarning";
+import Success from "../components/Success";
 
 const Register = () => {
   const [username, setUsername] = useState<string>("");
@@ -16,8 +17,15 @@ const Register = () => {
   const [passwordStrength, setPasswordStrength] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
-  const { createUser, signInWithGoogle, loading, error, setError } =
-    useAuthentication();
+  const {
+    createUser,
+    signInWithGoogle,
+    loading,
+    error,
+    setError,
+    successMsg,
+    successNotification,
+  } = useAuthentication();
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -227,6 +235,7 @@ const Register = () => {
           </div>
         </section>
       </div>
+      {successNotification && <Success msg={successMsg} />}
     </main>
   );
 };

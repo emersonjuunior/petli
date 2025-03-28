@@ -1,6 +1,7 @@
 import { useUserContext } from "../context/UserContext";
 import CreateUserModal from "../components/CreateUserModal";
 import { useState, useEffect } from "react";
+import Success from "../components/Success";
 
 const Home = () => {
   const { user, displayName } = useUserContext();

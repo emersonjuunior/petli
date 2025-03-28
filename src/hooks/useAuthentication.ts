@@ -15,6 +15,9 @@ import { useUserContext } from "../context/UserContext";
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
+  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [successNotification, setSuccessNotification] =
+    useState<boolean>(false);
   const { setDisplayName } = useUserContext();
 
   // lida com vazamento de memória
@@ -58,6 +61,11 @@ export const useAuthentication = () => {
         displayName: user.displayName,
         username: data.username,
       });
+
+      setDisplayName(data.displayName);
+
+      setSuccessMsg("Cadastro concluído com sucesso!");
+      setSuccessNotification(true);
     } catch (error: any) {
       if (error.message.includes("email-already")) {
         setError("Esse usuário já existe.");
@@ -72,17 +80,16 @@ export const useAuthentication = () => {
   // cadastro com google
   const signInWithGoogle = async () => {
     try {
-      const { user } = await signInWithPopup(auth, googleProvider);
+      const userCreds = await signInWithPopup(auth, googleProvider);
 
-      // verifica se o usuário está logando pela primeira vez
-      if (user.metadata.creationTime === user.metadata.lastSignInTime) {
-        if (user.displayName !== "Google") {
-          await updateProfile(user, {
-            displayName: "Google",
-          });
+      const isNewUser = (userCreds as any)?._tokenResponse?.isNewUser;
 
-          setDisplayName("Google");
-        }
+      if (isNewUser) {
+        await updateProfile(userCreds.user, {
+          displayName: "Google",
+        });
+
+        setDisplayName("Google");
       }
     } catch (error) {
       console.error(error);
@@ -127,7 +134,7 @@ export const useAuthentication = () => {
       const usernameSnapshot = await getDoc(usernameRef);
 
       if (usernameSnapshot.exists()) {
-        console.log("Esse nome de usuário já está em uso.");
+        setError("Esse nome de usuário já está em uso.");
         return;
       }
 
@@ -159,5 +166,7 @@ export const useAuthentication = () => {
     loading,
     error,
     setError,
+    successMsg,
+    successNotification,
   };
 };

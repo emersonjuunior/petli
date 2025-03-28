@@ -9,10 +9,41 @@
   --color-primaryYellow: #f6a93b;
   --color-secondaryRed: #a63446;
   --color-accentBlue: #55d6be;
+  --animate-notification: show-notification 0.4s ease forwards,
+    close-notification 0.5s ease 2.5s forwards;
+  --animate-timer-animation: timer-animation 2s ease 0.2s forwards;
 }
 
 @layer base {
   input {
     @apply bg-none px-2 py-1 outline-none border-b-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-gray-400;
+  }
+}
+
+@keyframes show-notification {
+  0% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes close-notification {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-700px);
+    display: none;
+  }
+}
+
+@keyframes timer-animation {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
   }
 }
