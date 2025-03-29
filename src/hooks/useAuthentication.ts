@@ -5,6 +5,7 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useState } from "react";
@@ -15,7 +16,7 @@ import { useUserContext } from "../context/UserContext";
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
-  const { user, setDisplayName, setSuccessMsg, showSuccessNotification } =
+  const { setDisplayName, setSuccessMsg, showSuccessNotification } =
     useUserContext();
 
   // lida com vazamento de memória
@@ -167,12 +168,25 @@ export const useAuthentication = () => {
     }
   };
 
+  // recuperar senha
+  const recoverPassword = async (email: string) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setSuccessMsg("Se o email estiver cadastrado, você receberá um link para redefinir sua senha. 🔑");
+        showSuccessNotification();
+      })
+      .catch(() => {
+        setError("Algo deu errado, tente novamente mais tarde.");
+      });
+  };
+
   return {
     createUser,
     signInWithGoogle,
     login,
     logout,
     setFirestoreUsername,
+    recoverPassword,
     loading,
     error,
     setError,

@@ -3,11 +3,14 @@ import { useAuthentication } from "../hooks/useAuthentication";
 import { Link } from "react-router-dom";
 import Error from "../components/Error";
 import { ILogin } from "../interfaces/User";
+import RecoverPasswordModal from "../components/RecoverPasswordModal";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [viewPassword, setViewPassword] = useState<boolean>(false);
+  const [recoverPasswordModal, setRecoverPasswordModal] =
+    useState<boolean>(false);
   const { login, signInWithGoogle, loading, error, setError } =
     useAuthentication();
 
@@ -23,7 +26,7 @@ const Login = () => {
   };
 
   return (
-    <main className="w-full px-3 sm:px-6">
+    <main className="w-full px-3 sm:px-6 md:px-20 lg:px-6">
       <div className="w-full max-w-6xl h-[580px] sm:h-[650px] mx-auto flex">
         <section className="hidden lg:block flex-1 bg-accentBlue rounded-tl-2xl rounded-bl-2xl relative">
           <div className="flex flex-col items-center justify-center h-full py-4 px-5 text-stone-900">
@@ -43,15 +46,12 @@ const Login = () => {
           <div className="bg-accentBlue absolute w-[200px] h-full right-[-200px] top-0"></div>
         </section>
         <section className="flex-[1.4] bg-bgGray rounded-2xl z-10">
-          <div className="w-full max-w-lg lg:max-w-md px-4 h-full mx-auto flex flex-col items-center justify-center">
-            <form
-              className="w-full flex flex-col gap-6 mb-6"
-              onSubmit={handleLogin}
-            >
-              <h1 className="font-bold text-3xl sm:text-4xl self-start">
+          <div className="w-full max-w-lg md:max-w-xl lg:max-w-md px-4 h-full mx-auto flex flex-col items-center justify-center">
+            <form className="w-full flex flex-col mb-6" onSubmit={handleLogin}>
+              <h1 className="font-bold text-3xl sm:text-4xl self-start mb-6">
                 Bem-vindo de volta!
               </h1>
-              <label>
+              <label className="mb-6">
                 <input
                   type="email"
                   placeholder="Email"
@@ -63,7 +63,7 @@ const Login = () => {
                   className="w-full"
                 />
               </label>
-              <div className="w-full flex flex-col relative gap-3">
+              <div className="w-full flex flex-col relative gap-3 mb-2">
                 <label className="w-full">
                   <input
                     type={viewPassword ? "text" : "password"}
@@ -81,6 +81,12 @@ const Login = () => {
                   onClick={() => setViewPassword((prev) => !prev)}
                 />
               </div>
+              <p
+                className="text-right mb-4 text-[15px] text-gray-300 cursor-pointer underline"
+                onClick={() => setRecoverPasswordModal(true)}
+              >
+                Esqueceu sua senha?
+              </p>
               <button
                 type="submit"
                 className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-rose-700 shadow-md ${
@@ -113,12 +119,13 @@ const Login = () => {
             <Link to="/cadastro">
               <p>
                 Ainda não tem uma conta?{" "}
-                <span className="text-accentBlue">Cadastrar-se</span>
+                <span className="text-accentBlue">Cadastre-se</span>
               </p>
             </Link>
           </div>
         </section>
       </div>
+      {recoverPasswordModal && <RecoverPasswordModal setRecoverPasswordModal={setRecoverPasswordModal} />}
     </main>
   );
 };
