@@ -16,8 +16,12 @@ import { useUserContext } from "../context/UserContext";
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
-  const { setDisplayName, setSuccessMsg, showSuccessNotification } =
-    useUserContext();
+  const {
+    setDisplayName,
+    setSuccessMsg,
+    showSuccessNotification,
+    setUsername,
+  } = useUserContext();
 
   // lida com vazamento de memória
   const [cancelled, setCancelled] = useState(false);
@@ -158,6 +162,7 @@ export const useAuthentication = () => {
         username: data.username,
       });
 
+      setUsername(data.username);
       setDisplayName(data.displayName);
       setSuccessMsg("Nome de usuário definido com sucesso. 🐶");
       showSuccessNotification();
@@ -172,7 +177,9 @@ export const useAuthentication = () => {
   const recoverPassword = async (email: string) => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        setSuccessMsg("Se o email estiver cadastrado, você receberá um link para redefinir sua senha. 🔑");
+        setSuccessMsg(
+          "Se o email estiver cadastrado, você receberá um link para redefinir sua senha. 🔑"
+        );
         showSuccessNotification();
       })
       .catch(() => {
