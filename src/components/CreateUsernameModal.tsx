@@ -4,7 +4,7 @@ import Error from "./Error";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { useUserContext } from "../context/UserContext";
 
-const CreateUserModal = () => {
+const CreateUsernameModal = () => {
   const { user } = useUserContext();
   const [username, setUsername] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -94,4 +94,4 @@ const CreateUserModal = () => {
   );
 };
 
-export default CreateUserModal;
+export default CreateUsernameModal;

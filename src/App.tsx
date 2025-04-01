@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Success from "./components/Success";
+import CreatePet from "./pages/CreatePet";
 
 function App() {
   const { user, loading, successNotification, successMsg } = useUserContext();
@@ -30,6 +31,7 @@ function App() {
           <Route path="/cadastro" element={user ? <Home /> : <Register />} />
           <Route path="/login" element={user ? <Home /> : <Login />} />
           <Route path="/:username" element={<Profile />} />
+          <Route path="/novo-pet" element={<CreatePet />} />
         </Routes>
       </BrowserRouter>
     </div>

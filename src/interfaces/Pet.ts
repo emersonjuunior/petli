@@ -1,9 +1,11 @@
-interface IPetCard {
+export interface IPetCard {
   name?: string;
+  species: string;
+  image: string;
   location: string;
-  age: number;
-  gender: string;
-  size: Size;
+  age: string;
+  gender: "Macho" | "Fêmea" | "Desconhecido";
+  size: "Pequeno" | "Médio" | "Grande";
 }
 
 export interface IPet {
@@ -12,8 +14,8 @@ export interface IPet {
   species: Species;
   breed: string;
   age: number;
-  size: Size;
-  gender: Gender;
+  size: "Pequeno" | "Médio" | "Grande";
+  gender: "Macho" | "Fêmea" | "Desconhecido";
   image: string;
 
   vaccinated: boolean | string;
@@ -42,18 +44,6 @@ enum Species {
   bird = "Pássaro",
   hamster = "Hamster",
   other = "Outro",
-}
-
-enum Size {
-  small = "Pequeno",
-  medium = "Médio",
-  large = "Grande",
-}
-
-enum Gender {
-  male = "Macho",
-  female = "Fêmea",
-  unknown = "Desconhecido",
 }
 
 enum Energy {
