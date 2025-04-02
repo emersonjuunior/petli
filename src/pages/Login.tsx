@@ -92,7 +92,7 @@ const Login = () => {
                 className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-rose-700 shadow-md ${
                   loading
                     ? "bg-rose-700 cursor-progress opacity-90"
-                    : "bg-secondaryRed cursor-pointer"
+                    : "bg-primaryRed cursor-pointer"
                 }`}
               >
                 {loading ? "Aguarde..." : "Entrar"}

@@ -10,13 +10,17 @@ export interface IPetCard {
 
 export interface IPet {
   id: string;
-  name?: string;
   species: Species;
+  name?: string;
   breed: string;
+  gender: "Macho" | "Fêmea" | "Desconhecido";
   age: number;
   size: "Pequeno" | "Médio" | "Grande";
-  gender: "Macho" | "Fêmea" | "Desconhecido";
   image: string;
+
+  state: string;
+  city: string;
+  contact: string;
 
   vaccinated: boolean | string;
   neutered: boolean;
@@ -27,14 +31,9 @@ export interface IPet {
   goodWithOtherAnimals: boolean;
   goodWithChildren: boolean;
   energyLevel: Energy;
-
-  state: string;
-  city: string;
-  contact: string;
-  moreImages?: string[];
-
   history?: string;
   adoptionRequirements?: string[];
+  moreImages?: string[];
 }
 
 enum Species {

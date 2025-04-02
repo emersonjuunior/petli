@@ -10,17 +10,17 @@ const PetCard = ({
   size,
 }: IPetCard) => {
   return (
-    <div className="pet-card w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray bg-[#292929] border-b-secondaryRed mx-auto relative flex flex-col group">
-      <div>
+    <div className="pet-card rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray bg-[#292929] border-b-primaryRed mx-auto relative flex flex-col group">
+      <div className="rounded-lg flex justify-center">
         <img
           src={image}
           alt={`Foto do Pet ${name}`}
-          className="w-full max-h-[220px]"
+          className="w-full max-h-[220px] rounded-lg shadow-md"
         />
       </div>
       <h3
         id="pet-card-title"
-        className="text-2xl font-bold bg-secondaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[60%] duration-300 text-center mx-auto mb-3"
+        className="text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto mb-3"
       >
         <i
           className={`fa-solid ${

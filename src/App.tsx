@@ -4,6 +4,7 @@ import { useUserContext } from "./context/UserContext";
 // components
 import Header from "./components/Header";
 import Loading from "./components/Loading";
+import CreateUsernameModal from "./components/CreateUsernameModal";
 
 // pages
 import Home from "./pages/Home";
@@ -15,7 +16,8 @@ import Success from "./components/Success";
 import CreatePet from "./pages/CreatePet";
 
 function App() {
-  const { user, loading, successNotification, successMsg } = useUserContext();
+  const { user, displayName, loading, successNotification, successMsg } =
+    useUserContext();
   if (loading) {
     return <Loading />;
   }
@@ -25,6 +27,7 @@ function App() {
       <BrowserRouter>
         <Header />
         {successNotification && <Success msg={successMsg} />}
+        {user && displayName === "Google" && <CreateUsernameModal />}
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
