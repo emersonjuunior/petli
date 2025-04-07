@@ -3,7 +3,7 @@
 @theme {
   --font-sans: Poppins;
   --font-serif: "Dancing Script";
-  --color-bgBlack: #252525;
+  --color-bgBlack: #262626;
   --color-bgGray: #343434;
   --color-textWhite: #fbf9ff;
   --color-primaryRed: #a63446;
@@ -16,7 +16,10 @@
 
 @layer base {
   input {
-    @apply bg-none px-2 py-1 outline-none border-b-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-gray-400;
+    @apply bg-none px-2 py-1 outline-none border-b-2 transition-colors duration-100 focus:border-[#596A95] border-gray-400;
+  }
+  option {
+    @apply bg-bgGray text-textWhite;
   }
 }
 
@@ -46,6 +49,15 @@
   100% {
     width: 0;
   }
+}
+
+body {
+  overflow-x: hidden;
+  min-width: 100vw;
+  min-height: 100vh;
+  color: #fbf9ff;
+  background-color: #262626;
+  padding-bottom: 100px;
 }
 
 #pet-card-title {

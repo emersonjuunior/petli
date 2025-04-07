@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FirstStep from "../components/CreatePetSteps/FirstStep";
+import SecondStep from "../components/CreatePetSteps/SecondStep";
 import PetCard from "../components/PetCard";
 
 const CreatePet = () => {
@@ -11,6 +12,7 @@ const CreatePet = () => {
   const [age, setAge] = useState("");
   const [size, setSize] = useState("");
   const [image, setImage] = useState("");
+  const [location, setLocation] = useState("");
 
   return (
     <main className="flex flex-row-reverse w-full max-w-7xl justify-between mx-auto gap-8 items-center">
@@ -55,6 +57,7 @@ const CreatePet = () => {
         <div>
           {step === 1 && (
             <FirstStep
+              setStep={setStep}
               species={species}
               setSpecies={setSpecies}
               name={name}
@@ -67,10 +70,10 @@ const CreatePet = () => {
               setAge={setAge}
               size={size}
               setSize={setSize}
-              image={image}
               setImage={setImage}
             />
           )}
+          {step === 2 && <SecondStep />}
         </div>
       </section>
 
@@ -78,11 +81,11 @@ const CreatePet = () => {
         <PetCard
           name={name}
           species={species}
-          image="./jason.jpg"
-          location="Ipanema, MG"
-          age="3 anos"
-          gender="Macho"
-          size="Pequeno"
+          image={image}
+          location={location}
+          age={age}
+          gender={gender}
+          size={size}
         />
       </section>
     </main>

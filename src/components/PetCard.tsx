@@ -12,11 +12,17 @@ const PetCard = ({
   return (
     <div className="pet-card rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray bg-[#292929] border-b-primaryRed mx-auto relative flex flex-col group">
       <div className="rounded-lg flex justify-center">
-        <img
-          src={image}
-          alt={`Foto do Pet ${name}`}
-          className="w-full max-h-[220px] rounded-lg shadow-md"
-        />
+        {image === "" ? (
+          <div className="min-h-[220px] flex items-center bg-[#272727] w-full justify-center">
+            <p className="text-lg max-w-6/10 text-center font-medium">Envie uma imagem do seu pet 🐾</p>
+          </div>
+        ) : (
+          <img
+            src={image}
+            alt={`Foto do Pet ${name}`}
+            className="w-full min-h-[220px] max-h-[220px] rounded-lg shadow-md"
+          />
+        )}
       </div>
       <h3
         id="pet-card-title"
@@ -24,7 +30,11 @@ const PetCard = ({
       >
         <i
           className={`fa-solid ${
-            species === "Cachorro" ? "fa-dog" : "fa-cat"
+            species === "Cachorro"
+              ? "fa-dog"
+              : species === "Gato"
+              ? "fa-cat"
+              : ""
           } text-xl`}
         ></i>{" "}
         {name}
@@ -41,9 +51,13 @@ const PetCard = ({
         <li className="flex items-center">
           <i
             className={`fa-solid ${
-              gender === "Macho" ? "fa-mars" : "fa-venus"
+              gender === "Macho"
+                ? "fa-mars"
+                : gender === "Fêmea"
+                ? "fa-venus"
+                : "fa-question"
             } text-lg text-[#bebaba] min-w-[25px] group-hover:text-[#e4e3e3]`}
-          ></i>{" "}
+          ></i>
           {gender}
         </li>
         <li className="flex items-center">

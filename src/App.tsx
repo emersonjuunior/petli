@@ -23,21 +23,19 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen min-w-screen bg-bgBlack text-textWhite">
-      <BrowserRouter>
-        <Header />
-        {successNotification && <Success msg={successMsg} />}
-        {user && displayName === "Google" && <CreateUsernameModal />}
-        <Routes>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/cadastro" element={user ? <Home /> : <Register />} />
-          <Route path="/login" element={user ? <Home /> : <Login />} />
-          <Route path="/:username" element={<Profile />} />
-          <Route path="/novo-pet" element={<CreatePet />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Header />
+      {successNotification && <Success msg={successMsg} />}
+      {user && displayName === "Google" && <CreateUsernameModal />}
+      <Routes>
+        <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/cadastro" element={user ? <Home /> : <Register />} />
+        <Route path="/login" element={user ? <Home /> : <Login />} />
+        <Route path="/:username" element={<Profile />} />
+        <Route path="/novo-pet" element={<CreatePet />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

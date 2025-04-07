@@ -4,8 +4,8 @@ export interface IPetCard {
   image: string;
   location: string;
   age: string;
-  gender: "Macho" | "Fêmea" | "Desconhecido";
-  size: "Pequeno" | "Médio" | "Grande";
+  gender: string;
+  size: string;
 }
 
 export interface IPet {
