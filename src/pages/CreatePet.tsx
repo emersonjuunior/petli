@@ -15,39 +15,39 @@ const CreatePet = () => {
   const [location, setLocation] = useState("");
 
   return (
-    <main className="flex flex-row-reverse w-full max-w-7xl justify-between mx-auto gap-8 items-center">
-      <section className="flex-2  h-[700px] px-4">
+    <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 items-center">
+      <section className="flex-1 h-[700px] px-6">
         <h1 className="font-medium text-xl md:text-3xl mb-6">
           Encontre um <span className="text-accentBlue">novo lar</span> para seu
           pet 🐾
         </h1>
-        <div className="flex items-center mb-6 gap-2">
+        <div className="flex items-center mb-6 gap-1 md:gap-2">
           <div
-            className={`rounded-full border-2 size-10 flex justify-center items-center ${
+            className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
               step === 1 ? "border-secondaryYellow" : ""
             }`}
           >
             1
           </div>
-          <div className="h-[2px] bg-bgGray w-40"></div>
+          <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
           <div
-            className={`rounded-full border-2 border-gray-300 size-10 flex justify-center items-center ${
+            className={`rounded-full border-2 border-gray-300 size-9 md:size-10 flex justify-center items-center ${
               step === 2 ? "border-accentBlue" : ""
             }`}
           >
             2
           </div>
-          <div className="h-[2px] bg-bgGray w-40"></div>
+          <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
           <div
-            className={`rounded-full border-2 size-10 flex justify-center items-center ${
+            className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
               step === 3 ? "border-accentBlue" : ""
             }`}
           >
             3
           </div>
-          <div className="h-[2px] bg-bgGray w-40"></div>
+          <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
           <div
-            className={`rounded-full border-2 size-10 flex justify-center items-center ${
+            className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
               step === 4 ? "border-accentBlue" : ""
             }`}
           >
@@ -66,10 +66,10 @@ const CreatePet = () => {
               setBreed={setBreed}
               gender={gender}
               setGender={setGender}
-              age={age}
               setAge={setAge}
               size={size}
               setSize={setSize}
+              image={image}
               setImage={setImage}
             />
           )}
@@ -77,7 +77,7 @@ const CreatePet = () => {
         </div>
       </section>
 
-      <section>
+      <section className="hidden lg:block px-4">
         <PetCard
           name={name}
           species={species}

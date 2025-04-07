@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import Error from "../Error";
 
 interface Props {
@@ -11,10 +12,10 @@ interface Props {
   setBreed: React.Dispatch<React.SetStateAction<string>>;
   gender: string;
   setGender: React.Dispatch<React.SetStateAction<string>>;
-  age: string;
   setAge: React.Dispatch<React.SetStateAction<string>>;
   size: string;
   setSize: React.Dispatch<React.SetStateAction<string>>;
+  image: string;
   setImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -28,11 +29,10 @@ const FirstStep = ({
   setBreed,
   gender,
   setGender,
-  age,
   setAge,
   size,
   setSize,
-
+  image,
   setImage,
 }: Props) => {
   const [timeValue, setTimeValue] = useState("");
@@ -61,6 +61,12 @@ const FirstStep = ({
 
     if (parseInt(timeValue) > 20 && time === "anos") {
       setError("Por favor, insira uma idade válida.");
+      return;
+    }
+
+    if (image === "") {
+      setError("Por favor, envie uma imagem do bichinho.");
+      return;
     }
 
     setStep(2);
@@ -76,15 +82,15 @@ const FirstStep = ({
 
   return (
     <div className="bg-bgGray rounded-lg shadow-lg">
-      <h2 className="text-xl md:text-2xl font-medium p-5 md:px-8 md:py-6">
+      <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Vamos começar com as principais informações do pet.
       </h2>
       <div className="w-full max-w-[96%] h-[.5px] bg-[#555252] mx-auto mb-5"></div>
       <form
-        className="px-6 md:px-10 flex flex-col gap-6"
+        className="px-3 md:px-10 flex flex-col gap-6"
         onSubmit={handleFirstStep}
       >
-        <div className="flex-1 flex items-center gap-10">
+        <div className="flex-1 flex items-center gap-5 md:gap-10">
           <label className="flex-1">
             <input
               type="text"
@@ -111,8 +117,8 @@ const FirstStep = ({
             </select>
           </label>
         </div>
-        <div className="flex-1 flex items-center gap-10">
-          <div className="flex-1 flex items-center gap-10">
+        <div className="flex-1 flex items-center gap-5 md:gap-10">
+          <div className="flex-1 flex items-center gap-5 md:gap-10">
             <label className="flex-1">
               <input
                 type="text"
@@ -145,7 +151,7 @@ const FirstStep = ({
                   handleAge(timeValue, e.target.value);
                   setTime(e.target.value);
                 }}
-                className="absolute top-0 right-0 w-30 text-[16px] font-medium h-[34px] px-2"
+                className="absolute top-0 right-0 md:w-30 text-sm font-medium h-[34px]"
               >
                 <option value="anos">anos</option>
                 <option value="meses">meses</option>
@@ -153,7 +159,7 @@ const FirstStep = ({
             </label>
           </div>
         </div>
-        <div className="flex-1 flex items-center gap-10">
+        <div className="flex-1 flex items-center gap-5 md:gap-10">
           <label className="flex-1">
             <select
               value={gender}
@@ -202,14 +208,20 @@ const FirstStep = ({
             className="absolute inset-0 opacity-0 cursor-pointer"
           />
         </label>
+        <div className="w-full max-w-[96%] h-[.5px] bg-[#555252] mx-auto"></div>
         <div className="flex flex-col w-full items-end mb-5">
           {error && <Error error={error} setError={setError} />}
-          <button
-            type="submit"
-            className="font-medium text-lg bg-[#614cfc] px-8 h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
-          >
-            Avançar
-          </button>
+          <div className="flex gap-4 md:gap-6 items-center">
+            <Link to="/">
+              <span className="font-light">Voltar</span>
+            </Link>
+            <button
+              type="submit"
+              className="font-medium text-lg bg-[#614cfc] px-8 h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
+            >
+              Avançar
+            </button>
+          </div>
         </div>
       </form>
     </div>
