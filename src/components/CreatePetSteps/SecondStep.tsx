@@ -131,7 +131,7 @@ const SecondStep = ({
         onSubmit={handleSecondStep}
         className="px-3 md:px-10 flex flex-col gap-6"
       >
-        <div className="px-3 md:px-10 flex flex-col gap-9 h-[370px]">
+        <div className="px-3 md:px-10 flex flex-col gap-7 md:gap-9 h-[370px]">
           <div className="flex flex-col">
             <h3 className="text-lg font-medium mb-3 px-1">Localização 📍</h3>
             <label>
