@@ -1,5 +1,5 @@
 export interface IPetCard {
-  name?: string;
+  name: string;
   species: string;
   image: string;
   location: string;
@@ -10,7 +10,7 @@ export interface IPetCard {
 
 export interface IPet {
   id: string;
-  species: Species;
+  species: string;
   name?: string;
   breed: string;
   gender: "Macho" | "Fêmea" | "Desconhecido";
@@ -20,33 +20,19 @@ export interface IPet {
 
   state: string;
   city: string;
+  contactMethod: "Email" | "WhatsApp"
   contact: string;
 
   vaccinated: boolean | string;
   neutered: boolean;
   dewormed: boolean;
-  specialCare?: string;
+  specialCare: string;
 
-  temperament: string;
-  goodWithOtherAnimals: boolean;
-  goodWithChildren: boolean;
-  energyLevel: Energy;
+  temperament?: string;
+  goodWithOtherAnimals?: boolean;
+  goodWithChildren?: boolean;
+  energyLevel?: "Baixo" | "Médio" | "Alto";
   history?: string;
   adoptionRequirements?: string[];
   moreImages?: string[];
-}
-
-enum Species {
-  dog = "Cachorro",
-  cat = "Gato",
-  rabbit = "Coelho",
-  bird = "Pássaro",
-  hamster = "Hamster",
-  other = "Outro",
-}
-
-enum Energy {
-  low = "Baixa",
-  medium = "Média",
-  high = "Alta",
 }

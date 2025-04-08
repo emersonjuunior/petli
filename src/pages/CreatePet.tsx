@@ -1,10 +1,11 @@
 import { useState } from "react";
 import FirstStep from "../components/CreatePetSteps/FirstStep";
 import SecondStep from "../components/CreatePetSteps/SecondStep";
+import ThirdStep from "../components/CreatePetSteps/ThirdStep";
 import PetCard from "../components/PetCard";
 
 const CreatePet = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
@@ -13,6 +14,10 @@ const CreatePet = () => {
   const [size, setSize] = useState("");
   const [image, setImage] = useState("");
   const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+  const [uf, setUf] = useState("");
+  const [contactMethod, setContactMethod] = useState("WhatsApp");
+  const [contact, setContact] = useState("");
 
   return (
     <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 items-center">
@@ -31,8 +36,8 @@ const CreatePet = () => {
           </div>
           <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
           <div
-            className={`rounded-full border-2 border-gray-300 size-9 md:size-10 flex justify-center items-center ${
-              step === 2 ? "border-accentBlue" : ""
+            className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
+              step === 2 ? "border-secondaryYellow" : ""
             }`}
           >
             2
@@ -73,7 +78,22 @@ const CreatePet = () => {
               setImage={setImage}
             />
           )}
-          {step === 2 && <SecondStep />}
+          {step === 2 && (
+            <SecondStep
+              location={location}
+              setLocation={setLocation}
+              city={city}
+              setCity={setCity}
+              uf={uf}
+              setUf={setUf}
+              contactMethod={contactMethod}
+              setContactMethod={setContactMethod}
+              contact={contact}
+              setContact={setContact}
+              setStep={setStep}
+            />
+          )}
+          {step === 3 && <ThirdStep />}
         </div>
       </section>
 

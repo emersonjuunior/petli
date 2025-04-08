@@ -89,7 +89,7 @@ const Login = () => {
               </p>
               <button
                 type="submit"
-                className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-rose-700 shadow-md ${
+                className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-rose-700 shadow-md mb-3 ${
                   loading
                     ? "bg-rose-700 cursor-progress opacity-90"
                     : "bg-primaryRed cursor-pointer"

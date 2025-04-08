@@ -10,11 +10,13 @@ const PetCard = ({
   size,
 }: IPetCard) => {
   return (
-    <div className="pet-card rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray bg-[#292929] border-b-primaryRed mx-auto relative flex flex-col group">
+    <div className="pet-card rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray bg-[#292929] border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
       <div className="rounded-lg flex justify-center">
         {image === "" ? (
           <div className="min-h-[220px] flex items-center bg-[#272727] w-full justify-center">
-            <p className="text-lg max-w-6/10 text-center font-medium">Envie uma imagem do seu pet 🐾</p>
+            <p className="text-lg max-w-6/10 text-center font-medium">
+              Envie uma imagem do seu pet 🐾
+            </p>
           </div>
         ) : (
           <img
@@ -26,7 +28,7 @@ const PetCard = ({
       </div>
       <h3
         id="pet-card-title"
-        className="text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto mb-3"
+        className="text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto mb-3 truncate max-w-9/10"
       >
         <i
           className={`fa-solid ${
@@ -40,15 +42,15 @@ const PetCard = ({
         {name}
       </h3>
       <ul className="flex flex-col gap-2 px-6 mb-5">
-        <li className="flex items-center">
+        <li className="flex items-center min-h-[24px]">
           <i className="fa-solid fa-map-pin text-lg text-[#bebaba] min-w-[25px] group-hover:text-[#e4e3e3]"></i>{" "}
-          {location}
+          <span className="truncate">{location}</span>
         </li>
-        <li className="flex items-center">
+        <li className="flex items-center min-h-[24px]">
           <i className="fa-solid fa-cake-candles text-lg text-[#bebaba] min-w-[25px] group-hover:text-[#e4e3e3]"></i>{" "}
           {age}
         </li>
-        <li className="flex items-center">
+        <li className="flex items-center min-h-[24px]">
           <i
             className={`fa-solid ${
               gender === "Macho"
@@ -60,7 +62,7 @@ const PetCard = ({
           ></i>
           {gender}
         </li>
-        <li className="flex items-center">
+        <li className="flex items-center min-h-[24px]">
           <i className="fa-solid fa-ruler text-lg text-[#bebaba] min-w-[25px] group-hover:text-[#e4e3e3]"></i>
           {size}
         </li>
