@@ -84,15 +84,15 @@ const FirstStep = ({
   };
 
   return (
-    <div className="bg-bgGray rounded-lg shadow-lg h-[585px]">
-      <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
+    <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
+      <h2 className="text-lg md:text-2xl font-medium p-4 md:px-8 md:py-6 md:whitespace-nowrap">
         Vamos começar com as principais informações do pet.
       </h2>
       <div className="px-3 md:px-9">
         <div className="w-full h-[.5px] bg-[#555252] mx-auto mb-5"></div>
       </div>
       <form
-        className="px-3 md:px-10 flex flex-col gap-6"
+        className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
         onSubmit={handleFirstStep}
       >
         <div className="px-3 md:px-9 flex flex-col gap-6 h-[370px]">
@@ -199,7 +199,7 @@ const FirstStep = ({
               </select>
             </label>
           </div>
-          <label className="relative h-[200px] w-full  flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
+          <label className="relative h-[150px] md:h-[200px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
               <img
                 src="./upload-picture.png"
@@ -208,7 +208,7 @@ const FirstStep = ({
               />
             </div>
             <div className="flex items-center justify-center">
-              <span className="text-center text-[16px] max-w-[90%] font-medium">
+              <span className="text-center text-sm md:text-[16px] max-w-[90%] font-medium">
                 Clique para enviar uma foto do seu pet!
               </span>
             </div>
@@ -221,18 +221,18 @@ const FirstStep = ({
         </div>
         <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
         <div
-          className={`flex w-full items-center mb-5 h-[50px] ${
+          className={`flex w-full items-center h-[50px] gap-1 ${
             error ? "justify-between" : "justify-end"
           }`}
         >
           {error && <Error error={error} setError={setError} />}
-          <div className="flex gap-4 md:gap-6 items-center">
+          <div className="flex gap-2 md:gap-6 items-center">
             <Link to="/">
-              <span className="font-light">Voltar</span>
+              <span className="text-sm md:text-base font-light cursor-pointer">Voltar</span>
             </Link>
             <button
               type="submit"
-              className="font-medium text-lg bg-[#614cfc] px-8 h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
+              className="font-medium sm:text-lg bg-[#614cfc] px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
             >
               Avançar
             </button>

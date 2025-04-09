@@ -26,13 +26,13 @@ const CreatePet = () => {
 
   return (
     <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 ">
-      <section className="flex-1 h-[720px] px-6 ">
-        <div className="h-[125px]">
-          <h1 className="font-medium text-xl md:text-3xl mb-6 max-w-9/10">
+      <section className="flex-1 h-[720px] px-2 md:px-6">
+        <div className="min-h-[125px] mb-3 md:mb-0">
+          <h1 className="font-medium text-2xl lg:text-3xl mb-6 max-w-[92%] md:max-w-full md:whitespace-nowrap">
             Encontre um <span className="text-accentBlue">novo lar</span> para
             seu pet 🐾
           </h1>
-          <div className="flex items-center mb-6 gap-1 md:gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <div
               className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
                 step === 1 ? "border-secondaryYellow" : ""

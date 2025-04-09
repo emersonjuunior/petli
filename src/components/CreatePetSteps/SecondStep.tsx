@@ -116,7 +116,7 @@ const SecondStep = ({
   };
 
   return (
-    <div className="bg-bgGray rounded-lg shadow-lg h-[585px]">
+    <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Como os adotantes poderão te encontrar
       </h2>
@@ -125,9 +125,9 @@ const SecondStep = ({
       </div>
       <form
         onSubmit={handleSecondStep}
-        className="px-3 md:px-10 flex flex-col gap-6"
+        className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
       >
-        <div className="px-3 md:px-9 flex flex-col gap-7 md:gap-9 h-[370px]">
+        <div className="px-3 md:px-9 flex flex-col gap-6 md:gap-9 h-[370px]">
           <div className="flex flex-col">
             <h3 className="text-lg font-medium mb-3 px-1">Localização 📍</h3>
             <label>
@@ -204,7 +204,7 @@ const SecondStep = ({
           <label className="flex items-center space-x-2">
             <Checkbox
               text={
-                "Ativando esta opção, seu contato ficará visível na página do pet para qualquer um, facilitando que entrem em contato com você. Caso não ative, os adotantes poderão enviar uma solicitação de adoção pela plataforma, e você decidirá quem poderá ver seus dados de contato."
+                "Ativando esta opção, seu contato ficará visível para qualquer um, facilitando que entrem em contato com você. Caso não ative, os adotantes poderão enviar uma solicitação de adoção pela plataforma, e você decidirá quem poderá ver seus dados de contato."
               }
               checked={checked}
               setChecked={setChecked}
@@ -213,21 +213,21 @@ const SecondStep = ({
         </div>
         <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
         <div
-          className={`flex w-full items-center mb-5 h-[50px] ${
+          className={`flex w-full items-center h-[50px] gap-1 ${
             error ? "justify-between" : "justify-end"
           }`}
         >
           {error && <Error error={error} setError={setError} />}
-          <div className="flex gap-4 md:gap-6 items-center">
+          <div className="flex gap-2 md:gap-6 items-center">
             <span
-              className="font-light cursor-pointer"
+              className="text-sm md:text-base font-light cursor-pointer"
               onClick={() => setStep((prev) => prev - 1)}
             >
               Voltar
             </span>
             <button
               type="submit"
-              className="font-medium text-lg bg-[#614cfc] px-8 h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
+              className="font-medium sm:text-lg bg-[#614cfc] px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
             >
               Avançar
             </button>

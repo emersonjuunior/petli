@@ -35,16 +35,16 @@ const ThirdStep = ({
   };
 
   return (
-    <div className="bg-bgGray rounded-lg shadow-lg h-[585px]">
+    <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
-        Vamos falar sobre a saúde dele!
+      Vamos falar um pouco sobre a saúde dele!
       </h2>
       <div className="px-3 md:px-9">
         <div className="w-full h-[.5px] bg-[#555252] mx-auto mb-5"></div>
       </div>
       <form
         onSubmit={handleThirdStep}
-        className="px-3 md:px-10 flex flex-col gap-6"
+        className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
       >
         <div className="px-3 md:px-9 flex flex-col gap-4 md:gap-7 h-[370px]">
           <fieldset className="flex w-full">
@@ -206,21 +206,21 @@ const ThirdStep = ({
         </div>
         <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
         <div
-          className={`flex w-full items-center mb-5 h-[50px] ${
+          className={`flex w-full items-center mb-5 h-[50px] gap-1 ${
             error ? "justify-between" : "justify-end"
           }`}
         >
           {error && <Error error={error} setError={setError} />}
-          <div className="flex gap-4 md:gap-6 items-center">
+          <div className="flex gap-2 md:gap-6 items-center">
             <span
-              className="font-light cursor-pointer"
+              className="text-sm md:text-base font-light cursor-pointer"
               onClick={() => setStep((prev) => prev - 1)}
             >
               Voltar
             </span>
             <button
               type="submit"
-              className="font-medium text-lg bg-[#614cfc] px-8 h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
+              className="font-medium sm:text-lg bg-[#614cfc] px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
             >
               Avançar
             </button>
