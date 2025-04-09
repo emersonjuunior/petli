@@ -10,7 +10,7 @@ const PetCard = ({
   size,
 }: IPetCard) => {
   return (
-    <div className="pet-card rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray bg-[#292929] border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
+    <div className="bg-[#292929] rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray bg-[#292929] border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
       <div className="rounded-lg flex justify-center">
         {image === "" ? (
           <div className="min-h-[220px] flex items-center bg-[#272727] w-full justify-center">

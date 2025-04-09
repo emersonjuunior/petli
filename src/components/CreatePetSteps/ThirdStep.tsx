@@ -50,33 +50,37 @@ const ThirdStep = ({
           <fieldset className="flex w-full">
             <label className="flex flex-col gap-2 flex-1">
               <span className="font-medium">Vacinado? 💉</span>
-              <div className="flex gap-3">
-                <input
-                  type="radio"
-                  name="isVaccinated"
-                  value="true"
-                  className="cursor-pointer"
-                  required
-                  onChange={() => {
-                    setIsVaccinated("true");
-                    setVaccinated("");
-                  }}
-                />{" "}
-                Sim
-                <input
-                  type="radio"
-                  name="isVaccinated"
-                  value="false"
-                  className="cursor-pointer"
-                  onChange={() => {
-                    setVaccinated("Nenhuma por enquanto.");
-                    setIsVaccinated("false");
-                  }}
-                />{" "}
-                Não
+              <div className="flex gap-1 md:gap-3 flex-col">
+                <div>
+                  <input
+                    type="radio"
+                    name="isVaccinated"
+                    value="true"
+                    className="cursor-pointer mr-2"
+                    required
+                    onChange={() => {
+                      setIsVaccinated("true");
+                      setVaccinated("");
+                    }}
+                  />
+                  Sim
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    name="isVaccinated"
+                    value="false"
+                    className="cursor-pointer mr-2"
+                    onChange={() => {
+                      setVaccinated("Nenhuma por enquanto.");
+                      setIsVaccinated("false");
+                    }}
+                  />
+                  Não
+                </div>
               </div>
             </label>
-            <label className="flex-2 flex flex-col gap-2 max-w-[320px]">
+            <label className="flex-1 md:flex-2 flex flex-col gap-2 max-w-[320px]">
               <span className="font-medium">Se sim, quais vacinas?</span>
               <textarea
                 className={`w-full min-h-[80px] max-h-[80px] border-1 rounded-lg outline-none text-sm px-2 py-1 ${
@@ -92,39 +96,42 @@ const ThirdStep = ({
               ></textarea>
             </label>
           </fieldset>
-
           <fieldset className="flex w-full">
             <label className="flex flex-col gap-2 flex-1">
               <span className="font-medium">
                 Necessita de cuidados especiais? ❤️‍🩹
               </span>
-              <div className="flex gap-3">
-                <input
-                  type="radio"
-                  name="needSpecialCare"
-                  value="true"
-                  className="cursor-pointer"
-                  required
-                  onChange={() => {
-                    setNeedSpecialCare("true");
-                    setSpecialCare("");
-                  }}
-                />{" "}
-                Sim
-                <input
-                  type="radio"
-                  name="needSpecialCare"
-                  value="false"
-                  className="cursor-pointer"
-                  onChange={() => {
-                    setSpecialCare("Não necessita.");
-                    setNeedSpecialCare("false");
-                  }}
-                />{" "}
-                Não
+              <div className="flex gap-1 md:gap-3 flex-col">
+                <div>
+                  <input
+                    type="radio"
+                    name="needSpecialCare"
+                    value="true"
+                    className="cursor-pointer mr-2"
+                    required
+                    onChange={() => {
+                      setNeedSpecialCare("true");
+                      setSpecialCare("");
+                    }}
+                  />{" "}
+                  Sim
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    name="needSpecialCare"
+                    value="false"
+                    className="cursor-pointer mr-2"
+                    onChange={() => {
+                      setSpecialCare("Não necessita.");
+                      setNeedSpecialCare("false");
+                    }}
+                  />{" "}
+                  Não
+                </div>
               </div>
             </label>
-            <label className="flex-2 flex flex-col gap-2 max-w-[320px]">
+            <label className="flex-1 md:flex-2 flex flex-col gap-2 max-w-[320px]">
               <span className="font-medium">Se sim, quais cuidados?</span>
               <textarea
                 className={`w-full min-h-[80px] max-h-[80px] border-1 rounded-lg outline-none text-sm px-2 py-1 ${
@@ -140,49 +147,59 @@ const ThirdStep = ({
               ></textarea>
             </label>
           </fieldset>
-          <fieldset className="flex w-full">
+          <fieldset className="flex w-full gap-2">
             <label className="flex flex-col gap-2 flex-1">
               <span className="font-medium">Castrado? 🩹</span>
-              <div className="flex gap-3">
-                <input
-                  type="radio"
-                  name="neutered"
-                  value="true"
-                  className="cursor-pointer"
-                  required
-                  onChange={() => setNeutered(true)}
-                />{" "}
-                Sim
-                <input
-                  type="radio"
-                  name="neutered"
-                  value="false"
-                  className="cursor-pointer"
-                  onChange={() => setNeutered(false)}
-                />{" "}
-                Não
+              <div className="flex gap-2">
+                <div>
+                  <input
+                    type="radio"
+                    name="neutered"
+                    value="true"
+                    className="cursor-pointer"
+                    required
+                    onChange={() => setNeutered(true)}
+                  />{" "}
+                  Sim
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    name="neutered"
+                    value="false"
+                    className="cursor-pointer"
+                    onChange={() => setNeutered(false)}
+                  />{" "}
+                  Não
+                </div>
               </div>
             </label>
-            <label className="flex flex-col gap-2 flex-2 max-w-[320px]">
-              <span className="font-medium">Vermifugado? 💊</span>
-              <div className="flex gap-3">
-                <input
-                  type="radio"
-                  name="dewormed"
-                  value="true"
-                  className="cursor-pointer"
-                  required
-                  onChange={() => setDewormed(true)}
-                />{" "}
-                Sim
-                <input
-                  type="radio"
-                  name="dewormed"
-                  value="false"
-                  className="cursor-pointer"
-                  onChange={() => setDewormed(false)}
-                />{" "}
-                Não
+            <label className="flex flex-col gap-2 flex-1 md:flex-2 max-w-[320px]">
+              <span className="font-medium whitespace-nowrap">
+                Vermifugado? 💊
+              </span>
+              <div className="flex gap-2">
+                <div>
+                  <input
+                    type="radio"
+                    name="dewormed"
+                    value="true"
+                    className="cursor-pointer"
+                    required
+                    onChange={() => setDewormed(true)}
+                  />{" "}
+                  Sim
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    name="dewormed"
+                    value="false"
+                    className="cursor-pointer"
+                    onChange={() => setDewormed(false)}
+                  />{" "}
+                  Não
+                </div>
               </div>
             </label>
           </fieldset>

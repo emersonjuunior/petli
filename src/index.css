@@ -67,10 +67,6 @@ body {
   clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
 }
 
-.pet-card {
-  background: linear-gradient(90deg, #292929 15%, #303030 49%, #292929 91%);
-}
-
 .pet-btn:hover .button-span {
   transform: translateX(100%);
 }
