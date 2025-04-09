@@ -3,7 +3,6 @@ import Error from "../Error";
 import Checkbox from "../Checkbox";
 
 interface Props {
-  location: string;
   setLocation: React.Dispatch<React.SetStateAction<string>>;
   city: string;
   setCity: React.Dispatch<React.SetStateAction<string>>;
@@ -11,8 +10,6 @@ interface Props {
   setUf: React.Dispatch<React.SetStateAction<string>>;
   contactMethod: string;
   setContactMethod: React.Dispatch<React.SetStateAction<string>>;
-  contact: string;
-  setContact: React.Dispatch<React.SetStateAction<string>>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -33,7 +30,6 @@ interface IBGECity {
 }
 
 const SecondStep = ({
-  location,
   setLocation,
   city,
   setCity,
@@ -41,8 +37,6 @@ const SecondStep = ({
   setUf,
   contactMethod,
   setContactMethod,
-  contact,
-  setContact,
   setStep,
 }: Props) => {
   const [states, setStates] = useState<IBGEUF[]>([]);
@@ -126,12 +120,14 @@ const SecondStep = ({
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Como os adotantes poderão te encontrar
       </h2>
-      <div className="w-full max-w-[96%] h-[.5px] bg-[#555252] mx-auto mb-5"></div>
+      <div className="px-3 md:px-9">
+        <div className="w-full h-[.5px] bg-[#555252] mx-auto mb-5"></div>
+      </div>
       <form
         onSubmit={handleSecondStep}
         className="px-3 md:px-10 flex flex-col gap-6"
       >
-        <div className="px-3 md:px-10 flex flex-col gap-7 md:gap-9 h-[370px]">
+        <div className="px-3 md:px-9 flex flex-col gap-7 md:gap-9 h-[370px]">
           <div className="flex flex-col">
             <h3 className="text-lg font-medium mb-3 px-1">Localização 📍</h3>
             <label>
@@ -215,7 +211,7 @@ const SecondStep = ({
             />
           </label>
         </div>
-        <div className="w-full max-w-[96%] h-[.5px] bg-[#555252] mx-auto"></div>
+        <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
         <div
           className={`flex w-full items-center mb-5 h-[50px] ${
             error ? "justify-between" : "justify-end"

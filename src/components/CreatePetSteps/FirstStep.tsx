@@ -88,12 +88,14 @@ const FirstStep = ({
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Vamos começar com as principais informações do pet.
       </h2>
-      <div className="w-full max-w-[96%] h-[.5px] bg-[#555252] mx-auto mb-5"></div>
+      <div className="px-3 md:px-9">
+        <div className="w-full h-[.5px] bg-[#555252] mx-auto mb-5"></div>
+      </div>
       <form
         className="px-3 md:px-10 flex flex-col gap-6"
         onSubmit={handleFirstStep}
       >
-        <div className="px-3 md:px-10 flex flex-col gap-6 h-[370px]">
+        <div className="px-3 md:px-9 flex flex-col gap-6 h-[370px]">
           <div className="flex-1 flex items-center gap-5 md:gap-10">
             <label className="flex-1">
               <input
@@ -217,7 +219,7 @@ const FirstStep = ({
             />
           </label>
         </div>
-        <div className="w-full max-w-[96%] h-[.5px] bg-[#555252] mx-auto"></div>
+        <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
         <div
           className={`flex w-full items-center mb-5 h-[50px] ${
             error ? "justify-between" : "justify-end"

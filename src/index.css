@@ -18,6 +18,9 @@
   input {
     @apply bg-none px-2 py-1 outline-none border-b-2 transition-colors duration-100 focus:border-[#596A95] border-gray-400;
   }
+  select {
+    @apply cursor-pointer
+  }
   option {
     @apply bg-bgGray text-textWhite;
   }

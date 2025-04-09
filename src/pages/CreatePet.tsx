@@ -2,10 +2,11 @@ import { useState } from "react";
 import FirstStep from "../components/CreatePetSteps/FirstStep";
 import SecondStep from "../components/CreatePetSteps/SecondStep";
 import ThirdStep from "../components/CreatePetSteps/ThirdStep";
+import FourthStep from "../components/CreatePetSteps/FourthStep";
 import PetCard from "../components/PetCard";
 
 const CreatePet = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(3);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
@@ -18,6 +19,10 @@ const CreatePet = () => {
   const [uf, setUf] = useState("");
   const [contactMethod, setContactMethod] = useState("WhatsApp");
   const [contact, setContact] = useState("");
+  const [vaccinated, setVaccinated] = useState("");
+  const [dewormed, setDewormed] = useState<boolean | null>(null);
+  const [neutered, setNeutered] = useState<boolean | null>(null);
+  const [specialCare, setSpecialCare] = useState("");
 
   return (
     <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 ">
@@ -46,7 +51,7 @@ const CreatePet = () => {
             <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
             <div
               className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
-                step === 3 ? "border-accentBlue" : ""
+                step === 3 ? "border-secondaryYellow" : ""
               }`}
             >
               3
@@ -54,7 +59,7 @@ const CreatePet = () => {
             <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
             <div
               className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
-                step === 4 ? "border-accentBlue" : ""
+                step === 4 ? "border-secondaryYellow" : ""
               }`}
             >
               4
@@ -82,7 +87,6 @@ const CreatePet = () => {
           )}
           {step === 2 && (
             <SecondStep
-              location={location}
               setLocation={setLocation}
               city={city}
               setCity={setCity}
@@ -90,18 +94,32 @@ const CreatePet = () => {
               setUf={setUf}
               contactMethod={contactMethod}
               setContactMethod={setContactMethod}
-              contact={contact}
-              setContact={setContact}
               setStep={setStep}
             />
           )}
-          {step === 3 && <ThirdStep />}
+          {step === 3 && (
+            <ThirdStep
+              vaccinated={vaccinated}
+              setVaccinated={setVaccinated}
+              neutered={neutered}
+              setNeutered={setNeutered}
+              dewormed={dewormed}
+              setDewormed={setDewormed}
+              specialCare={specialCare}
+              setSpecialCare={setSpecialCare}
+              setStep={setStep}
+            />
+          )}
+          {step === 4 && <FourthStep />}
         </div>
       </section>
 
       <section className="hidden lg:flex flex-col px-4 ">
         <div className="h-[125px]"></div>
-        <aside className="h-[585px] flex items-center">
+        <aside
+          className="h-[585px] flex items-center"
+          aria-label="Pré-visualização do card do pet sendo cadastrado"
+        >
           <PetCard
             name={name}
             species={species}
