@@ -29,11 +29,8 @@ export interface IPet {
   dewormed: boolean;
   specialCare: string;
 
-  temperament: string;
   goodWithOtherAnimals: boolean;
   goodWithChildren: boolean;
-  energyLevel: "Baixo" | "Médio" | "Alto";
-  history: string;
-  adoptionRequirements: string[];
+  description: string;
   moreImages: string[];
 }

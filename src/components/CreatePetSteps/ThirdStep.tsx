@@ -1,5 +1,4 @@
 import { FormEvent, useState } from "react";
-import Error from "../Error";
 
 interface Props {
   vaccinated: string;
@@ -26,7 +25,6 @@ const ThirdStep = ({
 }: Props) => {
   const [isVaccinated, setIsVaccinated] = useState<string | null>(null);
   const [needSpecialCare, setNeedSpecialCare] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const handleThirdStep = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,7 +44,7 @@ const ThirdStep = ({
         onSubmit={handleThirdStep}
         className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
       >
-        <div className="px-3 md:px-9 flex flex-col gap-4 md:gap-7 h-[370px]">
+        <div className="px-3 md:px-7 flex flex-col gap-4 md:gap-7 h-[370px]">
           <fieldset className="flex w-full">
             <label className="flex flex-col gap-2 flex-1">
               <span className="font-medium">Vacinado? 💉</span>
@@ -205,12 +203,7 @@ const ThirdStep = ({
           </fieldset>
         </div>
         <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
-        <div
-          className={`flex w-full items-center mb-5 h-[50px] gap-1 ${
-            error ? "justify-between" : "justify-end"
-          }`}
-        >
-          {error && <Error error={error} setError={setError} />}
+        <div className="flex w-full items-center h-[50px] gap-1 justify-end">
           <div className="flex gap-2 md:gap-6 items-center">
             <span
               className="text-sm md:text-base font-light cursor-pointer"

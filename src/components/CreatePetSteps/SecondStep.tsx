@@ -120,7 +120,7 @@ const SecondStep = ({
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Como os adotantes poderão te encontrar
       </h2>
-      <div className="px-3 md:px-9">
+      <div className="px-3 md:px-7">
         <div className="w-full h-[.5px] bg-[#555252] mx-auto mb-5"></div>
       </div>
       <form
@@ -129,44 +129,50 @@ const SecondStep = ({
       >
         <div className="px-3 md:px-9 flex flex-col gap-6 md:gap-9 h-[370px]">
           <div className="flex flex-col">
-            <h3 className="text-lg font-medium mb-3 px-1">Localização 📍</h3>
-            <label>
-              <select
-                value={uf}
-                onChange={(e) => setUf(e.target.value)}
-                className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-5"
-                required
-              >
-                <option value="" disabled hidden>
-                  Selecione o estado
-                </option>
-                {states.map((state) => (
-                  <option value={state.sigla} key={state.sigla}>
-                    {state.nome}
+            <fieldset>
+              <legend className="text-lg font-medium mb-3 px-1">
+                Localização 📍
+              </legend>
+              <label>
+                <select
+                  value={uf}
+                  onChange={(e) => setUf(e.target.value)}
+                  className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-5"
+                  required
+                >
+                  <option value="" disabled hidden>
+                    Selecione o estado
                   </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <select
-                value={city}
-                onChange={(e) => handleSelectedCity(e.target.value)}
-                className="border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
-                required
-              >
-                <option value="" disabled hidden>
-                  Selecione a cidade
-                </option>
-                {cities.map((city) => (
-                  <option value={city.nome} key={city.nome}>
-                    {city.nome}
+                  {states.map((state) => (
+                    <option value={state.sigla} key={state.sigla}>
+                      {state.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <select
+                  value={city}
+                  onChange={(e) => handleSelectedCity(e.target.value)}
+                  className="border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
+                  required
+                >
+                  <option value="" disabled hidden>
+                    Selecione a cidade
                   </option>
-                ))}
-              </select>
-            </label>
+                  {cities.map((city) => (
+                    <option value={city.nome} key={city.nome}>
+                      {city.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </fieldset>
           </div>
-          <div className="flex flex-col">
-            <h3 className="text-lg font-medium mb-3 px-1">Contato 📞</h3>
+          <fieldset className="flex flex-col">
+            <legend className="text-lg font-medium mb-3 px-1">
+              Contato 📞
+            </legend>
             <div className="flex w-full gap-5 md:gap-10">
               <label className="flex-1">
                 <select
@@ -200,7 +206,7 @@ const SecondStep = ({
                 )}
               </label>
             </div>
-          </div>
+          </fieldset>
           <label className="flex items-center space-x-2">
             <Checkbox
               text={

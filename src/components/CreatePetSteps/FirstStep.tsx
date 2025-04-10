@@ -38,6 +38,13 @@ const FirstStep = ({
   const [timeValue, setTimeValue] = useState("");
   const [time, setTime] = useState("anos");
 
+  // permite o usuário escrever apenas números
+  const handleTimeValue = (value: string) => {
+    if (/^\d*$/.test(value)) {
+      setTimeValue(value);
+    }
+  };
+
   // altera o state "age" apenas quando o valor numério de idade for alterado
   const handleAge = (value: string, type: string) => {
     const num = Number(value);
@@ -95,8 +102,8 @@ const FirstStep = ({
         className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
         onSubmit={handleFirstStep}
       >
-        <div className="px-3 md:px-9 flex flex-col gap-6 h-[370px]">
-          <div className="flex-1 flex items-center gap-5 md:gap-10">
+        <div className="px-3 md:px-7 flex flex-col gap-6 h-[370px]">
+          <fieldset className="flex-1 flex items-center gap-5 md:gap-10">
             <label className="flex-1">
               <input
                 type="text"
@@ -113,7 +120,7 @@ const FirstStep = ({
               <select
                 value={species}
                 onChange={(e) => setSpecies(e.target.value)}
-                className="border-b-2 border-gray-400 w-full h-[34px] px-2"
+                className="border-b-2 border-gray-400 w-full h-[34px] px-1"
                 required
               >
                 <option value="" disabled hidden>
@@ -123,9 +130,9 @@ const FirstStep = ({
                 <option value="Gato">Gato</option>
               </select>
             </label>
-          </div>
+          </fieldset>
           <div className="flex-1 flex items-center gap-5 md:gap-10">
-            <div className="flex-1 flex items-center gap-5 md:gap-10">
+            <fieldset className="flex-1 flex items-center gap-5 md:gap-10">
               <label className="flex-1">
                 <input
                   type="text"
@@ -145,7 +152,7 @@ const FirstStep = ({
                   required
                   onChange={(e) => {
                     handleAge(e.target.value, time);
-                    setTimeValue(e.target.value);
+                    handleTimeValue(e.target.value);
                   }}
                   value={timeValue}
                   minLength={1}
@@ -165,14 +172,14 @@ const FirstStep = ({
                   <option value="meses">meses</option>
                 </select>
               </label>
-            </div>
+            </fieldset>
           </div>
-          <div className="flex-1 flex items-center gap-5 md:gap-10">
+          <fieldset className="flex-1 flex items-center gap-5 md:gap-10">
             <label className="flex-1">
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="border-b-2 border-gray-400 w-full h-[34px] px-2"
+                className="border-b-2 border-gray-400 w-full h-[34px] px-1"
                 required
               >
                 <option value="" disabled hidden>
@@ -198,7 +205,7 @@ const FirstStep = ({
                 <option value="Grande">Grande</option>
               </select>
             </label>
-          </div>
+          </fieldset>
           <label className="relative h-[150px] md:h-[200px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
               <img
@@ -228,7 +235,9 @@ const FirstStep = ({
           {error && <Error error={error} setError={setError} />}
           <div className="flex gap-2 md:gap-6 items-center">
             <Link to="/">
-              <span className="text-sm md:text-base font-light cursor-pointer">Voltar</span>
+              <span className="text-sm md:text-base font-light cursor-pointer">
+                Voltar
+              </span>
             </Link>
             <button
               type="submit"

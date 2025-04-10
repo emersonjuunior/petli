@@ -6,7 +6,7 @@ import FourthStep from "../components/CreatePetSteps/FourthStep";
 import PetCard from "../components/PetCard";
 
 const CreatePet = () => {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(4);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
@@ -23,6 +23,13 @@ const CreatePet = () => {
   const [dewormed, setDewormed] = useState<boolean | null>(null);
   const [neutered, setNeutered] = useState<boolean | null>(null);
   const [specialCare, setSpecialCare] = useState("");
+  const [goodWithOtherAnimals, setGoodWithOtherAnimals] = useState<
+    boolean | null
+  >(null);
+  const [goodWithChildren, setGoodWithChildren] = useState<boolean | null>(
+    null
+  );
+  const [moreImages, setMoreImages] = useState<string[]>([]);
 
   return (
     <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 ">
@@ -110,7 +117,18 @@ const CreatePet = () => {
               setStep={setStep}
             />
           )}
-          {step === 4 && <FourthStep />}
+          {step === 4 && (
+            <FourthStep
+              name={name}
+              goodWithOtherAnimals={goodWithOtherAnimals}
+              setGoodWithOtherAnimals={setGoodWithOtherAnimals}
+              goodWithChildren={goodWithChildren}
+              setGoodWithChildren={setGoodWithChildren}
+              moreImages={moreImages}
+              setMoreImages={setMoreImages}
+              setStep={setStep}
+            />
+          )}
         </div>
       </section>
 
