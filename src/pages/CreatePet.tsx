@@ -6,6 +6,7 @@ import FourthStep from "../components/CreatePetSteps/FourthStep";
 import PetCard from "../components/PetCard";
 import { IPet } from "../interfaces/Pet";
 import { nanoid } from "nanoid";
+import { usePets } from "../hooks/usePets";
 
 const CreatePet = () => {
   const [step, setStep] = useState(1);
@@ -34,6 +35,7 @@ const CreatePet = () => {
   );
   const [description, setDescription] = useState("");
   const [moreImages, setMoreImages] = useState<string[]>([]);
+  const { createPet } = usePets();
 
   const handleNewPet = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,7 +67,7 @@ const CreatePet = () => {
       ...(moreImages.length > 0 && { moreImages }),
     };
 
-    console.log(newPet);
+    createPet(newPet);
   };
 
   return (

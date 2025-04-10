@@ -195,7 +195,7 @@ const FirstStep = ({
                 value={size}
                 onChange={(e) => setSize(e.target.value)}
                 required
-                className="border-b-2 border-gray-400 w-full h-[34px] px-2"
+                className="border-b-2 border-gray-400 w-full h-[34px] px-1"
               >
                 <option value="" disabled hidden>
                   Estatura
