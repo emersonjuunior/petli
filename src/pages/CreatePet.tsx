@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import FirstStep from "../components/CreatePetSteps/FirstStep";
 import SecondStep from "../components/CreatePetSteps/SecondStep";
 import ThirdStep from "../components/CreatePetSteps/ThirdStep";
 import FourthStep from "../components/CreatePetSteps/FourthStep";
 import PetCard from "../components/PetCard";
+import { IPet } from "../interfaces/Pet";
+import { nanoid } from "nanoid";
 
 const CreatePet = () => {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
@@ -19,6 +21,7 @@ const CreatePet = () => {
   const [uf, setUf] = useState("");
   const [contactMethod, setContactMethod] = useState("WhatsApp");
   const [contact, setContact] = useState("");
+  const [checked, setChecked] = useState(false);
   const [vaccinated, setVaccinated] = useState("");
   const [dewormed, setDewormed] = useState<boolean | null>(null);
   const [neutered, setNeutered] = useState<boolean | null>(null);
@@ -29,7 +32,41 @@ const CreatePet = () => {
   const [goodWithChildren, setGoodWithChildren] = useState<boolean | null>(
     null
   );
+  const [description, setDescription] = useState("");
   const [moreImages, setMoreImages] = useState<string[]>([]);
+
+  const handleNewPet = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newPet: IPet = {
+      id: nanoid(10),
+      species,
+      name,
+      breed,
+      gender,
+      age,
+      size,
+      image,
+
+      state: uf,
+      city,
+      contactMethod,
+      contact,
+      approved: checked,
+
+      ...(vaccinated !== "" && { vaccinated }),
+      ...(neutered === true && { neutered }),
+      ...(dewormed === true && { dewormed }),
+      ...(specialCare !== "" && { specialCare }),
+
+      ...(goodWithOtherAnimals === true && { goodWithOtherAnimals }),
+      ...(goodWithChildren === true && { goodWithChildren }),
+      ...(description !== "" && { description }),
+      ...(moreImages.length > 0 && { moreImages }),
+    };
+
+    console.log(newPet);
+  };
 
   return (
     <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 ">
@@ -99,8 +136,12 @@ const CreatePet = () => {
               setCity={setCity}
               uf={uf}
               setUf={setUf}
+              contact={contact}
+              setContact={setContact}
               contactMethod={contactMethod}
               setContactMethod={setContactMethod}
+              checked={checked}
+              setChecked={setChecked}
               setStep={setStep}
             />
           )}
@@ -124,8 +165,11 @@ const CreatePet = () => {
               setGoodWithOtherAnimals={setGoodWithOtherAnimals}
               goodWithChildren={goodWithChildren}
               setGoodWithChildren={setGoodWithChildren}
+              description={description}
+              setDescription={setDescription}
               moreImages={moreImages}
               setMoreImages={setMoreImages}
+              handleNewPet={handleNewPet}
               setStep={setStep}
             />
           )}

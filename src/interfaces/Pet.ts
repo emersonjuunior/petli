@@ -13,24 +13,24 @@ export interface IPet {
   species: string;
   name: string;
   breed: string;
-  gender: "Macho" | "Fêmea" | "Desconhecido";
-  age: number;
-  size: "Pequeno" | "Médio" | "Grande";
+  gender: string;
+  age: string;
+  size: string;
   image: string;
 
   state: string;
   city: string;
-  contactMethod: "Email" | "WhatsApp"
+  contactMethod: string;
   contact: string;
   approved: boolean;
 
-  vaccinated: string;
-  neutered: boolean;
-  dewormed: boolean;
-  specialCare: string;
+  vaccinated?: string;
+  neutered?: boolean;
+  dewormed?: boolean;
+  specialCare?: string;
 
-  goodWithOtherAnimals: boolean;
-  goodWithChildren: boolean;
-  description: string;
-  moreImages: string[];
+  goodWithOtherAnimals?: boolean;
+  goodWithChildren?: boolean;
+  description?: string;
+  moreImages?: string[];
 }

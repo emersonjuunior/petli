@@ -8,8 +8,11 @@ interface Props {
   setGoodWithOtherAnimals: React.Dispatch<React.SetStateAction<boolean | null>>;
   goodWithChildren: boolean | null;
   setGoodWithChildren: React.Dispatch<React.SetStateAction<boolean | null>>;
+  description: string;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
   moreImages: string[];
   setMoreImages: React.Dispatch<React.SetStateAction<string[]>>;
+  handleNewPet(e: FormEvent<HTMLFormElement>): void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -19,9 +22,12 @@ const FourthStep = ({
   setGoodWithOtherAnimals,
   goodWithChildren,
   setGoodWithChildren,
-  setStep,
+  description,
+  setDescription,
   moreImages,
   setMoreImages,
+  handleNewPet,
+  setStep,
 }: Props) => {
   const [error, setError] = useState<string | null>(null);
 
@@ -45,11 +51,6 @@ const FourthStep = ({
     setMoreImages((images) => images.filter((image) => image != value));
   };
 
-  const handleFourthStep = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-  };
-
   return (
     <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6 max-w-9/10">
@@ -59,7 +60,7 @@ const FourthStep = ({
         <div className="w-full h-[.5px] bg-[#555252] mx-auto mb-5"></div>
       </div>
       <form
-        onSubmit={handleFourthStep}
+        onSubmit={handleNewPet}
         className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
       >
         <div className="px-3 md:px-7 flex flex-col gap-3 md:gap-4 h-[370px] min-h-fit">
@@ -125,6 +126,8 @@ const FourthStep = ({
             className="w-full min-h-[90px] max-h-[90px] border-1 rounded-lg outline-none text-sm px-2 py-1"
             placeholder="Conte algo especial sobre o pet, como sua história, personalidade ou qualquer detalhe importante. (opcional)"
             maxLength={300}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           ></textarea>
           <label className="relative h-[150px] md:h-[180px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
@@ -152,7 +155,7 @@ const FourthStep = ({
                   <img
                     src={image}
                     alt={`Fotos do Pet ${name}`}
-                    className="size-14 rounded-md"
+                    className="size-14 rounded-md object-cover"
                   />
                   <div
                     className="absolute top-[1px] right-0 bg-bgBlack z-10 p-2 rounded-full flex items-center justify-center"
@@ -183,7 +186,7 @@ const FourthStep = ({
               type="submit"
               className="font-medium sm:text-lg bg-[#614cfc] px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
             >
-              Avançar
+              Concluir
             </button>
           </div>
         </div>

@@ -22,7 +22,7 @@ const PetCard = ({
           <img
             src={image}
             alt={`Foto do Pet ${name}`}
-            className="w-full min-h-[220px] max-h-[220px] rounded-lg shadow-md"
+            className="w-full min-h-[220px] max-h-[220px] rounded-lg shadow-md object-cover"
           />
         )}
       </div>

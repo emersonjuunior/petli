@@ -10,6 +10,10 @@ interface Props {
   setUf: React.Dispatch<React.SetStateAction<string>>;
   contactMethod: string;
   setContactMethod: React.Dispatch<React.SetStateAction<string>>;
+  contact: string;
+  setContact: React.Dispatch<React.SetStateAction<string>>;
+  checked: boolean;
+  setChecked: React.Dispatch<React.SetStateAction<boolean>>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -35,17 +39,19 @@ const SecondStep = ({
   setCity,
   uf,
   setUf,
+  contact,
+  setContact,
   contactMethod,
   setContactMethod,
+  checked,
+  setChecked,
   setStep,
 }: Props) => {
   const [states, setStates] = useState<IBGEUF[]>([]);
   const [cities, setCities] = useState<IBGECity[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [contactData, setContactData] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
@@ -74,7 +80,7 @@ const SecondStep = ({
       });
   }, [uf]);
 
-  // altera o state "location" quando uma cidade é selecionada
+  // altera o state quando uma cidade é selecionada
   const handleSelectedCity = (value: string) => {
     setCity(value);
     setLocation(`${value}, ${uf}`);
@@ -94,12 +100,12 @@ const SecondStep = ({
     }
 
     setPhone(formatted);
-    setContactData(formatted);
+    setContact(formatted);
   };
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    setContactData(value);
+    setContact(value);
   };
 
   // envio de formulario
