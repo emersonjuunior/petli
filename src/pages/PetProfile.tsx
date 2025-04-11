@@ -3,25 +3,24 @@ import { useParams, Navigate } from "react-router-dom";
 import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 
-const Profile = () => {
-  const { username } = useParams();
-  const { user, loading } = useGetProfile("usernames", username!);
-
-  console.log(loading);
+const PetProfile = () => {
+  const { petId } = useParams();
+  const { pet, loading } = useGetProfile("pets", petId!);
 
   if (loading) {
     return <Loading />;
   }
 
-  if (user === null) {
+  if (pet === null) {
     return <Navigate to="*" />;
   }
 
   return (
     <div>
-      <h1>Perfil de {username}.</h1>
+      <h2>Perfil do {pet.name}</h2>
+      <h3>Ele tem {pet.age}</h3>
     </div>
   );
 };
 
-export default Profile;
+export default PetProfile;

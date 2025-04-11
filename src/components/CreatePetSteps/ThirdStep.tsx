@@ -33,9 +33,9 @@ const ThirdStep = ({
   };
 
   return (
-    <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
+    <section className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
-      Vamos falar um pouco sobre a saúde dele!
+        Vamos falar um pouco sobre a saúde dele!
       </h2>
       <div className="px-3 md:px-9">
         <div className="w-full h-[.5px] bg-[#555252] mx-auto mb-5"></div>
@@ -220,7 +220,7 @@ const ThirdStep = ({
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

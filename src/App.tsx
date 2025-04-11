@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Success from "./components/Success";
 import CreatePet from "./pages/CreatePet";
+import PetProfile from "./pages/PetProfile";
 
 function App() {
   const { user, displayName, loading, successNotification, successMsg } =
@@ -33,7 +34,8 @@ function App() {
         <Route path="/cadastro" element={user ? <Home /> : <Register />} />
         <Route path="/login" element={user ? <Home /> : <Login />} />
         <Route path="/:username" element={<Profile />} />
-        <Route path="/novo-pet" element={<CreatePet />} />
+        <Route path="/novo-pet" element={user ? <CreatePet /> : <Home />} />
+        <Route path="/pet/:petId" element={<PetProfile />} />
       </Routes>
     </BrowserRouter>
   );

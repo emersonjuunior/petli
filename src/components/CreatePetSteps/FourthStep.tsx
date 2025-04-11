@@ -52,7 +52,7 @@ const FourthStep = ({
   };
 
   return (
-    <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
+    <section className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6 max-w-9/10">
         Nos conte um pouco mais sobre ele!
       </h2>
@@ -191,7 +191,7 @@ const FourthStep = ({
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

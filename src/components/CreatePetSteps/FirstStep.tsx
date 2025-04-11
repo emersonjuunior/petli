@@ -90,7 +90,7 @@ const FirstStep = ({
   };
 
   return (
-    <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
+    <section className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
       <h2 className="text-lg md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Vamos começar com as principais informações do pet.
       </h2>
@@ -264,7 +264,7 @@ const FirstStep = ({
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
+import { IPet } from "../interfaces/Pet";
 
 interface IUsername {
   username: string;
@@ -8,8 +9,9 @@ interface IUsername {
   displayName: string;
 }
 
-export const useGetDocuments = (col: string, username: string) => {
+export const useGetProfile = (col: string, username: string) => {
   const [user, setUser] = useState<IUsername | null>(null);
+  const [pet, setPet] = useState<IPet | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,27 +19,29 @@ export const useGetDocuments = (col: string, username: string) => {
     const getUserDocument = async () => {
       setLoading(true);
       try {
-        const userDocRef = doc(db, col, username);
-        const userDocSnap = await getDoc(userDocRef);
+        const ref = doc(db, col, username);
+        const snapshot = await getDoc(ref);
 
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          if (userData.username && userData.uid && userData.displayName) {
+        if (snapshot.exists()) {
+          const userData = snapshot.data();
+          if (col === "usernames") {
             setUser(userData as IUsername);
+          } else if (col === "pets") {
+            setPet(userData as IPet);
           }
         }
+        setLoading(false);
       } catch (err) {
         setError("Erro ao buscar o usuário.");
         console.error(err);
       } finally {
-        setLoading(false);
       }
     };
 
     if (username) {
       getUserDocument();
     }
-  }, []);
+  }, [col, username]);
 
-  return { user, loading, error };
+  return { user, pet, loading, error };
 };

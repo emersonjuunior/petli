@@ -122,7 +122,7 @@ const SecondStep = ({
   };
 
   return (
-    <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
+    <section className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
       <h2 className="text-xl md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Como os adotantes poderão te encontrar
       </h2>
@@ -246,7 +246,7 @@ const SecondStep = ({
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 
