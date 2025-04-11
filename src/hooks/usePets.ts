@@ -10,7 +10,7 @@ export const usePets = () => {
     try {
       const ref = doc(db, "pets", data.id);
 
-      // salva o novo no banco de dados
+      // salva o novo pet no banco de dados
       await setDoc(ref, data);
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");

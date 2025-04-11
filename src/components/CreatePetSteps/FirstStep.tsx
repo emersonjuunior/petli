@@ -37,6 +37,7 @@ const FirstStep = ({
 }: Props) => {
   const [timeValue, setTimeValue] = useState("");
   const [time, setTime] = useState("anos");
+  const [error, setError] = useState<string | null>(null);
 
   // permite o usuário escrever apenas números
   const handleTimeValue = (value: string) => {
@@ -61,8 +62,6 @@ const FirstStep = ({
       setAge("");
     }
   };
-
-  const [error, setError] = useState<string | null>(null);
 
   // input de enviar imagens
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +91,7 @@ const FirstStep = ({
 
   return (
     <div className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
-      <h2 className="text-lg md:text-2xl font-medium p-4 md:px-8 md:py-6 md:whitespace-nowrap">
+      <h2 className="text-lg md:text-2xl font-medium p-4 md:px-8 md:py-6">
         Vamos começar com as principais informações do pet.
       </h2>
       <div className="px-3 md:px-9">
@@ -102,7 +101,7 @@ const FirstStep = ({
         className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
         onSubmit={handleFirstStep}
       >
-        <div className="px-3 md:px-7 flex flex-col gap-6 h-[370px]">
+        <div className="px-3 md:px-7 flex flex-col gap-6 h-[370px] min-h-fit">
           <fieldset className="flex-1 flex items-center gap-5 md:gap-10">
             <label className="flex-1">
               <input
@@ -206,7 +205,7 @@ const FirstStep = ({
               </select>
             </label>
           </fieldset>
-          <label className="relative h-[150px] md:h-[200px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
+          <label className="relative h-[150px] md:h-[180px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
               <img
                 src="./upload-picture.png"
@@ -225,12 +224,29 @@ const FirstStep = ({
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
           </label>
+          {image != "" && (
+            <div className="relative w-fit">
+              <div>
+                <img
+                  src={image}
+                  alt={`Fotos do Pet ${name}`}
+                  className="size-14 rounded-md object-cover"
+                />
+                <div
+                  className="absolute top-[1px] right-0 bg-bgBlack z-10 p-2 rounded-full flex items-center justify-center"
+                  onClick={() => setImage("")}
+                >
+                  <i className="fa-solid fa-xmark absolute text-xs cursor-pointer"></i>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
         <div
-          className={`flex w-full items-center h-[50px] gap-1 ${
+          className={`flex w-full items-center h-[50px] min-h-fit gap-1 mb-3 xl:mb-0 ${
             error ? "justify-between" : "justify-end"
-          }`}
+          } ${image != "" ? "pb-3" : ""}`}
         >
           {error && <Error error={error} setError={setError} />}
           <div className="flex gap-2 md:gap-6 items-center">

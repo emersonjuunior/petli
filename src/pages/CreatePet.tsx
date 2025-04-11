@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 import { usePets } from "../hooks/usePets";
 
 const CreatePet = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
@@ -71,7 +71,7 @@ const CreatePet = () => {
   };
 
   return (
-    <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 ">
+    <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8">
       <section className="flex-1 h-[720px] px-2 md:px-6">
         <div className="min-h-[125px] mb-3 md:mb-0">
           <h1 className="font-medium text-2xl lg:text-3xl mb-6 max-w-[92%] md:max-w-full md:whitespace-nowrap">
@@ -178,12 +178,13 @@ const CreatePet = () => {
         </div>
       </section>
 
-      <section className="hidden lg:flex flex-col px-4 ">
+      <section className="hidden lg:flex flex-col px-4">
         <div className="h-[125px]"></div>
         <aside
-          className="h-[585px] flex items-center"
+          className="h-[585px] flex flex-col items-center"
           aria-label="Pré-visualização do card do pet sendo cadastrado"
         >
+          <h3 className="text-2xl font-medium mb-4 border-b-1 border-accentBlue px-2">Pré-Visualização</h3>
           <PetCard
             name={name}
             species={species}
