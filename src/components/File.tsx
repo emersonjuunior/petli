@@ -23,7 +23,7 @@ const File = () => {
 
     const uploadedImageURL = await res.json();
     setImageURL(uploadedImageURL.url);
-    console.log(uploadedImageURL.url);
+    
   };
 
   return (

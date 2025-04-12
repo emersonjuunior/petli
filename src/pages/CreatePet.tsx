@@ -7,16 +7,17 @@ import PetCard from "../components/PetCard";
 import { IPet } from "../interfaces/Pet";
 import { nanoid } from "nanoid";
 import { usePets } from "../hooks/usePets";
+import { useImages } from "../hooks/useImages";
 
 const CreatePet = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
   const [breed, setBreed] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [size, setSize] = useState("");
-  const [image, setImage] = useState("");
   const [location, setLocation] = useState("");
   const [city, setCity] = useState("");
   const [uf, setUf] = useState("");
@@ -34,11 +35,20 @@ const CreatePet = () => {
     null
   );
   const [description, setDescription] = useState("");
-  const [moreImages, setMoreImages] = useState<string[]>([]);
+  const [moreImagesPreview, setMoreImagesPreview] = useState<string[]>([]);
+  const [imageData, setImageData] = useState<FormData | null>(null);
+  const [moreImagesData, setMoreImagesData] = useState<FormData[]>([]);
   const { createPet } = usePets();
+  const { uploadImages } = useImages();
 
-  const handleNewPet = (e: FormEvent<HTMLFormElement>) => {
+  const handleNewPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const result = await uploadImages(imageData, moreImagesData);
+ 
+    if (!result) return;
+
+    const { image, moreImages } = result;
 
     const newPet: IPet = {
       id: nanoid(10),
@@ -66,6 +76,8 @@ const CreatePet = () => {
       ...(description !== "" && { description }),
       ...(moreImages.length > 0 && { moreImages }),
     };
+
+    console.log(newPet);
 
     createPet(newPet);
   };
@@ -127,8 +139,10 @@ const CreatePet = () => {
               setAge={setAge}
               size={size}
               setSize={setSize}
-              image={image}
-              setImage={setImage}
+              imagePreview={imagePreview}
+              setImagePreview={setImagePreview}
+              imageData={imageData}
+              setImageData={setImageData}
             />
           )}
           {step === 2 && (
@@ -151,9 +165,7 @@ const CreatePet = () => {
             <ThirdStep
               vaccinated={vaccinated}
               setVaccinated={setVaccinated}
-              neutered={neutered}
               setNeutered={setNeutered}
-              dewormed={dewormed}
               setDewormed={setDewormed}
               specialCare={specialCare}
               setSpecialCare={setSpecialCare}
@@ -169,26 +181,29 @@ const CreatePet = () => {
               setGoodWithChildren={setGoodWithChildren}
               description={description}
               setDescription={setDescription}
-              moreImages={moreImages}
-              setMoreImages={setMoreImages}
+              moreImagesPreview={moreImagesPreview}
+              setMoreImagesPreview={setMoreImagesPreview}
+              moreImagesData={moreImagesData}
+              setMoreImagesData={setMoreImagesData}
               handleNewPet={handleNewPet}
               setStep={setStep}
             />
           )}
         </div>
       </section>
-
       <section className="hidden lg:flex flex-col px-4">
         <div className="h-[125px]"></div>
         <aside
           className="h-[585px] flex flex-col items-center"
           aria-label="Pré-visualização do card do pet sendo cadastrado"
         >
-          <h3 className="text-2xl font-medium mb-4 border-b-1 border-accentBlue px-2">Pré-Visualização</h3>
+          <h3 className="text-2xl font-medium mb-4 border-b-1 border-accentBlue px-2">
+            Pré-Visualização
+          </h3>
           <PetCard
             name={name}
             species={species}
-            image={image}
+            image={imagePreview}
             location={location}
             age={age}
             gender={gender}

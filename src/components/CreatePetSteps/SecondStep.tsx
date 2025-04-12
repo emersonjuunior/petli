@@ -53,6 +53,8 @@ const SecondStep = ({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
+
+  // busca os estados do brasil com a api do ibge
   useEffect(() => {
     fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
       .then((res) => res.json())
@@ -67,6 +69,7 @@ const SecondStep = ({
       });
   }, []);
 
+  // busca as cidades do estado selecionado, quando ele é alterado
   useEffect(() => {
     fetch(
       `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`

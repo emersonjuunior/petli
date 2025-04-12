@@ -3,9 +3,7 @@ import { FormEvent, useState } from "react";
 interface Props {
   vaccinated: string;
   setVaccinated: React.Dispatch<React.SetStateAction<string>>;
-  dewormed: boolean | null;
   setDewormed: React.Dispatch<React.SetStateAction<boolean | null>>;
-  neutered: boolean | null;
   setNeutered: React.Dispatch<React.SetStateAction<boolean | null>>;
   specialCare: string;
   setSpecialCare: React.Dispatch<React.SetStateAction<string>>;
@@ -15,9 +13,7 @@ interface Props {
 const ThirdStep = ({
   vaccinated,
   setVaccinated,
-  dewormed,
   setDewormed,
-  neutered,
   setNeutered,
   specialCare,
   setSpecialCare,
@@ -26,6 +22,7 @@ const ThirdStep = ({
   const [isVaccinated, setIsVaccinated] = useState<string | null>(null);
   const [needSpecialCare, setNeedSpecialCare] = useState<string | null>(null);
 
+  // envio de formulário
   const handleThirdStep = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

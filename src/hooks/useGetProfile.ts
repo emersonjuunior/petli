@@ -9,6 +9,7 @@ interface IUsername {
   displayName: string;
 }
 
+// pega o nome do usuário ou pet através dos parametros da url e busca no firestore
 export const useGetProfile = (col: string, username: string) => {
   const [user, setUser] = useState<IUsername | null>(null);
   const [pet, setPet] = useState<IPet | null>(null);

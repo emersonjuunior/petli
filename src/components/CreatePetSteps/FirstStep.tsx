@@ -15,8 +15,10 @@ interface Props {
   setAge: React.Dispatch<React.SetStateAction<string>>;
   size: string;
   setSize: React.Dispatch<React.SetStateAction<string>>;
-  image: string;
-  setImage: React.Dispatch<React.SetStateAction<string>>;
+  imagePreview: string;
+  setImagePreview: React.Dispatch<React.SetStateAction<string>>;
+  imageData: FormData | null;
+  setImageData: React.Dispatch<React.SetStateAction<FormData | null>>;
 }
 
 const FirstStep = ({
@@ -32,8 +34,10 @@ const FirstStep = ({
   setAge,
   size,
   setSize,
-  image,
-  setImage,
+  imagePreview,
+  setImagePreview,
+  imageData,
+  setImageData,
 }: Props) => {
   const [timeValue, setTimeValue] = useState("");
   const [time, setTime] = useState("anos");
@@ -64,12 +68,35 @@ const FirstStep = ({
   };
 
   // input de enviar imagens
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      // mostra o preview da imagem
-      setImage(URL.createObjectURL(file));
+    const maxFileSize = 1 * 1024 * 1024; // 1mb
+    const allowedFiles = ["image/jpeg", "image/png", "image/webp"]
+
+    if (!file) return;
+
+    // verifica se é uma imagem
+    if (!allowedFiles.includes(file.type)) {
+      setError("Formato inválido. Use apenas JPG, PNG ou WEBP.");
+      return;
     }
+
+    // verifica o tamanho
+    if (file.size > maxFileSize) {
+      setError("Imagem muito pesada! Limite de 1MB.");
+      return;
+    }
+
+    // mostra o preview da imagem
+    setImagePreview(URL.createObjectURL(file));
+
+    // prepara o objeto para ser enviado ao banco de dados de imagem (cloudinary)
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ml_default");
+    data.append("cloud_name", "djzmzwwtm");
+
+    setImageData(data);
   };
 
   // envio do formulario
@@ -81,7 +108,7 @@ const FirstStep = ({
       return;
     }
 
-    if (image === "") {
+    if (imagePreview === "") {
       setError("Por favor, envie uma imagem do bichinho.");
       return;
     }
@@ -207,11 +234,12 @@ const FirstStep = ({
           </fieldset>
           <label className="relative h-[150px] md:h-[180px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
-              <img
+                <img
                 src="./upload-picture.png"
                 alt="Nos envie uma foto do seu pet!"
-                className="w-25 h-auto"
+                className="min-w-25 min-h-[85px] w-25 h-auto"
               />
+             
             </div>
             <div className="flex items-center justify-center">
               <span className="text-center text-sm md:text-[16px] max-w-[90%] font-medium">
@@ -224,17 +252,17 @@ const FirstStep = ({
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
           </label>
-          {image != "" && (
+          {imagePreview != "" && (
             <div className="relative w-fit">
               <div>
                 <img
-                  src={image}
+                  src={imagePreview}
                   alt={`Fotos do Pet ${name}`}
                   className="size-14 rounded-md object-cover"
                 />
                 <div
                   className="absolute top-[1px] right-0 bg-bgBlack z-10 p-2 rounded-full flex items-center justify-center"
-                  onClick={() => setImage("")}
+                  onClick={() => setImagePreview("")}
                 >
                   <i className="fa-solid fa-xmark absolute text-xs cursor-pointer"></i>
                 </div>
@@ -246,7 +274,7 @@ const FirstStep = ({
         <div
           className={`flex w-full items-center h-[50px] min-h-fit gap-1 mb-3 xl:mb-0 ${
             error ? "justify-between" : "justify-end"
-          } ${image != "" ? "pb-3" : ""}`}
+          } ${imagePreview != "" ? "pb-3" : ""}`}
         >
           {error && <Error error={error} setError={setError} />}
           <div className="flex gap-2 md:gap-6 items-center">

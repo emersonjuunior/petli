@@ -10,8 +10,10 @@ interface Props {
   setGoodWithChildren: React.Dispatch<React.SetStateAction<boolean | null>>;
   description: string;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
-  moreImages: string[];
-  setMoreImages: React.Dispatch<React.SetStateAction<string[]>>;
+  moreImagesPreview: string[];
+  setMoreImagesPreview: React.Dispatch<React.SetStateAction<string[]>>;
+  moreImagesData: FormData[];
+  setMoreImagesData: React.Dispatch<React.SetStateAction<FormData[]>>;
   handleNewPet(e: FormEvent<HTMLFormElement>): void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -24,8 +26,10 @@ const FourthStep = ({
   setGoodWithChildren,
   description,
   setDescription,
-  moreImages,
-  setMoreImages,
+  moreImagesPreview,
+  setMoreImagesPreview,
+  moreImagesData,
+  setMoreImagesData,
   handleNewPet,
   setStep,
 }: Props) => {
@@ -34,21 +38,55 @@ const FourthStep = ({
   // input de enviar imagens
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    const maxFileSize = 1 * 1024 * 1024; // 1mb
+    const allowedFiles = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!file) return;
+
+    // verifica se é uma imagem
+    if (!allowedFiles.includes(file.type)) {
+      setError("Formato inválido. Use apenas JPG, PNG ou WEBP.");
+      return;
+    }
+
+    // verifica o tamanho
+    if (file.size > maxFileSize) {
+      setError("Imagem muito pesada! Limite de 1MB.");
+      return;
+    }
 
     // limita o envio a 3 imagens
-    if (moreImages.length === 3) {
+    if (moreImagesPreview.length === 3) {
       setError("Limite de imagens atingido.");
       return;
     }
 
-    if (file) {
-      // mostra o preview da imagem
-      setMoreImages((prev) => [...prev, URL.createObjectURL(file)]);
-    }
+    // prepara o objeto para ser enviado ao banco de dados de imagem (cloudinary)
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ml_default");
+    data.append("cloud_name", "djzmzwwtm");
+
+    setMoreImagesData((prev) => [...prev, data]);
+    setMoreImagesPreview((prev) => [...prev, URL.createObjectURL(file)]);
   };
 
+  // função de remover imagens
   const removeImage = (value: string) => {
-    setMoreImages((images) => images.filter((image) => image != value));
+    // filtra o index da imagem que o usuário clicou para remover
+    const indexToRemove = moreImagesPreview.findIndex(
+      (image) => image === value
+    );
+
+    if (indexToRemove === -1) return;
+
+    // atualiza os states removendo a imagem escolhida
+    setMoreImagesData((images) =>
+      images.filter((_, index) => index != indexToRemove)
+    );
+    setMoreImagesPreview((images) =>
+      images.filter((_, index) => index != indexToRemove)
+    );
   };
 
   return (
@@ -134,7 +172,7 @@ const FourthStep = ({
               <img
                 src="./upload-picture.png"
                 alt="Nos envie uma foto do seu pet!"
-                className="w-25 h-auto"
+                className="min-w-25 min-h-[85px] w-25 h-auto"
               />
             </div>
             <div className="flex items-center justify-center">
@@ -148,9 +186,9 @@ const FourthStep = ({
               onChange={handleFileChange}
             />
           </label>
-          {moreImages.length > 0 && (
+          {moreImagesPreview.length > 0 && (
             <div className="flex gap-4">
-              {moreImages.map((image, index) => (
+              {moreImagesPreview.map((image, index) => (
                 <div className="relative" key={index}>
                   <img
                     src={image}
@@ -172,7 +210,7 @@ const FourthStep = ({
         <div
           className={`flex w-full items-center h-[50px] gap-1 ${
             error ? "justify-between" : "justify-end"
-          } ${moreImages.length > 0 ? "mb-3" : "mb-0"}`}
+          } ${moreImagesPreview.length > 0 ? "mb-3" : "mb-0"}`}
         >
           {error && <Error error={error} setError={setError} />}
           <div className="flex gap-2 md:gap-6 items-center">
