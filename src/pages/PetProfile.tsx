@@ -16,6 +16,7 @@ const PetProfile = () => {
     return <Navigate to="*" />;
   }
 
+  console.log(pet.moreImages);
   return (
     <div>
       <h2>Perfil do {pet.name}</h2>
@@ -29,6 +30,10 @@ const PetProfile = () => {
         location={`${pet.city}, ${pet.state}`}
         gender={pet.gender}
       />
+
+      {pet.moreImages?.map((image, index) => (
+        <img src={image.url} key={index} alt="Teste" />
+      ))}
     </div>
   );
 };

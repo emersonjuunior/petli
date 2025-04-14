@@ -59,7 +59,7 @@ const RecoverPassword = ({ setRecoverPasswordModal }: Props) => {
             type="submit"
             className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-[#1852f2] shadow-md ${
               loading
-                ? "cursor-progress opacity-90 bg-[#1852f2]"
+                ? "cursor-not-allowed opacity-90 bg-[#1852f2]"
                 : "bg-[#1877F2] cursor-pointer"
             }`}
           >

@@ -67,8 +67,7 @@ export const useAuthentication = () => {
 
       setDisplayName(data.displayName);
 
-      setSuccessMsg("Conta criada com sucesso! 🐾");
-      showSuccessNotification();
+      showSuccessNotification("Conta criada com sucesso! 🐾");
     } catch (error: any) {
       if (error.message.includes("email-already")) {
         setError("Esse usuário já existe.");
@@ -94,11 +93,9 @@ export const useAuthentication = () => {
 
         setDisplayName("Google");
 
-        setSuccessMsg("Conta criada com sucesso! 🐾");
-        showSuccessNotification();
+        showSuccessNotification("Conta criada com sucesso! 🐾");
       } else {
-        setSuccessMsg("Bem-vindo de volta! 🐱");
-        showSuccessNotification();
+        showSuccessNotification("Bem-vindo de volta! 🐱");
       }
     } catch (error) {
       console.error(error);
@@ -113,8 +110,7 @@ export const useAuthentication = () => {
 
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      setSuccessMsg("Bem-vindo de volta! 🐱");
-      showSuccessNotification();
+      showSuccessNotification("Bem-vindo de volta! 🐱");
     } catch (error: any) {
       if (error.code === "auth/invalid-email") {
         setError(
@@ -132,8 +128,7 @@ export const useAuthentication = () => {
   const logout = () => {
     if (checkIfIsCancelled()) return;
     signOut(auth);
-    setSuccessMsg("Até logo, volte sempre! 🐶");
-    showSuccessNotification();
+    showSuccessNotification("Até logo, volte sempre! 🐶");
   };
 
   // definir nome de usuário no firestore
@@ -164,8 +159,7 @@ export const useAuthentication = () => {
 
       setUsername(data.username);
       setDisplayName(data.displayName);
-      setSuccessMsg("Nome de usuário definido com sucesso. 🐶");
-      showSuccessNotification();
+      showSuccessNotification("Nome de usuário definido com sucesso. 🐶");
     } catch (error) {
       console.log(error);
     } finally {
@@ -177,10 +171,9 @@ export const useAuthentication = () => {
   const recoverPassword = async (email: string) => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        setSuccessMsg(
+        showSuccessNotification(
           "Se o email estiver cadastrado, você receberá um link para redefinir sua senha. 🔑"
         );
-        showSuccessNotification();
       })
       .catch(() => {
         setError("Algo deu errado, tente novamente mais tarde.");

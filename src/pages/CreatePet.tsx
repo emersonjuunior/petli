@@ -8,6 +8,8 @@ import { IPet } from "../interfaces/Pet";
 import { nanoid } from "nanoid";
 import { usePets } from "../hooks/usePets";
 import { useImages } from "../hooks/useImages";
+import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 
 const CreatePet = () => {
   const [step, setStep] = useState(1);
@@ -38,20 +40,26 @@ const CreatePet = () => {
   const [moreImagesPreview, setMoreImagesPreview] = useState<string[]>([]);
   const [imageData, setImageData] = useState<FormData | null>(null);
   const [moreImagesData, setMoreImagesData] = useState<FormData[]>([]);
+  const [loading, setLoading] = useState(false);
   const { createPet } = usePets();
   const { uploadImages } = useImages();
+  const navigate = useNavigate();
+  const { showSuccessNotification } = useUserContext();
 
   const handleNewPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const result = await uploadImages(imageData, moreImagesData);
- 
+
     if (!result) return;
 
     const { image, moreImages } = result;
+    const id = nanoid(10);
 
     const newPet: IPet = {
-      id: nanoid(10),
+      id,
       species,
       name,
       breed,
@@ -77,9 +85,14 @@ const CreatePet = () => {
       ...(moreImages.length > 0 && { moreImages }),
     };
 
-    console.log(newPet);
-
-    createPet(newPet);
+    await createPet(newPet);
+    console.log("Chegou até aqui");
+    showSuccessNotification(
+      `Tudo certo, que ${
+        gender === "Macho" ? "o" : gender === "Fêmea" ? "a" : "o(a)"
+      } ${name} conquiste muitos corações! 🎉`
+    );
+    navigate(`/pet/${id}`);
   };
 
   return (
@@ -187,6 +200,7 @@ const CreatePet = () => {
               setMoreImagesData={setMoreImagesData}
               handleNewPet={handleNewPet}
               setStep={setStep}
+              loading={loading}
             />
           )}
         </div>

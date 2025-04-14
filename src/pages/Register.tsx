@@ -16,13 +16,8 @@ const Register = () => {
   const [passwordStrength, setPasswordStrength] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
-  const {
-    createUser,
-    signInWithGoogle,
-    loading,
-    error,
-    setError,
-  } = useAuthentication();
+  const { createUser, signInWithGoogle, loading, error, setError } =
+    useAuthentication();
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -198,7 +193,7 @@ const Register = () => {
                 type="submit"
                 className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-rose-700 shadow-md ${
                   loading
-                    ? "bg-rose-700 cursor-progress opacity-90"
+                    ? "bg-rose-700 cursor-not-allowed opacity-90"
                     : "bg-primaryRed cursor-pointer"
                 }`}
               >

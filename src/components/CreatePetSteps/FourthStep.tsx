@@ -16,6 +16,7 @@ interface Props {
   setMoreImagesData: React.Dispatch<React.SetStateAction<FormData[]>>;
   handleNewPet(e: FormEvent<HTMLFormElement>): void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  loading: boolean;
 }
 
 const FourthStep = ({
@@ -32,6 +33,7 @@ const FourthStep = ({
   setMoreImagesData,
   handleNewPet,
   setStep,
+  loading,
 }: Props) => {
   const [error, setError] = useState<string | null>(null);
 
@@ -222,9 +224,10 @@ const FourthStep = ({
             </span>
             <button
               type="submit"
-              className="font-medium sm:text-lg bg-[#614cfc] px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl cursor-pointer duration-200 hover:bg-[#614cfcda]"
+              className={`font-medium sm:text-lg px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl duration-200 hover:bg-[#614cfcda] ${loading ? "cursor-not-allowed opacity-80 bg-[#6552f7]" : "bg-[#614cfc] cursor-pointer"}`}
+              disabled={loading}
             >
-              Concluir
+              {loading ? "Criando..." : "Concluir"}
             </button>
           </div>
         </div>

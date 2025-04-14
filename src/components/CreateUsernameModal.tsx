@@ -84,7 +84,7 @@ const CreateUsernameModal = () => {
           {error && <Error error={error} setError={setError} />}
           <button
             type="submit"
-            className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-[#1852f2] shadow-md ${loading ? "cursor-progress opacity-90 bg-[#1852f2]" : "bg-[#1877F2] cursor-pointer"}`}
+            className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-[#1852f2] shadow-md ${loading ? "cursor-not-allowe opacity-90 bg-[#1852f2]" : "bg-[#1877F2] cursor-pointer"}`}
           >
            {loading ? "Aguarde..." : "Enviar"}
           </button>

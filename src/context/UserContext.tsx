@@ -20,7 +20,7 @@ interface IUserContext {
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
-  showSuccessNotification: () => void;
+  showSuccessNotification: (msg: string) => void;
 }
 
 const UserContext = createContext<IUserContext | null>(null);
@@ -42,7 +42,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       setLoading(false);
 
       if (currentUser) {
-          await fetchUsername(currentUser.uid);
+        await fetchUsername(currentUser.uid);
       }
     });
 
@@ -70,7 +70,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const showSuccessNotification = (): void => {
+  const showSuccessNotification = (msg: string): void => {
+    setSuccessMsg(msg);
     setSuccessNotification(true);
     setTimeout(() => {
       setSuccessNotification(false);

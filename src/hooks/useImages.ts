@@ -7,9 +7,7 @@ export const useImages = () => {
     moreImagesData: FormData[] | null
   ) => {
     try {
-        
       if (!imageData || !moreImagesData) return;
-
 
       // faz upload da imagem principal
       const res = await fetch(
@@ -21,7 +19,11 @@ export const useImages = () => {
       );
 
       const result = await res.json();
-      const image: IPetImage = { url: result.url, id: result.public_id };
+      const optimizedUrl = result.secure_url.replace(
+        "/upload/",
+        "/upload/w_600,f_auto,q_auto/"
+      );
+      const image: IPetImage = { url: optimizedUrl, id: result.public_id };
 
       // faz upload das imagens extras
       const moreImages: IPetImage[] = [];
@@ -38,8 +40,12 @@ export const useImages = () => {
             );
 
             const moreImagesResult = await moreImagesRes.json();
+            const optimizedUrl = moreImagesResult.secure_url.replace(
+              "/upload/",
+              "/upload/w_600,f_auto,q_auto/"
+            );
             moreImages.push({
-              url: moreImagesResult.url,
+              url: optimizedUrl,
               id: moreImagesResult.public_id,
             });
           } catch (error) {
