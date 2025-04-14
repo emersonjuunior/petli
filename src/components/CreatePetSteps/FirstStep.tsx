@@ -43,6 +43,20 @@ const FirstStep = ({
   const [time, setTime] = useState("anos");
   const [error, setError] = useState<string | null>(null);
 
+  const handlePetName = (value: string) => {
+    if (/^[a-zA-ZÀ-ÿ\s]*$/.test(value)) {
+      // permite apenas letras e espaços
+      setName(value);
+    }
+  };
+
+  const handleBreed = (value: string) => {
+    if (/^[a-zA-ZÀ-ÿ\s]*$/.test(value)) {
+      // permite apenas letras e espaços
+      setBreed(value);
+    }
+  };
+
   // permite o usuário escrever apenas números
   const handleTimeValue = (value: string) => {
     if (/^\d*$/.test(value)) {
@@ -71,7 +85,7 @@ const FirstStep = ({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const maxFileSize = 1 * 1024 * 1024; // 1mb
-    const allowedFiles = ["image/jpeg", "image/png", "image/webp"]
+    const allowedFiles = ["image/jpeg", "image/png", "image/webp"];
 
     if (!file) return;
 
@@ -135,7 +149,7 @@ const FirstStep = ({
                 type="text"
                 placeholder="Nome do pet"
                 required
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => handlePetName(e.target.value)}
                 value={name}
                 className="w-full"
                 minLength={2}
@@ -164,7 +178,7 @@ const FirstStep = ({
                   type="text"
                   placeholder="Raça"
                   required
-                  onChange={(e) => setBreed(e.target.value)}
+                  onChange={(e) => handleBreed(e.target.value)}
                   value={breed}
                   minLength={2}
                   maxLength={30}
@@ -234,12 +248,11 @@ const FirstStep = ({
           </fieldset>
           <label className="relative h-[150px] md:h-[180px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
-                <img
+              <img
                 src="./upload-picture.png"
                 alt="Nos envie uma foto do seu pet!"
                 className="min-w-25 min-h-[85px] w-25 h-auto"
               />
-             
             </div>
             <div className="flex items-center justify-center">
               <span className="text-center text-sm md:text-[16px] max-w-[90%] font-medium">

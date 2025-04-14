@@ -53,7 +53,6 @@ const SecondStep = ({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
-
   // busca os estados do brasil com a api do ibge
   useEffect(() => {
     fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
@@ -115,9 +114,18 @@ const SecondStep = ({
   const handleSecondStep = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // verifica se é um número de celular válido
     const phoneRegex = /^\d{2} \d{5} \d{4}$/;
     if (contactMethod === "WhatsApp" && !phoneRegex.test(phone)) {
       setError("Por favor, digite um telefone válido.");
+      return;
+    }
+
+    // verifica se é um email válido
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(email)) {
+      setError("Por favor, insira um e-mail válido.");
       return;
     }
 
