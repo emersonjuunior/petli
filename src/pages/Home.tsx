@@ -1,9 +1,8 @@
 import PetCard from "../components/PetCard";
 
 const Home = () => {
-
   return (
-    <div>
+    <main>
       <PetCard
         name="Jason"
         species="Gato"
@@ -13,8 +12,7 @@ const Home = () => {
         gender="Macho"
         size="Pequeno"
       />
-    
-    </div>
+    </main>
   );
 };
 

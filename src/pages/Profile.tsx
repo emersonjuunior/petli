@@ -18,9 +18,9 @@ const Profile = () => {
   }
 
   return (
-    <div>
+    <main>
       <h1>Perfil de {username}.</h1>
-    </div>
+    </main>
   );
 };
 

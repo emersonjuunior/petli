@@ -33,6 +33,9 @@ export interface IPet {
   goodWithChildren?: boolean;
   description?: string;
   moreImages?: IPetImage[];
+
+  owner: string;
+  date: string;
 }
 
 export interface IPetImage {

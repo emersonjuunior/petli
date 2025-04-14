@@ -44,7 +44,7 @@ const CreatePet = () => {
   const { createPet } = usePets();
   const { uploadImages } = useImages();
   const navigate = useNavigate();
-  const { showSuccessNotification } = useUserContext();
+  const { showSuccessNotification, username } = useUserContext();
 
   const handleNewPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,6 +57,8 @@ const CreatePet = () => {
 
     const { image, moreImages } = result;
     const id = nanoid(10);
+    const date = new Date();
+    const brazilianDate = date.toLocaleDateString("pt-BR");
 
     const newPet: IPet = {
       id,
@@ -83,6 +85,9 @@ const CreatePet = () => {
       ...(goodWithChildren === true && { goodWithChildren }),
       ...(description !== "" && { description }),
       ...(moreImages.length > 0 && { moreImages }),
+
+      owner: username!,
+      date: brazilianDate,
     };
 
     await createPet(newPet);
