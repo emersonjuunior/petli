@@ -124,7 +124,7 @@ const SecondStep = ({
     // verifica se é um email válido
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (!emailRegex.test(email)) {
+    if (contactMethod === "Email" && !emailRegex.test(email)) {
       setError("Por favor, insira um e-mail válido.");
       return;
     }

@@ -165,7 +165,7 @@ const FourthStep = ({
           <textarea
             className="w-full min-h-[90px] max-h-[90px] border-1 rounded-lg outline-none text-sm px-2 py-1"
             placeholder="Conte algo especial sobre o pet, como sua história, personalidade ou qualquer detalhe importante. (opcional)"
-            maxLength={300}
+            maxLength={500}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>

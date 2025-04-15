@@ -12,12 +12,7 @@ const Header = () => {
         </Link>
       </div>
       <div className="justify-self-end flex-1 flex justify-end px-4">
-        <button
-          onClick={logout}
-          className="px-4 py-2 bg-white rounded-lg text-black font-bold cursor-poitner"
-        >
-          Sair
-        </button>
+      
       </div>
     </header>
   );
