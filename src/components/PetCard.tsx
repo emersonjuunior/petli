@@ -27,6 +27,7 @@ const PetCard = ({
             
           />
         )}
+
       </div>
       <h3
         id="pet-card-title"

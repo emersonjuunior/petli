@@ -83,7 +83,7 @@ const ThirdStep = ({
                     ? "border-gray-400 focus:border-[#596A95]"
                     : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20"
                 }`}
-                maxLength={80}
+                maxLength={200}
                 required
                 disabled={!(isVaccinated === "true")}
                 value={vaccinated}
@@ -133,8 +133,9 @@ const ThirdStep = ({
                   needSpecialCare === "true"
                     ? "border-gray-400 focus:border-[#596A95]"
                     : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20"
+                    
                 }`}
-                maxLength={80}
+                maxLength={300}
                 required
                 disabled={!(needSpecialCare === "true")}
                 value={specialCare}

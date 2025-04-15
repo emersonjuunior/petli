@@ -91,7 +91,7 @@ const CreatePet = () => {
     };
 
     await createPet(newPet);
-    console.log("Chegou até aqui");
+
     showSuccessNotification(
       `Tudo certo, que ${
         gender === "Macho" ? "o" : gender === "Fêmea" ? "a" : "o(a)"
