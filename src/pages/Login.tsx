@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Error from "../components/Error";
 import { ILogin } from "../interfaces/User";
 import RecoverPasswordModal from "../components/RecoverPasswordModal";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");

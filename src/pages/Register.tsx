@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { IUser } from "../interfaces/User";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 // components
 import Error from "../components/Error";

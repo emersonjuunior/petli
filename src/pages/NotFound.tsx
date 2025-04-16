@@ -1,7 +1,7 @@
 import Lottie from "lottie-react";
 import animation404 from "../assets/404-animation.json";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const NotFound = () => {
   return (

@@ -10,7 +10,7 @@ import { usePets } from "../hooks/usePets";
 import { useImages } from "../hooks/useImages";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const CreatePet = () => {
   const [step, setStep] = useState(1);

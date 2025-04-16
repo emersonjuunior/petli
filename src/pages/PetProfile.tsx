@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import ViewImage from "../components/ViewImage";
 import { Link, useLocation } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const PetProfile = () => {
   const { petId } = useParams();
