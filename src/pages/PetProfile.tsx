@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
-import PetCard from "../components/PetCard";
+import ViewImage from "../components/ViewImage";
 import { Link } from "react-router-dom";
 
 const PetProfile = () => {
   const { petId } = useParams();
   const { pet, loading } = useGetProfile("pets", petId!);
+  const [viewImage, setViewImage] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   if (loading) {
     return <Loading />;
@@ -16,6 +18,11 @@ const PetProfile = () => {
   if (pet === null) {
     return <Navigate to="*" />;
   }
+
+  const handleViewImage = (value: string) => {
+    setImageUrl(value);
+    setViewImage(true);
+  };
 
   return (
     <main className="w-full">
@@ -26,7 +33,8 @@ const PetProfile = () => {
               loading="lazy"
               src={pet.image.url}
               alt={`Foto do Pet ${pet.name}`}
-              className="object-cover rounded-xl"
+              className="object-cover rounded-xl hover:brightness-115 cursor-pointer duration-300"
+              onClick={() => handleViewImage(pet.image.url)}
             />
           </div>
           <div className="flex-1 flex items-center px-12 md:px-20 lg:px-24 h-[500px] min-h-fit relative">
@@ -80,13 +88,13 @@ const PetProfile = () => {
             </div>
           </div>
         </section>
-        <hr className="text-[#404040] mt-4 mb-8" />
+        <hr className="text-[#404040] my-8" />
         <div className="w-full flex flex-col gap-10">
           <section className="w-full border-2 border-[#404040] rounded-xl px-20 py-10 flex flex-col gap-5 shadow-md relative">
             <h2 className="text-xl md:text-2xl font-medium mb-2 absolute -top-4 left-18 px-2 bg-bgBlack">
               Cuidados e Saúde 🩺
             </h2>
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               <div className="w-1/2 flex flex-col gap-1">
                 <h3 className="text-lg font-medium">
                   O bichinho já tomou alguma vacina?
@@ -115,7 +123,7 @@ const PetProfile = () => {
             <h2 className="text-xl md:text-2xl font-medium mb-2 absolute -top-4 left-18 px-2 bg-bgBlack">
               Personalidade 🐾
             </h2>
-            <div className="flex">
+            <div className="flex gap-2">
               <div className="flex flex-col gap-1 w-1/2">
                 <h3 className="text-lg font-medium">
                   Mais detalhes sobre {pet.name}:
@@ -147,21 +155,34 @@ const PetProfile = () => {
           <hr className="text-[#404040] mb-8" />
         </div>
         <section className="w-full mb-80">
-          <h2 className="text-xl md:text-2xl font-medium mb-4">Mais imagens de {pet.name}</h2>
+          <h2 className="text-xl md:text-2xl font-medium mb-4">
+            Mais imagens de {pet.name}
+          </h2>
           <div className="flex gap-8 w-full flex-wrap">
             {pet.moreImages &&
               pet.moreImages.map((image, index) => (
-                <div className="flex-1 min-h-[400px] max-h-[400px] max-w-[400px] min-w-[400px] overflow-hidden flex items-center justify-center rounded-xl shadow-md" key={index}>
+                <div
+                  className="flex-1 min-h-[400px] max-h-[400px] max-w-[500px] min-w-[400px] overflow-hidden flex items-center justify-center rounded-xl shadow-md"
+                  key={index}
+                >
                   <img
                     src={image.url}
                     alt={`Imagens adicionais do pet ${pet.name}`}
-                    className="object-cover"
+                    className="object-cover hover:brightness-115 cursor-pointer duration-300"
+                    onClick={() => handleViewImage(image.url)}
                   />
                 </div>
               ))}
           </div>
         </section>
       </div>
+      {viewImage && (
+        <ViewImage
+          image={imageUrl}
+          petName={pet.name}
+          setViewImage={setViewImage}
+        />
+      )}
     </main>
   );
 };
