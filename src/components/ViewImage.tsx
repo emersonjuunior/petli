@@ -27,7 +27,7 @@ const ViewImage = ({ image, petName, setViewImage }: Props) => {
   }, [setViewImage]);
 
   return (
-    <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-30 px-2">
+    <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-30 px-3">
       <div
         className="bg-bgGray w-fit max-w-[700px] max-h-[800px] rounded-lg relative flex"
         ref={modalContentRef}

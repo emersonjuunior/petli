@@ -31,7 +31,7 @@ const CreateUsernameModal = () => {
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-30">
       <div className="bg-bgGray w-full max-w-[520px] mx-2 rounded-lg">
         <form
-          className="flex flex-col gap-5 px-10 py-10"
+          className="flex flex-col gap-5 p-5 md:p-10"
           onSubmit={handleSubmit}
         >
           <div>

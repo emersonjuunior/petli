@@ -62,9 +62,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
         setUsername(doc.id); // Agora atualiza o contexto diretamente
-      } else {
-        console.log("Nada encontrado");
-      }
+      } 
     } catch (error) {
       console.error("Erro ao buscar username:", error);
     }
