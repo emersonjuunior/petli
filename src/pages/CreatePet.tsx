@@ -179,7 +179,6 @@ const CreatePet = () => {
                 setSize={setSize}
                 imagePreview={imagePreview}
                 setImagePreview={setImagePreview}
-                imageData={imageData}
                 setImageData={setImageData}
               />
             )}
@@ -190,7 +189,6 @@ const CreatePet = () => {
                 setCity={setCity}
                 uf={uf}
                 setUf={setUf}
-                contact={contact}
                 setContact={setContact}
                 contactMethod={contactMethod}
                 setContactMethod={setContactMethod}
@@ -213,15 +211,12 @@ const CreatePet = () => {
             {step === 4 && (
               <FourthStep
                 name={name}
-                goodWithOtherAnimals={goodWithOtherAnimals}
                 setGoodWithOtherAnimals={setGoodWithOtherAnimals}
-                goodWithChildren={goodWithChildren}
                 setGoodWithChildren={setGoodWithChildren}
                 description={description}
                 setDescription={setDescription}
                 moreImagesPreview={moreImagesPreview}
                 setMoreImagesPreview={setMoreImagesPreview}
-                moreImagesData={moreImagesData}
                 setMoreImagesData={setMoreImagesData}
                 handleNewPet={handleNewPet}
                 setStep={setStep}

@@ -4,15 +4,12 @@ import Error from "../Error";
 
 interface Props {
   name: string;
-  goodWithOtherAnimals: boolean | null;
   setGoodWithOtherAnimals: React.Dispatch<React.SetStateAction<boolean | null>>;
-  goodWithChildren: boolean | null;
   setGoodWithChildren: React.Dispatch<React.SetStateAction<boolean | null>>;
   description: string;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
   moreImagesPreview: string[];
   setMoreImagesPreview: React.Dispatch<React.SetStateAction<string[]>>;
-  moreImagesData: FormData[];
   setMoreImagesData: React.Dispatch<React.SetStateAction<FormData[]>>;
   handleNewPet(e: FormEvent<HTMLFormElement>): void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -21,15 +18,12 @@ interface Props {
 
 const FourthStep = ({
   name,
-  goodWithOtherAnimals,
   setGoodWithOtherAnimals,
-  goodWithChildren,
   setGoodWithChildren,
   description,
   setDescription,
   moreImagesPreview,
   setMoreImagesPreview,
-  moreImagesData,
   setMoreImagesData,
   handleNewPet,
   setStep,
@@ -224,7 +218,11 @@ const FourthStep = ({
             </span>
             <button
               type="submit"
-              className={`font-medium sm:text-lg px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl duration-200 hover:bg-[#614cfcda] ${loading ? "cursor-not-allowed opacity-80 bg-[#6552f7]" : "bg-[#614cfc] cursor-pointer"}`}
+              className={`font-medium sm:text-lg px-3 sm:px-8 h-[35px] sm:h-[45px] rounded-xl duration-200 hover:bg-[#614cfcda] ${
+                loading
+                  ? "cursor-not-allowed opacity-80 bg-[#6552f7]"
+                  : "bg-[#614cfc] cursor-pointer"
+              }`}
               disabled={loading}
             >
               {loading ? "Criando..." : "Concluir"}

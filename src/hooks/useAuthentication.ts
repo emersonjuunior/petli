@@ -8,7 +8,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ILogin, IUser, IFirestoreUsername } from "../interfaces/User";
 import { User } from "firebase/auth";
 import { useUserContext } from "../context/UserContext";
@@ -16,26 +16,19 @@ import { useUserContext } from "../context/UserContext";
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
-  const {
-    setDisplayName,
-    setSuccessMsg,
-    showSuccessNotification,
-    setUsername,
-  } = useUserContext();
+  const { setDisplayName, showSuccessNotification, setUsername } =
+    useUserContext();
 
   // lida com vazamento de memória
   const [cancelled, setCancelled] = useState(false);
 
-  function checkIfIsCancelled(): boolean {
-    if (cancelled) {
-      return true;
-    }
-    return false;
-  }
+  useEffect(() => {
+    return () => setCancelled(true);
+  }, []);
 
   // criar usuário
   const createUser = async (data: IUser) => {
-    if (checkIfIsCancelled()) return;
+    if (cancelled) return;
     setLoading(true);
     setError(null);
 
@@ -104,7 +97,7 @@ export const useAuthentication = () => {
 
   // login
   const login = async (data: ILogin) => {
-    if (checkIfIsCancelled()) return;
+    if (cancelled) return;
     setLoading(true);
     setError(null);
 
@@ -126,7 +119,7 @@ export const useAuthentication = () => {
 
   // logout
   const logout = () => {
-    if (checkIfIsCancelled()) return;
+    if (cancelled) return;
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");
   };

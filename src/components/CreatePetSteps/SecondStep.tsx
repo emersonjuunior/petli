@@ -10,7 +10,6 @@ interface Props {
   setUf: React.Dispatch<React.SetStateAction<string>>;
   contactMethod: string;
   setContactMethod: React.Dispatch<React.SetStateAction<string>>;
-  contact: string;
   setContact: React.Dispatch<React.SetStateAction<string>>;
   checked: boolean;
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,7 +38,6 @@ const SecondStep = ({
   setCity,
   uf,
   setUf,
-  contact,
   setContact,
   contactMethod,
   setContactMethod,

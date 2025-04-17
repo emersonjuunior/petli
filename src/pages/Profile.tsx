@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";

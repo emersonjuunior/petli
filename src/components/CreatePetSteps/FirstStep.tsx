@@ -17,7 +17,6 @@ interface Props {
   setSize: React.Dispatch<React.SetStateAction<string>>;
   imagePreview: string;
   setImagePreview: React.Dispatch<React.SetStateAction<string>>;
-  imageData: FormData | null;
   setImageData: React.Dispatch<React.SetStateAction<FormData | null>>;
 }
 
@@ -36,7 +35,6 @@ const FirstStep = ({
   setSize,
   imagePreview,
   setImagePreview,
-  imageData,
   setImageData,
 }: Props) => {
   const [timeValue, setTimeValue] = useState("");
