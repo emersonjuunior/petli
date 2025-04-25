@@ -231,7 +231,7 @@ const CreatePet = () => {
             className="h-[585px] flex flex-col items-center"
             aria-label="Pré-visualização do card do pet sendo cadastrado"
           >
-            <h3 className="text-2xl font-medium mb-4 border-b-1 border-accentBlue px-2">
+            <h3 className="text-2xl font-medium mb-4 border-b-1 border-[#ddd] px-3">
               Pré-Visualização
             </h3>
             <PetCard
@@ -242,6 +242,7 @@ const CreatePet = () => {
               age={age}
               gender={gender}
               size={size}
+              preview={true}
             />
           </aside>
         </section>

@@ -6,6 +6,8 @@ export interface IPetCard {
   age: string;
   gender: string;
   size: string;
+  preview?: boolean;
+  id?: string
 }
 
 export interface IPet {

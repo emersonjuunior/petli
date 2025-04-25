@@ -1,4 +1,5 @@
 import { IPetCard } from "../interfaces/Pet";
+import { Link } from "react-router-dom";
 
 const PetCard = ({
   name,
@@ -8,6 +9,8 @@ const PetCard = ({
   age,
   gender,
   size,
+  preview,
+  id,
 }: IPetCard) => {
   return (
     <div className="bg-[#292929] rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
@@ -24,10 +27,8 @@ const PetCard = ({
             src={image}
             alt={`Foto do Pet ${name}`}
             className="w-full min-h-[220px] max-h-[220px] rounded-lg shadow-md object-cover"
-            
           />
         )}
-
       </div>
       <h3
         id="pet-card-title"
@@ -72,12 +73,24 @@ const PetCard = ({
       </ul>
       <div className="bg-bgGray w-full max-w-[90%] h-[1px] mx-auto mb-4 group-hover:bg-[#404040]"></div>
       <div className="flex items-center justify-center">
-        <button className="pet-btn inline-block px-7 py-2 font-bold text-white border-3 border-accentBlue cursor-pointer relative overflow-hidden z-10 bg-transparent">
-          <span className="relative z-10 uppercase tracking-wider">
-            Ver mais
-          </span>
-          <span className="button-span absolute inset-0 bg-accentBlue transform -translate-x-full transition-all duration-300 z-0"></span>
-        </button>
+        <Link to={`/pet/${id}`}>
+          <button
+            className={`${
+              preview
+                ? "border-[#414141] cursor-not-allowed"
+                : "border-accentBlue cursor-pointer"
+            } pet-btn inline-block px-7 py-2 font-bold text-white border-3 relative overflow-hidden z-10 bg-transparent`}
+          >
+            <span className="relative z-10 uppercase tracking-wider">
+              Ver mais
+            </span>
+            <span
+              className={`${
+                preview ? "" : "absolute"
+              } button-span inset-0 bg-accentBlue transform -translate-x-full transition-all duration-300 z-0`}
+            ></span>
+          </button>
+        </Link>
       </div>
     </div>
   );

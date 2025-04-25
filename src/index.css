@@ -63,6 +63,12 @@ body {
   padding-bottom: 100px;
 }
 
+.active::after {
+  display: block;
+  background-color: #000;
+  content: ""
+}
+
 #pet-card-title {
   clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
 }

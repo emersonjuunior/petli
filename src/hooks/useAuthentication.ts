@@ -8,7 +8,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ILogin, IUser, IFirestoreUsername } from "../interfaces/User";
 import { User } from "firebase/auth";
 import { useUserContext } from "../context/UserContext";
@@ -19,16 +19,8 @@ export const useAuthentication = () => {
   const { setDisplayName, showSuccessNotification, setUsername } =
     useUserContext();
 
-  // lida com vazamento de memória
-  const [cancelled, setCancelled] = useState(false);
-
-  useEffect(() => {
-    return () => setCancelled(true);
-  }, []);
-
   // criar usuário
   const createUser = async (data: IUser) => {
-    if (cancelled) return;
     setLoading(true);
     setError(null);
 
@@ -97,7 +89,6 @@ export const useAuthentication = () => {
 
   // login
   const login = async (data: ILogin) => {
-    if (cancelled) return;
     setLoading(true);
     setError(null);
 
@@ -119,7 +110,6 @@ export const useAuthentication = () => {
 
   // logout
   const logout = () => {
-    if (cancelled) return;
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");
   };
