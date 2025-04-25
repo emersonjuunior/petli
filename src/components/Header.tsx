@@ -1,4 +1,3 @@
-import { useAuthentication } from "../hooks/useAuthentication";
 import { Link, NavLink } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 
