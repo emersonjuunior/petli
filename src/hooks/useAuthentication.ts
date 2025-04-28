@@ -41,6 +41,7 @@ export const useAuthentication = () => {
       );
       await updateProfile(user, {
         displayName: data.displayName,
+        photoURL: "/no-user.png",
       });
 
       // salva o usuário no banco de dados

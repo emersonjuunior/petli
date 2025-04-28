@@ -13,7 +13,7 @@ const PetCard = ({
   id,
 }: IPetCard) => {
   return (
-    <div className="bg-[#292929] rounded-md shadow-lg w-[310px] md:w-[360px] h-[500px] border-1 border-bgGray border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
+    <div className="bg-[#292929] rounded-md shadow-lg w-[310px] md:w-[360px] h-[450px] md:h-[500px] border-1 border-bgGray border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
       <div className="rounded-lg flex justify-center">
         {image === "" ? (
           <div className="min-h-[220px] flex items-center bg-[#272727] w-full justify-center">
@@ -26,7 +26,7 @@ const PetCard = ({
             loading="lazy"
             src={image}
             alt={`Foto do Pet ${name}`}
-            className="w-full min-h-[220px] max-h-[220px] rounded-lg shadow-md object-cover"
+            className="w-full min-h-[188px] max-h-[188px] md:min-h-[220px] md:max-h-[220px] rounded-lg shadow-md object-cover"
           />
         )}
       </div>
@@ -45,7 +45,7 @@ const PetCard = ({
         ></i>{" "}
         {name}
       </h3>
-      <ul className="flex flex-col gap-2 px-6 mb-5">
+      <ul className="flex flex-col gap-2 px-6 mb-4 md:mb-5">
         <li className="flex items-center min-h-[24px]">
           <i className="fa-solid fa-map-pin text-lg text-[#bebaba] min-w-[25px] group-hover:text-[#e4e3e3]"></i>{" "}
           <span className="truncate">{location}</span>
@@ -71,7 +71,7 @@ const PetCard = ({
           {size}
         </li>
       </ul>
-      <div className="bg-bgGray w-full max-w-[90%] h-[1px] mx-auto mb-4 group-hover:bg-[#404040]"></div>
+      <div className="bg-bgGray w-full max-w-[90%] h-[1px] mx-auto mb-3 md:mb-4 group-hover:bg-[#404040]"></div>
       <div className="flex items-center justify-center">
         <Link to={`/pet/${id}`}>
           <button
@@ -79,7 +79,7 @@ const PetCard = ({
               preview
                 ? "border-[#414141] cursor-not-allowed"
                 : "border-accentBlue cursor-pointer"
-            } pet-btn inline-block px-7 py-2 font-bold text-white border-3 relative overflow-hidden z-10 bg-transparent`}
+            } pet-btn inline-block px-7 py-[6px] md:py-2 font-bold text-white border-3 relative overflow-hidden z-10 bg-transparent`}
           >
             <span className="relative z-10 uppercase tracking-wider">
               Ver mais

@@ -1,18 +1,28 @@
 import { Link, NavLink } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
+import { useAuthentication } from "../hooks/useAuthentication";
+import { useState } from "react";
+import BurgerMenu from "./BurgerMenu";
+import Menu from "./Menu";
 
 const Header = () => {
-  const { user } = useUserContext();
+  const { user, userImage } = useUserContext();
+  const [menu, setMenu] = useState(false);
+  const { logout } = useAuthentication();
+
+  const toggleMenu = () => {
+    setMenu((prev) => !prev);
+  };
 
   return (
-    <header className="min-h-[50px] h-[8vh] bg-[#303030] opacity-95 mb-12 shadow-sm sticky top-0 z-50 border-b-[#404040] border-b-2">
+    <header className="min-h-[50px] h-[8vh] bg-[#303030] opacity-95 mb-12 shadow-sm sticky top-0 z-50 border-b-[#404040] border-b-2 px-2 md:px-4">
       <div className="w-full max-w-[1400px] mx-auto flex items-center justify-between h-full px-4">
         <div className="flex justify-center items-center">
           <Link to="/">
             <p className="font-serif text-5xl">petli</p>
           </Link>
         </div>
-        <nav>
+        <nav className="hidden lg:block whitespace-nowrap">
           <ul className="flex gap-20 justify-center items-center">
             <li>
               <NavLink
@@ -25,7 +35,7 @@ const Header = () => {
                   }`
                 }
               >
-                Home
+                Início
               </NavLink>
             </li>
             <li>
@@ -71,11 +81,11 @@ const Header = () => {
               </NavLink>
             </li>
             {user ? (
-              <li className="flex items-center justify-center">
+              <li className="flex items-center justify-center" onClick={logout}>
                 <img
-                  src="/no-user.png"
+                  src={userImage!}
                   alt="Foto de perfil do usuário"
-                  className="size-11"
+                  className="size-11 rounded-full"
                 />
               </li>
             ) : (
@@ -94,7 +104,20 @@ const Header = () => {
             )}
           </ul>
         </nav>
+        <div className="flex gap-4 items-center mr-1 lg:hidden">
+          {!user && (
+            <Link to="/cadastro">
+              <button className="px-3 py-2 font-medium bg-primaryRed rounded-lg hover:bg-rose-700 duration-200 cursor-pointer">
+                Cadastrar-se
+              </button>
+            </Link>
+          )}
+          <menu>
+            <BurgerMenu toggleMenu={toggleMenu} menu={menu} />
+          </menu>
+        </div>
       </div>
+      {menu && <Menu toggleMenu={toggleMenu} />}
     </header>
   );
 };

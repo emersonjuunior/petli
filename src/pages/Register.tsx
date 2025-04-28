@@ -78,7 +78,7 @@ const Register = () => {
         />
       </Helmet>
       <main className="w-full px-3 sm:px-6 md:px-20 lg:px-6">
-        <div className="w-full max-w-6xl h-[650px] sm:h-[700px] mx-auto flex">
+        <div className="w-full max-w-6xl md:h-[650px] sm:h-[700px] mx-auto flex">
           <section className="hidden lg:block flex-1 bg-accentBlue rounded-tl-2xl rounded-bl-2xl relative">
             <div className="flex flex-col items-center justify-center h-full py-4 px-5 text-stone-900">
               <h2 className="font-medium text-2xl text-center mb-2">
@@ -96,7 +96,7 @@ const Register = () => {
             </div>
             <div className="bg-accentBlue absolute w-[200px] h-full right-[-200px] top-0"></div>
           </section>
-          <section className="flex-[1.4] bg-bgGray rounded-2xl z-10">
+          <section className="flex-[1.4] bg-bgGray rounded-2xl z-10 py-10 md:py-0">
             <div className="w-full h-full max-w-lg md:max-w-xl lg:max-w-md px-4 mx-auto flex flex-col items-center justify-center">
               <form
                 onSubmit={handleRegister}

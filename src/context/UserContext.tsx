@@ -17,6 +17,8 @@ interface IUserContext {
   loading: boolean;
   displayName: string | null;
   setDisplayName: (name: string | null) => void;
+  userImage: string | null;
+  setUserImage: (name: string | null) => void;
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
@@ -31,6 +33,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(null);
+  const [userImage, setUserImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [successNotification, setSuccessNotification] =
@@ -51,6 +54,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     setDisplayName(user ? user.displayName : null);
+    setUserImage(user ? user.photoURL : null);
   }, [user]);
 
   const fetchUsername = async (uid: string) => {
@@ -62,7 +66,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
         setUsername(doc.id); // Agora atualiza o contexto diretamente
-      } 
+      }
     } catch (error) {
       console.error("Erro ao buscar username:", error);
     }
@@ -86,6 +90,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         loading,
         displayName,
         setDisplayName,
+        userImage,
+        setUserImage,
         successMsg,
         setSuccessMsg,
         successNotification,
