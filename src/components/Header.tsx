@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { useAuthentication } from "../hooks/useAuthentication";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import BurgerMenu from "./BurgerMenu";
 import Menu from "./Menu";
 
@@ -9,13 +9,14 @@ const Header = () => {
   const { user, userImage } = useUserContext();
   const [menu, setMenu] = useState(false);
   const { logout } = useAuthentication();
+  const headerRef = useRef<HTMLElement>(null);
 
   const toggleMenu = () => {
     setMenu((prev) => !prev);
   };
 
   return (
-    <header className="min-h-[50px] h-[8vh] bg-[#303030] opacity-95 mb-12 shadow-sm sticky top-0 z-50 border-b-[#404040] border-b-2 px-2 md:px-4">
+    <header ref={headerRef} className="min-h-[50px] h-[8vh] bg-[#303030] opacity-95 mb-12 shadow-sm sticky top-0 z-50 border-b-[#404040] border-b-2 px-2 md:px-4">
       <div className="w-full max-w-[1400px] mx-auto flex items-center justify-between h-full px-4">
         <div className="flex justify-center items-center">
           <Link to="/">
@@ -23,8 +24,8 @@ const Header = () => {
           </Link>
         </div>
         <nav className="hidden lg:block whitespace-nowrap">
-          <ul className="flex gap-20 justify-center items-center">
-            <li>
+          <ul className="header-ul flex gap-20 justify-center items-center">
+            <li className="animate-slideDown">
               <NavLink
                 to="/"
                 className={({ isActive }) =>
@@ -38,7 +39,7 @@ const Header = () => {
                 Início
               </NavLink>
             </li>
-            <li>
+            <li className="animate-slideDown">
               <NavLink
                 to="/sobre"
                 className={({ isActive }) =>
@@ -52,7 +53,7 @@ const Header = () => {
                 Sobre
               </NavLink>
             </li>
-            <li>
+            <li className="animate-slideDown">
               <NavLink
                 to="/quero-adotar"
                 className={({ isActive }) =>
@@ -66,7 +67,7 @@ const Header = () => {
                 Quero adotar
               </NavLink>
             </li>
-            <li>
+            <li className="animate-slideDown">
               <NavLink
                 to="/novo-pet"
                 className={({ isActive }) =>
@@ -81,7 +82,10 @@ const Header = () => {
               </NavLink>
             </li>
             {user ? (
-              <li className="flex items-center justify-center" onClick={logout}>
+              <li
+                className="flex items-center justify-center animate-slideDown"
+                onClick={logout}
+              >
                 <img
                   src={userImage!}
                   alt="Foto de perfil do usuário"
@@ -89,7 +93,7 @@ const Header = () => {
                 />
               </li>
             ) : (
-              <li>
+              <li className="animate-slideDown">
                 <div className="flex justify-center items-center gap-5">
                   <Link to="/login">
                     <button className="text-lg cursor-pointer">Entrar</button>
@@ -117,7 +121,7 @@ const Header = () => {
           </menu>
         </div>
       </div>
-      {menu && <Menu toggleMenu={toggleMenu} />}
+      {menu && <Menu toggleMenu={toggleMenu} headerRef={headerRef} />}
     </header>
   );
 };

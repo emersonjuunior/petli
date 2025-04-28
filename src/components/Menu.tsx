@@ -1,22 +1,27 @@
 import { useUserContext } from "../context/UserContext";
 import { useAuthentication } from "../hooks/useAuthentication";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useRef, useEffect } from "react";
 
 interface Props {
   toggleMenu: () => void;
+  headerRef: React.RefObject<HTMLElement | null>; 
 }
 
-const Menu = ({ toggleMenu }: Props) => {
+const Menu = ({ toggleMenu, headerRef }: Props) => {
   const { user, userImage, displayName, username } = useUserContext();
   const { logout } = useAuthentication();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // permite fechar o modal se clicar em qualquer lugar fora da imagem
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        headerRef.current &&
+        !headerRef.current.contains(event.target as Node)
+      ) {
         toggleMenu();
       }
     };
@@ -25,12 +30,12 @@ const Menu = ({ toggleMenu }: Props) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [toggleMenu]);
+  }, [toggleMenu, headerRef]);
 
   return (
     <nav
       ref={menuRef}
-      className="absolute z-30 right-0 top-[8vh] min-h-[92vh] w-full max-w-[400px] bg-[#303030] border-[#404040] border-1 border-t-0 text-xl lg:hidden"
+      className="absolute z-30 right-0 top-[8vh] min-h-[92vh] w-full max-w-[420px] bg-[#303030] border-[#404040] border-1 border-t-0 text-xl lg:hidden"
     >
       {user && (
         <>
@@ -40,18 +45,51 @@ const Menu = ({ toggleMenu }: Props) => {
               alt={`Foto de Perfil do Usuário ${displayName}`}
               className="size-13 rounded-full"
             />
-            <p className="font-medium">Olá, {displayName}</p>
+            <p className="font-medium">Olá, {username}</p>
           </div>
           <hr className="text-[#474747] my-5" />
           <ul className="flex flex-col items-center justify-center gap-5">
             <li onClick={toggleMenu}>
-              <Link to={`/${username}`}>Meu Perfil</Link>
+              <NavLink
+                to={`/${username}`}
+                className={({ isActive }) =>
+                  `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
+                    isActive
+                      ? "after:w-full after:bg-secondaryYellow"
+                      : "after:w-0 hover:after:w-full"
+                  }`
+                }
+              >
+                Meu Perfil
+              </NavLink>
             </li>
             <li onClick={toggleMenu}>
-              <Link to={"/minhas-adocoes}"}>Minhas adoções</Link>
+              <NavLink
+                to="/minhas-adocoes"
+                className={({ isActive }) =>
+                  `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
+                    isActive
+                      ? "after:w-full after:bg-secondaryYellow"
+                      : "after:w-0 hover:after:w-full"
+                  }`
+                }
+              >
+                Minhas adoções
+              </NavLink>
             </li>
             <li onClick={toggleMenu}>
-              <Link to={"/minhas-doacoes"}>Minhas doações</Link>
+              <NavLink
+                to="/minhas-doacoes"
+                className={({ isActive }) =>
+                  `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
+                    isActive
+                      ? "after:w-full after:bg-secondaryYellow"
+                      : "after:w-0 hover:after:w-full"
+                  }`
+                }
+              >
+                Minhas doações
+              </NavLink>
             </li>
           </ul>
           <hr className="text-[#474747] mt-5" />
@@ -59,16 +97,60 @@ const Menu = ({ toggleMenu }: Props) => {
       )}
       <ul className="mt-5 flex flex-col items-center justify-center gap-5">
         <li onClick={toggleMenu}>
-          <NavLink to="/">Início</NavLink>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
+                isActive
+                  ? "after:w-full after:bg-secondaryYellow"
+                  : "after:w-0 hover:after:w-full"
+              }`
+            }
+          >
+            Início
+          </NavLink>
         </li>
         <li onClick={toggleMenu}>
-          <NavLink to="/sobre">Sobre</NavLink>
+          <NavLink
+            to="/sobre"
+            className={({ isActive }) =>
+              `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
+                isActive
+                  ? "after:w-full after:bg-secondaryYellow"
+                  : "after:w-0 hover:after:w-full"
+              }`
+            }
+          >
+            Sobre
+          </NavLink>
         </li>
         <li onClick={toggleMenu}>
-          <NavLink to="/quero-adotar">Quero adotar</NavLink>
+          <NavLink
+            to="/quero-adotar"
+            className={({ isActive }) =>
+              `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
+                isActive
+                  ? "after:w-full after:bg-secondaryYellow"
+                  : "after:w-0 hover:after:w-full"
+              }`
+            }
+          >
+            Quero adotar
+          </NavLink>
         </li>
         <li onClick={toggleMenu}>
-          <NavLink to="/quero-doar">Quero doar</NavLink>
+          <NavLink
+            to="/quero-doar"
+            className={({ isActive }) =>
+              `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
+                isActive
+                  ? "after:w-full after:bg-secondaryYellow"
+                  : "after:w-0 hover:after:w-full"
+              }`
+            }
+          >
+            Quero doar
+          </NavLink>
         </li>
       </ul>
       {user && (
