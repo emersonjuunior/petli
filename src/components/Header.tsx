@@ -1,22 +1,29 @@
 import { Link, NavLink } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
-import { useAuthentication } from "../hooks/useAuthentication";
 import { useState, useRef } from "react";
 import BurgerMenu from "./BurgerMenu";
 import Menu from "./Menu";
+import ProfileMenu from "./ProfileMenu";
 
 const Header = () => {
   const { user, userImage } = useUserContext();
   const [menu, setMenu] = useState(false);
-  const { logout } = useAuthentication();
+  const [profileMenu, setProfileMenu] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   const toggleMenu = () => {
     setMenu((prev) => !prev);
   };
 
+  const toggleProfileMenu = () => {
+    setProfileMenu((prev) => !prev);
+  };
+
   return (
-    <header ref={headerRef} className="min-h-[50px] h-[8vh] bg-[#303030] opacity-95 mb-12 shadow-sm sticky top-0 z-50 border-b-[#404040] border-b-2 px-2 md:px-4">
+    <header
+      ref={headerRef}
+      className="min-h-[50px] h-[8vh] bg-[#303030] opacity-95 mb-12 shadow-sm sticky top-0 z-50 border-b-[#404040] border-b-2 px-2 md:px-4"
+    >
       <div className="w-full max-w-[1400px] mx-auto flex items-center justify-between h-full px-4">
         <div className="flex justify-center items-center">
           <Link to="/">
@@ -82,15 +89,19 @@ const Header = () => {
               </NavLink>
             </li>
             {user ? (
-              <li
-                className="flex items-center justify-center animate-slideDown"
-                onClick={logout}
-              >
+              <li className="flex items-center justify-center animate-slideDown relative">
                 <img
                   src={userImage!}
                   alt="Foto de perfil do usuário"
-                  className="size-11 rounded-full"
+                  className="size-11 rounded-full cursor-pointer"
+                  onClick={toggleProfileMenu}
                 />
+                {profileMenu && (
+                  <ProfileMenu
+                    headerRef={headerRef}
+                    toggleProfileMenu={toggleProfileMenu}
+                  />
+                )}
               </li>
             ) : (
               <li className="animate-slideDown">

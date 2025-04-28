@@ -97,7 +97,7 @@ body {
   transform: translateX(100%);
 }
 
-.header-ul li {
+.header-ul > li {
   opacity: 0;
 }
 
@@ -119,4 +119,10 @@ body {
 
 .header-ul li:nth-child(5) {
   animation-delay: 0.8s;
+}
+
+@media screen and (max-height: 600px) {
+  .nav-menu {
+    top: 50px;
+  }
 }

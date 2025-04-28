@@ -14,6 +14,7 @@ const Menu = ({ toggleMenu, headerRef }: Props) => {
 
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // fecha o menu ao clicar em qualquer lugar fora dele e do header
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -35,7 +36,7 @@ const Menu = ({ toggleMenu, headerRef }: Props) => {
   return (
     <nav
       ref={menuRef}
-      className="absolute z-30 right-0 top-[8vh] min-h-[92vh] w-full max-w-[420px] bg-[#303030] border-[#404040] border-1 border-t-0 text-xl lg:hidden"
+      className="nav-menu absolute z-30 right-0 top-[8vh] min-h-[92vh] w-full max-w-[420px] bg-[#303030] border-[#404040] border-1 border-t-0 text-xl lg:hidden"
     >
       {user && (
         <>
