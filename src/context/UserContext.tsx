@@ -62,7 +62,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       const usernamesRef = collection(db, "usernames");
       const q = query(usernamesRef, where("uid", "==", uid));
       const querySnapshot = await getDocs(q);
-      console.log(querySnapshot);
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
         setUsername(doc.id);

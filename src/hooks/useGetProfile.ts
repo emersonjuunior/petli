@@ -33,14 +33,12 @@ export const useGetProfile = (
         
         if (currentUsername === profileUsername) {
           setUser({ username: currentUsername, userImage, displayName });
-          console.log("Não realizou a requisição.");
           setLoading(false);
           return { user, loading };
         }
 
         const ref = doc(db, col, profileUsername);
         const snapshot = await getDoc(ref);
-        console.log("Realizou a requisição.");
 
         if (snapshot.exists()) {
           const userData = snapshot.data();

@@ -52,6 +52,7 @@ export const useAuthentication = () => {
         uid: user.uid,
         username: data.username,
         userImage: "/no-user.webp",
+        memberSince: getDate(),
       });
 
       setDisplayName(data.displayName);
@@ -150,6 +151,7 @@ export const useAuthentication = () => {
         uid: user.uid,
         username: data.username,
         userImage: user.photoURL,
+        memberSince: getDate(),
       });
 
       setUsername(data.username);
@@ -174,6 +176,14 @@ export const useAuthentication = () => {
         setError("Algo deu errado, tente novamente mais tarde.");
       });
   };
+
+  // pega a data de criação da conta
+  function getDate() {
+    const now = new Date();
+    const month = now.toLocaleString("default", { month: "long" });
+    const year = now.getFullYear();
+    return `${month} de ${year}`;
+  }
 
   return {
     createUser,
