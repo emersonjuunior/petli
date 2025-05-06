@@ -220,7 +220,7 @@ const PetProfile = () => {
         {viewImage && (
           <ViewImage
             image={imageUrl}
-            petName={pet.name}
+            name={pet.name}
             setViewImage={setViewImage}
           />
         )}

@@ -54,14 +54,14 @@ const ProfileMenu = ({ toggleProfileMenu, headerRef }: Props) => {
       <hr className="text-[#474747] my-5" />
       <ul className="flex flex-col items-center justify-center gap-5">
         <li onClick={toggleProfileMenu}>
-          <NavLink to={`/${username}`} className="tracking-wider">
+          <NavLink to={`/${username}`} className="tracking-wider hover:text-gray-300 duration-200">
             Meu Perfil
           </NavLink>
         </li>
         <li onClick={toggleProfileMenu}>
           <NavLink
             to="/minhas-adocoes"
-            className="tracking-wider"
+            className="tracking-wider hover:text-gray-300 duration-200"
           >
             Minhas adoções
           </NavLink>
@@ -69,7 +69,7 @@ const ProfileMenu = ({ toggleProfileMenu, headerRef }: Props) => {
         <li onClick={toggleProfileMenu}>
           <NavLink
             to="/minhas-doacoes"
-            className="tracking-wider"
+            className="tracking-wider hover:text-gray-300 duration-200"
           >
             Minhas doações
           </NavLink>

@@ -42,11 +42,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
 
       if (currentUser) {
         await fetchUsername(currentUser.uid);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -62,10 +62,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       const usernamesRef = collection(db, "usernames");
       const q = query(usernamesRef, where("uid", "==", uid));
       const querySnapshot = await getDocs(q);
-
+      console.log(querySnapshot);
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
-        setUsername(doc.id); // Agora atualiza o contexto diretamente
+        setUsername(doc.id);
       }
     } catch (error) {
       console.error("Erro ao buscar username:", error);
@@ -103,6 +103,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
+// hook para consumir o contexto
 export const useUserContext = (): IUserContext => {
   const context = useContext(UserContext);
 

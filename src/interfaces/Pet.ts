@@ -38,6 +38,8 @@ export interface IPet {
 
   owner: string;
   date: string;
+
+  status: string
 }
 
 export interface IPetImage {

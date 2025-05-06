@@ -100,6 +100,8 @@ const CreatePet = () => {
 
       owner: username!,
       date: brazilianDate,
+
+      status: "disponivel",
     };
 
     await createPet(newPet);

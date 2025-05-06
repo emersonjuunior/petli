@@ -33,7 +33,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cadastro" element={user ? <Home /> : <Register />} />
         <Route path="/login" element={user ? <Home /> : <Login />} />
-        <Route path="/:username" element={<Profile />} />
+        <Route path="/:usernameId" element={<Profile />} />
         <Route path="/novo-pet" element={user ? <CreatePet /> : <Home />} />
         <Route path="/pet/:petId" element={<PetProfile />} />
       </Routes>

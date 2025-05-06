@@ -12,12 +12,14 @@ import { useState } from "react";
 import { ILogin, IUser, IFirestoreUsername } from "../interfaces/User";
 import { User } from "firebase/auth";
 import { useUserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
-  const { setDisplayName, showSuccessNotification, setUsername } =
+  const { setDisplayName, showSuccessNotification, setUsername, setUserImage } =
     useUserContext();
+  const navigate = useNavigate();
 
   // criar usuário
   const createUser = async (data: IUser) => {
@@ -41,22 +43,26 @@ export const useAuthentication = () => {
       );
       await updateProfile(user, {
         displayName: data.displayName,
-        photoURL: "/no-user.png",
+        photoURL: "/no-user.webp",
       });
 
       // salva o usuário no banco de dados
       await setDoc(usernameRef, {
-        uid: user.uid,
         displayName: user.displayName,
+        uid: user.uid,
         username: data.username,
+        userImage: "/no-user.webp",
       });
 
       setDisplayName(data.displayName);
+      setUsername(data.username);
+      setUserImage("/no-user.webp");
 
       showSuccessNotification("Conta criada com sucesso! 🐾");
     } catch (error: any) {
       if (error.message.includes("email-already")) {
         setError("Esse usuário já existe.");
+        console.log(error);
       } else {
         setError("Algo deu errado, tente novamente mais tarde.");
       }
@@ -111,8 +117,12 @@ export const useAuthentication = () => {
 
   // logout
   const logout = () => {
+    setUsername("");
+    setDisplayName("");
+    setUserImage("");
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");
+    navigate("/");
   };
 
   // definir nome de usuário no firestore
@@ -136,9 +146,10 @@ export const useAuthentication = () => {
 
       // salva o usuário no banco de dados
       await setDoc(usernameRef, {
-        uid: user.uid,
         displayName: user.displayName,
+        uid: user.uid,
         username: data.username,
+        userImage: user.photoURL,
       });
 
       setUsername(data.username);

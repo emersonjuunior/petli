@@ -2,26 +2,45 @@ import { useState, useEffect } from "react";
 import { db } from "../firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { IPet } from "../interfaces/Pet";
+import { useUserContext } from "../context/UserContext";
 
 interface IUsername {
-  username: string;
-  uid: string;
-  displayName: string;
+  username: string | null;
+  uid?: string;
+  displayName: string | null;
+  userImage: string | null;
 }
 
 // pega o nome do usuário ou pet através dos parametros da url e busca no firestore
-export const useGetProfile = (col: string, username: string) => {
+export const useGetProfile = (
+  col: string,
+  profileUsername: string,
+) => {
   const [user, setUser] = useState<IUsername | null>(null);
   const [pet, setPet] = useState<IPet | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const {
+    username: currentUsername,
+    userImage,
+    displayName,
+  } = useUserContext();
 
   useEffect(() => {
     const getUserDocument = async () => {
       setLoading(true);
       try {
-        const ref = doc(db, col, username);
+        
+        if (currentUsername === profileUsername) {
+          setUser({ username: currentUsername, userImage, displayName });
+          console.log("Não realizou a requisição.");
+          setLoading(false);
+          return { user, loading };
+        }
+
+        const ref = doc(db, col, profileUsername);
         const snapshot = await getDoc(ref);
+        console.log("Realizou a requisição.");
 
         if (snapshot.exists()) {
           const userData = snapshot.data();
@@ -39,10 +58,10 @@ export const useGetProfile = (col: string, username: string) => {
       }
     };
 
-    if (username) {
+    if (profileUsername) {
       getUserDocument();
     }
-  }, [col, username]);
+  }, [col, profileUsername]);
 
   return { user, pet, loading, error };
 };

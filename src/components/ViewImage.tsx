@@ -2,11 +2,11 @@ import { useRef, useEffect } from "react";
 
 interface Props {
   image: string;
-  petName: string;
+  name: string;
   setViewImage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ViewImage = ({ image, petName, setViewImage }: Props) => {
+const ViewImage = ({ image, name, setViewImage }: Props) => {
   const modalContentRef = useRef<HTMLDivElement>(null);
 
   // permite fechar o modal se clicar em qualquer lugar fora da imagem
@@ -34,7 +34,7 @@ const ViewImage = ({ image, petName, setViewImage }: Props) => {
       >
         <img
           src={image}
-          alt={`Imagem do pet ${petName}`}
+          alt={`Imagem do pet ${name}`}
           className="object-cover rounded-xl"
         />
         <div
