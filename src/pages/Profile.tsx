@@ -3,7 +3,10 @@ import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
+import Lottie from "lottie-react";
+import noAvailablePets from "../assets/no-available-pets.json";
 import PetCard from "../components/PetCard";
+import PetSummary from "../components/PetSummary";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -26,7 +29,6 @@ const Profile = () => {
   if (userProfile === null) {
     return <Navigate to="*" />;
   }
-
 
   return (
     <>
@@ -137,6 +139,66 @@ const Profile = () => {
               </Swiper>
             </div>
             <hr className="text-[#424242]" />
+            <div className="flex flex-col gap-3 mb-4 w-full swiper-min">
+              <h2 className="text-2xl font-medium mb-3">Adotados</h2>
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={50}
+                slidesPerView={1}
+              >
+                <SwiperSlide>
+                  <div className="h-full flex justify-center items-center">
+                    <PetSummary
+                      name="Jason"
+                      image="/jason.jpg"
+                      date="07/05/2025"
+                    />
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="h-full flex justify-center items-center">
+                    <PetSummary
+                      name="Jason"
+                      image="/jason.jpg"
+                      date="07/05/2025"
+                    />
+                  </div>
+                </SwiperSlide>
+              </Swiper>
+            </div>
+            <hr className="text-[#424242]" />
+            <div className="flex flex-col gap-3 mb-4 w-full swiper-min">
+              <h2 className="text-2xl font-medium mb-3">Doados</h2>
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={50}
+                slidesPerView={1}
+              >
+                <SwiperSlide>
+                  <div className="h-full flex justify-center items-center">
+                    <PetSummary
+                      name="Jason"
+                      image="/jason.jpg"
+                      date="07/05/2025"
+                    />
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="h-full flex justify-center items-center">
+                    <PetSummary
+                      name="Jason"
+                      image="/jason.jpg"
+                      date="07/05/2025"
+                    />
+                  </div>
+                </SwiperSlide>
+              </Swiper>
+              <Lottie animationData={noAvailablePets} />
+            </div>
           </section>
         </div>
       </main>

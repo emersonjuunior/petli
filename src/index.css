@@ -89,6 +89,10 @@ body {
   content: "";
 }
 
+.swiper-min > .swiper {
+  height: 400px;
+}
+
 .swiper {
   width: 100%;
   max-width: 800px;
