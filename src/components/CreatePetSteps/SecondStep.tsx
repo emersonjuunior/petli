@@ -207,6 +207,7 @@ const SecondStep = ({
                     value={email}
                     onChange={(e) => handleEmailChange(e.target.value)}
                     className="border-b-2 border-gray-400 w-full h-[34px] px-2"
+                    maxLength={70}
                     required
                   />
                 ) : (

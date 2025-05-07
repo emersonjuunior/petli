@@ -84,14 +84,13 @@ const CreatePet = () => {
 
       state: uf,
       city,
-      contactMethod,
       contact,
-      approved: checked,
+      allowContact: checked,
 
-      ...(vaccinated !== "" && { vaccinated }),
+      ...(vaccinated !== "Nenhuma por enquanto." && { vaccinated }),
       ...(neutered === true && { neutered }),
       ...(dewormed === true && { dewormed }),
-      ...(specialCare !== "" && { specialCare }),
+      ...(specialCare !== "Não necessita." && { specialCare }),
 
       ...(goodWithOtherAnimals === true && { goodWithOtherAnimals }),
       ...(goodWithChildren === true && { goodWithChildren }),
@@ -100,8 +99,6 @@ const CreatePet = () => {
 
       owner: username!,
       date: brazilianDate,
-
-      status: "disponivel",
     };
 
     await createPet(newPet);

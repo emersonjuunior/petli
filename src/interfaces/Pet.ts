@@ -7,7 +7,7 @@ export interface IPetCard {
   gender: string;
   size: string;
   preview?: boolean;
-  id?: string
+  id?: string;
 }
 
 export interface IPet {
@@ -22,9 +22,8 @@ export interface IPet {
 
   state: string;
   city: string;
-  contactMethod: string;
   contact: string;
-  approved: boolean;
+  allowContact: boolean;
 
   vaccinated?: string;
   neutered?: boolean;
@@ -38,8 +37,6 @@ export interface IPet {
 
   owner: string;
   date: string;
-
-  status: string
 }
 
 export interface IPetImage {

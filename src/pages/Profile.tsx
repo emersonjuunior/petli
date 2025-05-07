@@ -27,7 +27,6 @@ const Profile = () => {
     return <Navigate to="*" />;
   }
 
- 
 
   return (
     <>

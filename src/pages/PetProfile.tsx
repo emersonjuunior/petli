@@ -121,13 +121,13 @@ const PetProfile = () => {
                   <h3 className="text-lg font-medium">
                     O bichinho já tomou alguma vacina?
                   </h3>
-                  <p className="break-words font-light">{pet.vaccinated}</p>
+                  <p className="break-words font-light">{pet.vaccinated ? pet.vaccinated : "Nenhuma por enquanto."}</p>
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col gap-1">
                   <h3 className="text-lg font-medium">
                     Necessita de cuidados especiais?
                   </h3>
-                  <p className="break-words font-light">{pet.specialCare}</p>
+                  <p className="break-words font-light">{pet.specialCare ? pet.specialCare : "Não necessita."}</p>
                 </div>
               </div>
               <div className="flex gap-2">
