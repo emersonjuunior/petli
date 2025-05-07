@@ -3,6 +3,12 @@ import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
+import PetCard from "../components/PetCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const Profile = () => {
   const { usernameId } = useParams();
@@ -21,9 +27,7 @@ const Profile = () => {
     return <Navigate to="*" />;
   }
 
-  console.log(username);
-
-  console.log(userProfile);
+ 
 
   return (
     <>
@@ -59,7 +63,7 @@ const Profile = () => {
               <p>
                 <i className="fa-solid fa-users text-[#bebaba] mr-1" /> Membro
                 desde{""}
-                <span className="font-medium"> dezembro de 2025</span>
+                <span className="font-medium"> {userProfile.memberSince}</span>
               </p>
             </div>
             <div>
@@ -94,10 +98,46 @@ const Profile = () => {
               </p>
             </div>
             <hr className="text-[#424242]" />
-            <div className="flex flex-col gap-3 mb-4">
-              <h2 className="text-2xl font-medium">Disponíveis pra adoção</h2>
-           
+            <div className="flex flex-col gap-3 mb-4 w-full">
+              <h2 className="text-2xl font-medium mb-3">
+                Disponíveis pra adoção
+              </h2>
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={50}
+                slidesPerView={1}
+              >
+                <SwiperSlide>
+                  {" "}
+                  <PetCard
+                    name={"jason"}
+                    species={"Gato"}
+                    image={"/jason.jpg"}
+                    location={"Ipanema, MG"}
+                    age={"3 anos"}
+                    gender={"Macho"}
+                    size={"Pequeno"}
+                    id={"emerson-jr-yVVr"}
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  {" "}
+                  <PetCard
+                    name={"jason"}
+                    species={"Gato"}
+                    image={"/jason.jpg"}
+                    location={"Ipanema, MG"}
+                    age={"3 anos"}
+                    gender={"Macho"}
+                    size={"Pequeno"}
+                    id={"emerson-jr-yVVr"}
+                  />
+                </SwiperSlide>
+              </Swiper>
             </div>
+            <hr className="text-[#424242]" />
           </section>
         </div>
       </main>

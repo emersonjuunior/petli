@@ -89,6 +89,21 @@ body {
   content: "";
 }
 
+.swiper {
+  width: 100%;
+  max-width: 800px;
+  height: 550px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #f6a93b !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #f6a93b !important;
+}
+
 #pet-card-title {
   clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
 }

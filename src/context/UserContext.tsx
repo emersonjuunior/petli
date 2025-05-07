@@ -19,6 +19,8 @@ interface IUserContext {
   setDisplayName: (name: string | null) => void;
   userImage: string | null;
   setUserImage: (name: string | null) => void;
+  memberSince: string | null;
+  setMemberSince: (name: string | null) => void;
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
@@ -34,6 +36,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [username, setUsername] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [userImage, setUserImage] = useState<string | null>(null);
+  const [memberSince, setMemberSince] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [successNotification, setSuccessNotification] =
@@ -65,6 +68,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
         setUsername(doc.id);
+        setMemberSince(doc.data().memberSince);
       }
     } catch (error) {
       console.error("Erro ao buscar username:", error);
@@ -91,6 +95,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setDisplayName,
         userImage,
         setUserImage,
+        memberSince,
+        setMemberSince,
         successMsg,
         setSuccessMsg,
         successNotification,

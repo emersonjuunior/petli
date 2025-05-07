@@ -9,13 +9,11 @@ interface IUsername {
   uid?: string;
   displayName: string | null;
   userImage: string | null;
+  memberSince: string | null;
 }
 
 // pega o nome do usuário ou pet através dos parametros da url e busca no firestore
-export const useGetProfile = (
-  col: string,
-  profileUsername: string,
-) => {
+export const useGetProfile = (col: string, profileUsername: string) => {
   const [user, setUser] = useState<IUsername | null>(null);
   const [pet, setPet] = useState<IPet | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,15 +22,15 @@ export const useGetProfile = (
     username: currentUsername,
     userImage,
     displayName,
+    memberSince
   } = useUserContext();
 
   useEffect(() => {
     const getUserDocument = async () => {
       setLoading(true);
       try {
-        
         if (currentUsername === profileUsername) {
-          setUser({ username: currentUsername, userImage, displayName });
+          setUser({ username: currentUsername, userImage, displayName, memberSince });
           setLoading(false);
           return { user, loading };
         }
