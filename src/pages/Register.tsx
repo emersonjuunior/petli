@@ -133,7 +133,7 @@ const Register = () => {
                 <label>
                   <input
                     type="text"
-                    placeholder="Nome"
+                    placeholder="Nome completo"
                     required
                     onChange={(e) => setName(e.target.value)}
                     value={name}

@@ -9,7 +9,8 @@ const CreateUsernameModal = () => {
   const [username, setUsername] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const { setFirestoreUsername, error, setError, loading } = useAuthentication();
+  const { setFirestoreUsername, error, setError, loading } =
+    useAuthentication();
 
   const handleChange = (text: string) => {
     const filteredValue = text.replace(/[^a-zA-Z0-9_]/g, "");
@@ -41,14 +42,14 @@ const CreateUsernameModal = () => {
             </h2>
             <p className="text-lg">
               Antes de prosseguir, por favor escreva seu{" "}
-              <span className="text-accentBlue">nome</span> e seu{" "}
+              <span className="text-accentBlue">nome completo</span> e seu{" "}
               <span className="text-accentBlue">nome de usuário</span>.
             </p>
           </div>
           <label>
             <input
               type="text"
-              placeholder="Nome"
+              placeholder="Nome completo"
               required
               onChange={(e) => setName(e.target.value)}
               value={name}
@@ -84,9 +85,13 @@ const CreateUsernameModal = () => {
           {error && <Error error={error} setError={setError} />}
           <button
             type="submit"
-            className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-[#1852f2] shadow-md ${loading ? "cursor-not-allowe opacity-90 bg-[#1852f2]" : "bg-[#1877F2] cursor-pointer"}`}
+            className={`text-lg font-medium py-2 rounded-lg duration-200 hover:bg-[#1852f2] shadow-md ${
+              loading
+                ? "cursor-not-allowe opacity-90 bg-[#1852f2]"
+                : "bg-[#1877F2] cursor-pointer"
+            }`}
           >
-           {loading ? "Aguarde..." : "Enviar"}
+            {loading ? "Aguarde..." : "Enviar"}
           </button>
         </form>
       </div>

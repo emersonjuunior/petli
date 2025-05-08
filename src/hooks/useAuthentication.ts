@@ -17,8 +17,13 @@ import { useNavigate } from "react-router-dom";
 export const useAuthentication = () => {
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState<null | boolean>(null);
-  const { setDisplayName, showSuccessNotification, setUsername, setUserImage } =
-    useUserContext();
+  const {
+    setDisplayName,
+    showSuccessNotification,
+    setUsername,
+    setUserImage,
+    setMemberSince,
+  } = useUserContext();
   const navigate = useNavigate();
 
   // criar usuário
@@ -30,6 +35,7 @@ export const useAuthentication = () => {
       // verifica se o nome de usuário já existe no firestore
       const usernameRef = doc(db, "usernames", data.username);
       const usernameSnapshot = await getDoc(usernameRef);
+      const memberSinceDate = getDate();
 
       if (usernameSnapshot.exists()) {
         setError("Esse nome de usuário já está em uso.");
@@ -52,12 +58,13 @@ export const useAuthentication = () => {
         uid: user.uid,
         username: data.username,
         userImage: "/no-user.webp",
-        memberSince: getDate(),
+        memberSince: memberSinceDate,
       });
 
       setDisplayName(data.displayName);
       setUsername(data.username);
       setUserImage("/no-user.webp");
+      setMemberSince(memberSinceDate);
 
       showSuccessNotification("Conta criada com sucesso! 🐾");
     } catch (error: any) {
@@ -118,9 +125,9 @@ export const useAuthentication = () => {
 
   // logout
   const logout = () => {
-    setUsername("");
-    setDisplayName("");
-    setUserImage("");
+    setUsername(null);
+    setDisplayName(null);
+    setUserImage(null);
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");
     navigate("/");
@@ -135,6 +142,7 @@ export const useAuthentication = () => {
       // verifica se o nome de usuário já existe no firestore
       const usernameRef = doc(db, "usernames", data.username);
       const usernameSnapshot = await getDoc(usernameRef);
+      const memberSinceDate = getDate();
 
       if (usernameSnapshot.exists()) {
         setError("Esse nome de usuário já está em uso.");
@@ -151,11 +159,12 @@ export const useAuthentication = () => {
         uid: user.uid,
         username: data.username,
         userImage: user.photoURL,
-        memberSince: getDate(),
+        memberSince: memberSinceDate,
       });
 
       setUsername(data.username);
       setDisplayName(data.displayName);
+      setMemberSince(memberSinceDate);
       showSuccessNotification("Nome de usuário definido com sucesso. 🐶");
     } catch (error) {
       console.log(error);

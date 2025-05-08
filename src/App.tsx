@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import Success from "./components/Success";
 import CreatePet from "./pages/CreatePet";
 import PetProfile from "./pages/PetProfile";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   const { user, displayName, loading, successNotification, successMsg } =
@@ -36,6 +37,10 @@ function App() {
         <Route path="/:usernameId" element={<Profile />} />
         <Route path="/novo-pet" element={user ? <CreatePet /> : <Home />} />
         <Route path="/pet/:petId" element={<PetProfile />} />
+        <Route
+          path="/editar-perfil"
+          element={user ? <EditProfile /> : <Home />}
+        />
       </Routes>
     </BrowserRouter>
   );

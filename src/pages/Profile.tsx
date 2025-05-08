@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
 import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 import { useUserContext } from "../context/UserContext";
@@ -55,9 +55,11 @@ const Profile = () => {
             </div>
             {username === userProfile.username && (
               <div className="w-full flex items-center justify-center">
-                <button className="bg-primaryRed w-full py-2 rounded-lg text-lg font-medium hover:bg-rose-700 duration-300 cursor-pointer">
-                  Editar Perfil
-                </button>
+                <Link to="/editar-perfil" className="w-full">
+                  <button className="bg-primaryRed w-full py-2 rounded-lg text-lg font-medium hover:bg-rose-700 duration-300 cursor-pointer">
+                    Editar Perfil
+                  </button>
+                </Link>
               </div>
             )}
             <div>

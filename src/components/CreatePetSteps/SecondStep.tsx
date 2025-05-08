@@ -225,8 +225,9 @@ const SecondStep = ({
           </fieldset>
           <label className="flex items-center space-x-2">
             <Checkbox
+              title="Manter contato visível?"
               text={
-                "Ativando esta opção, seu contato ficará visível para qualquer um, facilitando que entrem em contato com você. Caso não ative, os adotantes poderão enviar uma solicitação de adoção pela plataforma, e você decidirá quem poderá ver seus dados de contato."
+                "Se ativado, seu contato ficará visível a todos os interessados, permitindo contato direto. Caso contrário, os adotantes enviarão solicitações pela plataforma, e você decidirá com quem compartilhar seu contato."
               }
               checked={checked}
               setChecked={setChecked}
