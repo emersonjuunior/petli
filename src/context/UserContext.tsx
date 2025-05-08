@@ -21,6 +21,16 @@ interface IUserContext {
   setUserImage: (name: string | null) => void;
   memberSince: string | null;
   setMemberSince: (name: string | null) => void;
+  about: string;
+  setAbout: (name: string) => void;
+  city: string;
+  setCity: (name: string) => void;
+  state: string;
+  setState: (name: string) => void;
+  contact: string;
+  setContact: (name: string) => void;
+  allowContact: boolean;
+  setAllowContact: (name: boolean) => void;
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
@@ -37,6 +47,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [userImage, setUserImage] = useState<string | null>(null);
   const [memberSince, setMemberSince] = useState<string | null>(null);
+  const [about, setAbout] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [contact, setContact] = useState<string>("");
+  const [allowContact, setAllowContact] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [successNotification, setSuccessNotification] =
@@ -66,9 +81,19 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       const q = query(usernamesRef, where("uid", "==", uid));
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
+        // atribui o valor do firestore aos states
         const doc = querySnapshot.docs[0];
+        const data = doc.data();
         setUsername(doc.id);
-        setMemberSince(doc.data().memberSince);
+
+        // verifica se os valores existem, e se existir, atualiza os states locais
+        if (data.displayName !== undefined) setDisplayName(data.displayName);
+        if (data.memberSince !== undefined) setMemberSince(data.memberSince);
+        if (data.about !== undefined) setAbout(data.about);
+        if (data.city !== undefined) setCity(data.city);
+        if (data.state !== undefined) setState(data.state);
+        if (data.contact !== undefined) setContact(data.contact);
+        if (data.allowContact !== undefined) setAllowContact(data.allowContact);
       }
     } catch (error) {
       console.error("Erro ao buscar username:", error);
@@ -97,6 +122,16 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setUserImage,
         memberSince,
         setMemberSince,
+        about,
+        setAbout,
+        city,
+        setCity,
+        state,
+        setState,
+        contact,
+        setContact,
+        allowContact,
+        setAllowContact,
         successMsg,
         setSuccessMsg,
         successNotification,

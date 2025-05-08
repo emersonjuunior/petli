@@ -23,23 +23,23 @@ interface IBGECity {
 }
 
 const EditProfile = () => {
-  const { displayName, userImage, username } = useUserContext();
+  const { displayName, userImage, username, about, city, state, contact, allowContact } = useUserContext();
   const { editProfile } = useEditProfile();
   const [newDisplayName, setNewDisplayName] = useState(
     displayName ? displayName : ""
   );
-  const [profileImage, setProfileImage] = useState(
+  const [profileImage, _] = useState(
     userImage ? userImage : "/no-user.webp"
   );
-  const [about, setAbout] = useState("");
-  const [contact, setContact] = useState("");
-  const [contactMethod, setContactMethod] = useState("WhatsApp");
-  const [checked, setChecked] = useState(false);
-  const [city, setCity] = useState("");
+  const [newAbout, setNewAbout] = useState(about);
+  const [newContact, setNewContact] = useState(contact);
+  const [contactMethod, setContactMethod] = useState(contact.includes("@") ? "Email" : "WhatsApp");
+  const [checked, setChecked] = useState(allowContact);
+  const [newCity, setNewCity] = useState(city);
   const [error, setError] = useState<null | string>(null);
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [uf, setUf] = useState("");
+  const [phone, setPhone] = useState(contact.includes("@") ? "" : contact);
+  const [email, setEmail] = useState(contact.includes("@") ? contact : "");
+  const [uf, setUf] = useState(state);
   const [states, setStates] = useState<IBGEUF[]>([]);
   const [cities, setCities] = useState<IBGECity[]>([]);
 
@@ -74,7 +74,7 @@ const EditProfile = () => {
 
   // altera o state quando uma cidade é selecionada
   const handleSelectedCity = (value: string) => {
-    setCity(value);
+    setNewCity(value);
   };
 
   // máscara para input de número de wpp
@@ -91,12 +91,12 @@ const EditProfile = () => {
     }
 
     setPhone(formatted);
-    setContact(formatted);
+    setNewContact(formatted);
   };
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    setContact(value);
+    setNewContact(value);
   };
 
   // lógica de envio do formulário de editar perfil
@@ -104,7 +104,7 @@ const EditProfile = () => {
     e.preventDefault();
     setError(null);
 
-    if ((city === "" && uf != "") || (city != "" && uf === "")) {
+    if ((newCity === "" && uf != "") || (newCity != "" && uf === "")) {
       setError("Por favor, preencha a localização corretamente.");
       return;
     }
@@ -123,7 +123,7 @@ const EditProfile = () => {
     // verifica se é um email válido
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (contactMethod === "Email" && !emailRegex.test(email) && email != "") {
+    if (contactMethod === "Email" && !emailRegex.test(email)) {
       setError("Por favor, insira um e-mail válido.");
       return;
     }
@@ -131,17 +131,17 @@ const EditProfile = () => {
     const updatedUser = {
         displayName: newDisplayName,
         userImage: profileImage,
-        about,
-        city,
+        about: newAbout,
+        city: newCity,
         state: uf,
-        contact,
+        contact: newContact,
         allowContact: checked
     }
 
     editProfile(updatedUser);
 
-    console.log("Formulário enviado.");
   };
+  
 
   return (
     <>
@@ -211,11 +211,11 @@ const EditProfile = () => {
                 <textarea
                   className="w-full border-[#404040] border-2 rounded-lg min-h-[190px] max-h-[190px] px-4 py-3 focus:border-[#606060] outline-none"
                   maxLength={300}
-                  value={about}
+                  value={newAbout}
                   placeholder="Nada informado."
-                  onChange={(e) => setAbout(e.target.value)}
+                  onChange={(e) => setNewAbout(e.target.value)}
                 ></textarea>
-                <p className="absolute bottom-3 right-3">{about.length}/300</p>
+                <p className="absolute bottom-3 right-3">{newAbout.length}/300</p>
               </div>
             </fieldset>
             <hr className="text-[#424242]" />
@@ -241,7 +241,7 @@ const EditProfile = () => {
               </label>
               <label>
                 <select
-                  value={city}
+                  value={newCity}
                   onChange={(e) => handleSelectedCity(e.target.value)}
                   className="border-b-2 border-gray-400 w-full h-[34px] px-1 max-h-40 overflow-y-auto"
                 >

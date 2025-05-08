@@ -23,6 +23,11 @@ export const useAuthentication = () => {
     setUsername,
     setUserImage,
     setMemberSince,
+    setAbout,
+    setCity,
+    setState,
+    setContact,
+    setAllowContact,
   } = useUserContext();
   const navigate = useNavigate();
 
@@ -125,9 +130,17 @@ export const useAuthentication = () => {
 
   // logout
   const logout = () => {
+    // limpa os states
     setUsername(null);
     setDisplayName(null);
     setUserImage(null);
+    setMemberSince(null);
+    setAbout("");
+    setCity("");
+    setState("");
+    setContact("");
+    setAllowContact(false);
+
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");
     navigate("/");

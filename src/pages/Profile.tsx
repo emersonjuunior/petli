@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 
 const Profile = () => {
   const { usernameId } = useParams();
-  const { username } = useUserContext();
+  const { username, about, city, state } = useUserContext();
 
   const { user: userProfile, loading } = useGetProfile(
     "usernames",
@@ -69,12 +69,14 @@ const Profile = () => {
                 <span className="font-medium"> {userProfile.memberSince}</span>
               </p>
             </div>
-            <div>
-              <p className="text-lg">
-                <i className="fa-solid fa-map-pin text-[#bebaba] mr-1" />{" "}
-                Ipanema, MG
-              </p>
-            </div>
+            {city != "" && state != "" && (
+              <div>
+                <p className="text-lg">
+                  <i className="fa-solid fa-map-pin text-[#bebaba] mr-1" />{" "}
+                  {city}, {state}
+                </p>
+              </div>
+            )}
             <hr className="text-[#424242]" />
             <div className="flex flex-col gap-2">
               <p>
@@ -92,13 +94,7 @@ const Profile = () => {
           <section className="flex-1 flex flex-col gap-4 border-1 border-[#424242] rounded-2xl p-8">
             <div className="flex flex-col gap-3">
               <h2 className="text-3xl font-medium">Sobre</h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Possimus vitae officia aliquid reprehenderit, similique vero
-                rerum soluta dicta quae minima, ad vel aperiam quaerat voluptate
-                perferendis nemo laudantium! Beatae pariatur vero nostrum
-                voluptas numquam! Ex cum nobis assumenda totam nesciunt!
-              </p>
+              <p>{about != "" ? about : "Nada informado."}</p>
             </div>
             <hr className="text-[#424242]" />
             <div className="flex flex-col gap-3 mb-4 w-full">
