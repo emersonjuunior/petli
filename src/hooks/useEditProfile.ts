@@ -3,6 +3,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useUserContext } from "../context/UserContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
 
 interface IProfile {
   displayName: string;
@@ -17,6 +18,7 @@ interface IProfile {
 export const useEditProfile = () => {
   const navigate = useNavigate();
   const {
+    user: userAuth,
     username,
     displayName,
     setDisplayName,
@@ -37,10 +39,14 @@ export const useEditProfile = () => {
   const [loading, setLoading] = useState(false);
 
   // edita o perfil do usuário
-  const editProfile = async (updatedUser: IProfile) => {
+  const editProfile = async (
+    updatedUser: IProfile,
+    imageData: FormData | null
+  ) => {
     setLoading(true);
     try {
       const userRef = doc(db, "usernames", username!);
+      let imageUrl = updatedUser.userImage;
 
       // cria um objeto com os dados atuais do usuario
       const user = {
@@ -55,9 +61,46 @@ export const useEditProfile = () => {
 
       // verifica se há alguma alteração
       if (JSON.stringify(user) === JSON.stringify(updatedUser)) {
-        console.log("objetos iguais");
         showSuccessNotification("Alterações salvas com sucesso!");
         return;
+      }
+
+      // verifica se a imagem de perfil foi alterada
+      if (imageData) {
+        try {
+          // upa a imagem no cloudinary
+          const res = await fetch(
+            "https://api.cloudinary.com/v1_1/djzmzwwtm/image/upload",
+            {
+              method: "POST",
+              body: imageData,
+            }
+          );
+
+          const result = await res.json();
+
+          if (!result.secure_url) {
+            console.error("Erro ao obter a URL da imagem.");
+          }
+
+          imageUrl = result.secure_url;
+
+          await updateProfile(userAuth!, {
+            photoURL: imageUrl,
+          });
+
+          // verifica se a foto de perfil anterior era do cloudinary, e apaga
+          if (userImage?.includes("res.cloudinary.com")) {
+            const regex = /upload\/(?:v\d+\/)?(.+)\.[a-zA-Z]+$/;
+            const match = userImage.match(regex);
+            const publicId = match ? match[1] : null;
+            console.log(publicId);
+            // função de excluir imagem do cloudinary
+          }
+        } catch (error) {
+          console.error("Erro ao enviar imagem para o Cloudinary:", error);
+          throw error;
+        }
       }
 
       // monta um novo objeto apenas com as propriedades alteradas
@@ -68,7 +111,7 @@ export const useEditProfile = () => {
           }),
         ...(updatedUser.userImage !== userImage &&
           updatedUser.userImage != "" && {
-            userImage: updatedUser.userImage,
+            userImage: imageUrl,
           }),
         ...(updatedUser.about !== about &&
           updatedUser.about != "" && {
@@ -91,7 +134,6 @@ export const useEditProfile = () => {
         }),
       };
 
-      console.log(data);
       // envia os dados ao firestore
       await setDoc(userRef, { ...data }, { merge: true });
 

@@ -45,7 +45,7 @@ const Profile = () => {
             <img
               src={userProfile.userImage!}
               alt={`Foto de Perfil do Usuário ${userProfile.username}`}
-              className="size-75 rounded-full"
+              className="size-75 rounded-full object-cover"
             />
             <div>
               <h1 className="font-medium text-2xl mb-1">

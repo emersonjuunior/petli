@@ -93,7 +93,7 @@ const Header = () => {
                 <img
                   src={userImage!}
                   alt="Foto de perfil do usuário"
-                  className="size-11 rounded-full cursor-pointer"
+                  className="size-11 rounded-full cursor-pointer object-cover"
                   onClick={toggleProfileMenu}
                 />
                 {profileMenu && (

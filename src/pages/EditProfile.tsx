@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Checkbox from "../components/Checkbox";
 import Error from "../components/Error";
 import { useEditProfile } from "../hooks/useEditProfile";
+import { resizeImage } from "../utils/resizeImage";
 
 interface IBGEUF {
   id: number;
@@ -34,10 +35,13 @@ const EditProfile = () => {
     allowContact,
   } = useUserContext();
   const { editProfile, loading } = useEditProfile();
+  const [imageData, setImageData] = useState<null | FormData>(null);
   const [newDisplayName, setNewDisplayName] = useState(
     displayName ? displayName : ""
   );
-  const [profileImage, _] = useState(userImage ? userImage : "/no-user.webp");
+  const [imagePreview, setImagePreview] = useState(
+    userImage ? userImage : "/no-user.webp"
+  );
   const [newAbout, setNewAbout] = useState(about);
   const [newContact, setNewContact] = useState(contact);
   const [contactMethod, setContactMethod] = useState(
@@ -46,6 +50,7 @@ const EditProfile = () => {
   const [checked, setChecked] = useState(allowContact);
   const [newCity, setNewCity] = useState(city);
   const [error, setError] = useState<null | string>(null);
+  const [imageError, setImageError] = useState<null | string>(null);
   const [phone, setPhone] = useState(contact.includes("@") ? "" : contact);
   const [email, setEmail] = useState(contact.includes("@") ? contact : "");
   const [uf, setUf] = useState(state);
@@ -83,6 +88,41 @@ const EditProfile = () => {
         setError("Algo deu errado, tente novamente mais tarde.");
       });
   }, [uf]);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const maxFileSize = 1 * 1024 * 1024; // 1MB
+    const allowedFiles = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!file) return;
+
+    if (!allowedFiles.includes(file.type)) {
+      setImageError("Formato inválido. Use apenas JPG, PNG ou WEBP.");
+      return;
+    }
+
+    if (file.size > maxFileSize) {
+      setImageError("Imagem muito pesada! Limite de 1MB.");
+      return;
+    }
+
+    // mostra o preview da imagem original
+    setImagePreview(URL.createObjectURL(file));
+
+    try {
+      const resizedBlob = await resizeImage(file, 300); // redimensiona para 300x300
+
+      const data = new FormData();
+      data.append("file", resizedBlob);
+      data.append("upload_preset", "ml_default");
+      data.append("cloud_name", "djzmzwwtm");
+
+      setImageData(data);
+    } catch (err) {
+      console.error("Erro ao redimensionar imagem:", err);
+      setImageError("Erro ao processar a imagem.");
+    }
+  };
 
   // altera o state quando uma cidade é selecionada
   const handleSelectedCity = (value: string) => {
@@ -142,7 +182,7 @@ const EditProfile = () => {
 
     const updatedUser = {
       displayName: newDisplayName,
-      userImage: profileImage,
+      userImage: imagePreview,
       about: newAbout,
       city: newCity,
       state: uf,
@@ -150,7 +190,7 @@ const EditProfile = () => {
       allowContact: checked,
     };
 
-    editProfile(updatedUser);
+    editProfile(updatedUser, imageData);
   };
 
   return (
@@ -170,9 +210,9 @@ const EditProfile = () => {
           <section className="flex flex-col gap-5 px-2 basis-[330px]">
             <div className="size-75 rounded-full relative">
               <img
-                src={profileImage}
+                src={imagePreview}
                 alt={`Foto de Perfil do Usuário ${username}`}
-                className="size-75 rounded-full"
+                className="size-75 rounded-full object-cover"
               />
               <div className="size-75 rounded-full absolute bg-black/60 cursor-pointer hover:bg-black/50 duration-300 top-0 flex items-center justify-center">
                 <p className="font-medium text-2xl max-w-8/10 text-center">
@@ -181,10 +221,14 @@ const EditProfile = () => {
                 </p>
                 <input
                   type="file"
+                  onChange={handleFileChange}
                   className="absolute size-75 rounded-full opacity-0 cursor-pointer"
                 />
               </div>
             </div>
+            {imageError && (
+              <Error error={imageError} setError={setImageError} />
+            )}
             <hr className="text-[#424242]" />
             <fieldset className="flex flex-col gap-4">
               <label className="flex flex-col gap-2">

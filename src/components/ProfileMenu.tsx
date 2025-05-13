@@ -43,7 +43,7 @@ const ProfileMenu = ({ toggleProfileMenu, headerRef }: Props) => {
           <img
             src={userImage!}
             alt={`Foto de Perfil do Usuário ${username}`}
-            className="size-13 rounded-full"
+            className="size-13 rounded-full object-cover"
           />
         </div>
         <div className="max-w-[190px]">
