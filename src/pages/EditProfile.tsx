@@ -23,17 +23,26 @@ interface IBGECity {
 }
 
 const EditProfile = () => {
-  const { displayName, userImage, username, about, city, state, contact, allowContact } = useUserContext();
-  const { editProfile } = useEditProfile();
+  const {
+    displayName,
+    userImage,
+    username,
+    about,
+    city,
+    state,
+    contact,
+    allowContact,
+  } = useUserContext();
+  const { editProfile, loading } = useEditProfile();
   const [newDisplayName, setNewDisplayName] = useState(
     displayName ? displayName : ""
   );
-  const [profileImage, _] = useState(
-    userImage ? userImage : "/no-user.webp"
-  );
+  const [profileImage, _] = useState(userImage ? userImage : "/no-user.webp");
   const [newAbout, setNewAbout] = useState(about);
   const [newContact, setNewContact] = useState(contact);
-  const [contactMethod, setContactMethod] = useState(contact.includes("@") ? "Email" : "WhatsApp");
+  const [contactMethod, setContactMethod] = useState(
+    contact.includes("@") ? "Email" : "WhatsApp"
+  );
   const [checked, setChecked] = useState(allowContact);
   const [newCity, setNewCity] = useState(city);
   const [error, setError] = useState<null | string>(null);
@@ -60,6 +69,9 @@ const EditProfile = () => {
 
   // busca as cidades do estado selecionado, quando ele é alterado
   useEffect(() => {
+    if (uf != state) {
+      setNewCity("");
+    }
     fetch(
       `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
     )
@@ -129,19 +141,17 @@ const EditProfile = () => {
     }
 
     const updatedUser = {
-        displayName: newDisplayName,
-        userImage: profileImage,
-        about: newAbout,
-        city: newCity,
-        state: uf,
-        contact: newContact,
-        allowContact: checked
-    }
+      displayName: newDisplayName,
+      userImage: profileImage,
+      about: newAbout,
+      city: newCity,
+      state: uf,
+      contact: newContact,
+      allowContact: checked,
+    };
 
     editProfile(updatedUser);
-
   };
-  
 
   return (
     <>
@@ -215,7 +225,9 @@ const EditProfile = () => {
                   placeholder="Nada informado."
                   onChange={(e) => setNewAbout(e.target.value)}
                 ></textarea>
-                <p className="absolute bottom-3 right-3">{newAbout.length}/300</p>
+                <p className="absolute bottom-3 right-3">
+                  {newAbout.length}/300
+                </p>
               </div>
             </fieldset>
             <hr className="text-[#424242]" />
@@ -317,13 +329,19 @@ const EditProfile = () => {
               }`}
             >
               {error && <Error error={error} setError={setError} />}
-              <div className="flex items-center justify-end gap-3">
-                <Link to={`/${username}`}>Voltar</Link>
+              <div className="flex items-center justify-end gap-3 w-full">
+                <Link to={`/${username}`}>
+                  <span>Voltar</span>
+                </Link>
                 <button
                   type="submit"
-                  className="bg-primaryRed px-5 py-2 rounded-lg text-lg font-medium hover:bg-rose-700 duration-300 cursor-pointer"
+                  className={`text-lg font-medium py-2 w-[215px] rounded-lg duration-200 hover:bg-rose-700 shadow-md ${
+                    loading
+                      ? "bg-rose-700 cursor-a opacity-90"
+                      : "bg-primaryRed cursor-pointer"
+                  }`}
                 >
-                  Salvar alterações
+                  {loading ? "Salvando alterações..." : "Salvar alterações"}
                 </button>
               </div>
             </div>

@@ -1,6 +1,8 @@
 import { db } from "../firebase/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useUserContext } from "../context/UserContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface IProfile {
   displayName: string;
@@ -13,6 +15,7 @@ interface IProfile {
 }
 
 export const useEditProfile = () => {
+  const navigate = useNavigate();
   const {
     username,
     displayName,
@@ -29,10 +32,13 @@ export const useEditProfile = () => {
     setContact,
     allowContact,
     setAllowContact,
+    showSuccessNotification,
   } = useUserContext();
+  const [loading, setLoading] = useState(false);
 
   // edita o perfil do usuário
   const editProfile = async (updatedUser: IProfile) => {
+    setLoading(true);
     try {
       const userRef = doc(db, "usernames", username!);
 
@@ -50,6 +56,7 @@ export const useEditProfile = () => {
       // verifica se há alguma alteração
       if (JSON.stringify(user) === JSON.stringify(updatedUser)) {
         console.log("objetos iguais");
+        showSuccessNotification("Alterações salvas com sucesso!");
         return;
       }
 
@@ -98,10 +105,16 @@ export const useEditProfile = () => {
         if (key === "contact") setContact(value as string);
         if (key === "allowContact") setAllowContact(value as boolean);
       });
+
+      // exibe a msg de sucesso
+      showSuccessNotification("Alterações salvas com sucesso!");
     } catch (error) {
-      console.log(error);
+      throw new Error(`error`);
+    } finally {
+      setLoading(false);
+      navigate(`/${username}`);
     }
   };
 
-  return { editProfile };
+  return { editProfile, loading };
 };
