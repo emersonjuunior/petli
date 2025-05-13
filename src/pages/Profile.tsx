@@ -40,12 +40,12 @@ const Profile = () => {
         />
       </Helmet>
       <main className="w-full">
-        <div className="w-full max-w-7xl mx-auto px-2 md:px-4 flex gap-10">
-          <section className="flex flex-col gap-5 px-2 basis-[330px]">
+        <div className="w-full max-w-7xl mx-auto md:px-12 lg:px-2 flex gap-10 flex-col lg:flex-row">
+          <section className="flex flex-col gap-5 px-4 lg:px-2 basis-[330px] md:w-[480px] md:max-w-[480px] md:mx-auto">
             <img
               src={userProfile.userImage!}
               alt={`Foto de Perfil do Usuário ${userProfile.username}`}
-              className="size-75 rounded-full object-cover"
+              className="size-70 md:size-75 rounded-full object-cover self-center"
             />
             <div>
               <h1 className="font-medium text-2xl mb-1">
@@ -81,7 +81,7 @@ const Profile = () => {
             <div className="flex flex-col gap-2">
               <p>
                 <span className="text-xl font-medium mr-1">0</span> disponíveis
-                pra adoção
+                para adoção
               </p>
               <p>
                 <span className="text-xl font-medium mr-1">0</span> adotados{" "}
@@ -91,15 +91,17 @@ const Profile = () => {
               </p>
             </div>
           </section>
-          <section className="flex-1 flex flex-col gap-4 border-1 border-[#424242] rounded-2xl p-8">
-            <div className="flex flex-col gap-3">
-              <h2 className="text-3xl font-medium">Sobre</h2>
+          <section className="flex-1 flex flex-col gap-4 border-1 border-[#424242] rounded-lg md:rounded-2xl py-8 md:p-8">
+            <div className="flex flex-col gap-3 px-3 md:px-0">
+              <h2 className="text-3xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+                Sobre
+              </h2>
               <p>{about != "" ? about : "Nada informado."}</p>
             </div>
             <hr className="text-[#424242]" />
             <div className="flex flex-col gap-3 mb-4 w-full">
-              <h2 className="text-2xl font-medium mb-3">
-                Disponíveis pra adoção
+              <h2 className="px-3 md:px-0 text-2xl font-medium mb-4 after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+                Disponíveis para adoção
               </h2>
               <Swiper
                 modules={[Navigation, Pagination]}
@@ -137,8 +139,10 @@ const Profile = () => {
               </Swiper>
             </div>
             <hr className="text-[#424242]" />
-            <div className="flex flex-col gap-3 mb-4 w-full swiper-min">
-              <h2 className="text-2xl font-medium mb-3">Adotados</h2>
+            <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
+              <h2 className="px-3 md:px-0 text-2xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+                Adotados
+              </h2>
               <Swiper
                 modules={[Navigation, Pagination]}
                 navigation
@@ -167,8 +171,10 @@ const Profile = () => {
               </Swiper>
             </div>
             <hr className="text-[#424242]" />
-            <div className="flex flex-col gap-3 mb-4 w-full swiper-min">
-              <h2 className="text-2xl font-medium mb-3">Doados</h2>
+            <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
+              <h2 className="px:0 md:px-0 text-2xl font-medium mb-3 after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+                Doados
+              </h2>
               <Swiper
                 modules={[Navigation, Pagination]}
                 navigation

@@ -90,7 +90,7 @@ body {
 }
 
 .swiper-min > .swiper {
-  height: 400px;
+  height: 390px;
 }
 
 .swiper {
@@ -138,6 +138,20 @@ body {
 
 .header-ul li:nth-child(5) {
   animation-delay: 0.8s;
+}
+
+@media screen and (max-width: 1320px) {
+  .swiper {
+    max-width: 580px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .swiper {
+    max-height: 500px;
+    max-width: 350px;
+    
+  }
 }
 
 @media screen and (max-height: 600px) {
