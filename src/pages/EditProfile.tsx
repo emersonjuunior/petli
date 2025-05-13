@@ -202,19 +202,19 @@ const EditProfile = () => {
           content="Altere as informações da sua conta."
         />
       </Helmet>
-      <main>
+      <main className="px-2 md:px-5">
         <form
           onSubmit={handleEditProfile}
-          className="w-full max-w-7xl mx-auto px-2 md:px-4 flex gap-10"
+          className="w-full max-w-7xl mx-auto md:px-4 flex gap-7 md:gap-10 flex-col lg:flex-row"
         >
-          <section className="flex flex-col gap-5 px-2 basis-[330px]">
-            <div className="size-75 rounded-full relative">
+          <section className="flex flex-col items-center mx-auto w-full gap-5 px-5 md:px-20 lg:px-2 lg:basis-[330px] lg:items-start">
+            <div className="size-70 md:size-75 rounded-full relative">
               <img
                 src={imagePreview}
                 alt={`Foto de Perfil do Usuário ${username}`}
-                className="size-75 rounded-full object-cover"
+                className="size-70 md:size-75 rounded-full object-cover"
               />
-              <div className="size-75 rounded-full absolute bg-black/60 cursor-pointer hover:bg-black/50 duration-300 top-0 flex items-center justify-center">
+              <div className="size-70 md:size-75 rounded-full absolute bg-black/60 cursor-pointer hover:bg-black/50 duration-300 top-0 flex items-center justify-center">
                 <p className="font-medium text-2xl max-w-8/10 text-center">
                   Alterar Foto de Perfil{" "}
                   <i className="fa-solid fa-pen-to-square ml-1"></i>
@@ -229,8 +229,8 @@ const EditProfile = () => {
             {imageError && (
               <Error error={imageError} setError={setImageError} />
             )}
-            <hr className="text-[#424242]" />
-            <fieldset className="flex flex-col gap-4">
+            <hr className="text-[#424242] w-full" />
+            <fieldset className="flex flex-col gap-4 w-full">
               <label className="flex flex-col gap-2">
                 <span className="text-lg">Nome de Usuário</span>
                 <input
@@ -254,22 +254,22 @@ const EditProfile = () => {
               </label>
             </fieldset>
           </section>
-          <section className="flex-1 flex flex-col gap-8 border-1 border-[#424242] rounded-2xl p-8">
+          <section className="flex-1 flex flex-col gap-6 md:gap-8 border-1 border-[#424242] rounded-2xl p-8">
             <h1 className="text-3xl font-medium">Editar Perfil</h1>
             <hr className="text-[#424242]" />
             <fieldset className="">
-              <legend className="text-2xl font-medium mb-3">
+              <legend className="text-xl md:text-2xl font-medium mb-3">
                 Nos conte mais sobre você
               </legend>
               <div className="relative">
                 <textarea
-                  className="w-full border-[#404040] border-2 rounded-lg min-h-[190px] max-h-[190px] px-4 py-3 focus:border-[#606060] outline-none"
+                  className="w-full text-sm md:text-base border-[#404040] border-2 rounded-lg min-h-[220px] max-h-[220px] md:min-h-[190px] md:max-h-[190px] px-3 py-2 md:px-4 md:py-3 focus:border-[#606060] outline-none"
                   maxLength={300}
                   value={newAbout}
                   placeholder="Nada informado."
                   onChange={(e) => setNewAbout(e.target.value)}
                 ></textarea>
-                <p className="absolute bottom-3 right-3">
+                <p className="absolute bottom-3 right-3 font-medium bg-bgBlack/50 rounded-lg p-[1px] ">
                   {newAbout.length}/300
                 </p>
               </div>
@@ -342,7 +342,7 @@ const EditProfile = () => {
                       placeholder="Seu número"
                       value={phone}
                       onChange={(e) => handleInputChange(e.target.value)}
-                      className="border-b-2 border-gray-400 w-full h-[34px] px-2"
+                      className="border-b-2 border-gray-400 w-full h-[34px] px-2 text-sm md:text-base"
                     />
                   )}
                 </label>
@@ -363,9 +363,7 @@ const EditProfile = () => {
             <p className="text-sm">
               {" "}
               <strong>Obs:</strong> as alterações de contato e localização não
-              serão aplicadas aos pets já cadastrados. Se quiser atualizar essas
-              informações nos pets existentes, será necessário editá-los
-              individualmente.
+              serão aplicadas aos pets já cadastrados anteriormente.
             </p>
             <div
               className={`flex w-full items-center h-[50px] gap-1 ${
