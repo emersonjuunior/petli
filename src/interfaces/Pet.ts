@@ -18,7 +18,7 @@ export interface IPet {
   gender: string;
   age: string;
   size: string;
-  image: IPetImage;
+  image: string;
 
   state: string;
   city: string;
@@ -33,13 +33,9 @@ export interface IPet {
   goodWithOtherAnimals?: boolean;
   goodWithChildren?: boolean;
   description?: string;
-  moreImages?: IPetImage[];
+  moreImages?: string[];
 
   owner: string;
   date: string;
 }
 
-export interface IPetImage {
-  url: string;
-  id: string;
-}

@@ -1,5 +1,6 @@
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useGetProfile } from "../hooks/useGetProfile";
+import { useAvailablePets } from "../hooks/useAvailablePets";
 import Loading from "../components/Loading";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
@@ -15,20 +16,23 @@ import "swiper/css/pagination";
 
 const Profile = () => {
   const { usernameId } = useParams();
-  const { username, about, city, state } = useUserContext();
+  const { username, about, city, state, availablePets } = useUserContext();
 
   const { user: userProfile, loading } = useGetProfile(
     "usernames",
     usernameId!
   );
+  const { petLoading } = useAvailablePets(usernameId!);
 
-  if (loading) {
+  if (loading || petLoading) {
     return <Loading />;
   }
 
   if (userProfile === null) {
     return <Navigate to="*" />;
   }
+
+  console.log(availablePets);
 
   return (
     <>
@@ -110,32 +114,20 @@ const Profile = () => {
                 spaceBetween={50}
                 slidesPerView={1}
               >
-                <SwiperSlide>
-                  {" "}
-                  <PetCard
-                    name={"jason"}
-                    species={"Gato"}
-                    image={"/jason.jpg"}
-                    location={"Ipanema, MG"}
-                    age={"3 anos"}
-                    gender={"Macho"}
-                    size={"Pequeno"}
-                    id={"emerson-jr-yVVr"}
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  {" "}
-                  <PetCard
-                    name={"jason"}
-                    species={"Gato"}
-                    image={"/jason.jpg"}
-                    location={"Ipanema, MG"}
-                    age={"3 anos"}
-                    gender={"Macho"}
-                    size={"Pequeno"}
-                    id={"emerson-jr-yVVr"}
-                  />
-                </SwiperSlide>
+                {availablePets.map((pet) => (
+                  <SwiperSlide>
+                    <PetCard
+                      name={pet.name}
+                      species={pet.species}
+                      image={pet.image}
+                      location={`${pet.city}, ${pet.state}`}
+                      age={pet.age}
+                      gender={pet.gender}
+                      size={pet.size}
+                      id={pet.id}
+                    />
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
             <hr className="text-[#424242]" />

@@ -1,5 +1,3 @@
-import { IPetImage } from "../interfaces/Pet";
-
 export const useImages = () => {
   // upa as imagens no banco de dados, tanto a imagem principal quanto as imagens extras (se houver)
   const uploadImages = async (
@@ -23,10 +21,10 @@ export const useImages = () => {
         "/upload/",
         "/upload/w_600,f_auto,q_auto/"
       );
-      const image: IPetImage = { url: optimizedUrl, id: result.public_id };
+      const image = optimizedUrl;
 
       // faz upload das imagens extras
-      const moreImages: IPetImage[] = [];
+      const moreImages: string[] = [];
 
       await Promise.all(
         moreImagesData.map(async (data) => {
@@ -44,10 +42,7 @@ export const useImages = () => {
               "/upload/",
               "/upload/w_600,f_auto,q_auto/"
             );
-            moreImages.push({
-              url: optimizedUrl,
-              id: moreImagesResult.public_id,
-            });
+            moreImages.push(optimizedUrl);
           } catch (error) {
             throw new Error("Erro no upload das imagens.");
           }

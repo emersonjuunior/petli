@@ -8,6 +8,7 @@ import {
 import { auth, db } from "../firebase/firebaseConfig";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { collection, query, getDocs, where } from "firebase/firestore";
+import { IPet } from "../interfaces/Pet";
 
 interface IUserContext {
   user: User | null;
@@ -31,6 +32,8 @@ interface IUserContext {
   setContact: (name: string) => void;
   allowContact: boolean;
   setAllowContact: (name: boolean) => void;
+  availablePets: IPet[];
+  setAvailablePets: (pet: IPet[]) => void;
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
@@ -52,6 +55,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [state, setState] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [allowContact, setAllowContact] = useState<boolean>(false);
+  const [availablePets, setAvailablePets] = useState<IPet[]>([]);
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [successNotification, setSuccessNotification] =
@@ -132,6 +136,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setContact,
         allowContact,
         setAllowContact,
+        availablePets,
+        setAvailablePets,
         successMsg,
         setSuccessMsg,
         successNotification,
