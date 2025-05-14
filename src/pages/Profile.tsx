@@ -22,7 +22,7 @@ const Profile = () => {
     "usernames",
     usernameId!
   );
-  const { petLoading } = useAvailablePets(usernameId!);
+  const { petLoading, profileAvailablePets } = useAvailablePets(usernameId!);
 
   if (loading || petLoading) {
     return <Loading />;
@@ -114,8 +114,8 @@ const Profile = () => {
                 spaceBetween={50}
                 slidesPerView={1}
               >
-                {availablePets.map((pet) => (
-                  <SwiperSlide>
+                {profileAvailablePets.map((pet) => (
+                  <SwiperSlide key={pet.id}>
                     <PetCard
                       name={pet.name}
                       species={pet.species}

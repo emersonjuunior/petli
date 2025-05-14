@@ -51,10 +51,10 @@ const PetProfile = () => {
             <div className="flex-1 min-w-4/10 w-full max-w-[360px] md:max-w-full max-h-[360px] md:max-h-[500px] md:min-h-[500px] overflow-hidden flex items-center justify-center rounded-4xl">
               <img
                 loading="lazy"
-                src={pet.image.url}
+                src={pet.image}
                 alt={`Foto do Pet ${pet.name}`}
                 className="object-cover rounded-xl hover:brightness-115 cursor-pointer duration-300"
-                onClick={() => handleViewImage(pet.image.url)}
+                onClick={() => handleViewImage(pet.image)}
               />
             </div>
             <div className="flex-1 flex items-center md:px-10 lg:px-14 h-[500px] min-h-fit w-full relative pb-14 md:pb-0 truncate">
@@ -188,10 +188,10 @@ const PetProfile = () => {
                     key={index}
                   >
                     <img
-                      src={image.url}
+                      src={image}
                       alt={`Imagens adicionais do pet ${pet.name}`}
                       className="object-cover hover:brightness-115 cursor-pointer duration-300"
-                      onClick={() => handleViewImage(image.url)}
+                      onClick={() => handleViewImage(image)}
                     />
                   </div>
                 ))}
