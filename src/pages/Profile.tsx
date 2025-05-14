@@ -84,14 +84,16 @@ const Profile = () => {
             <hr className="text-[#424242]" />
             <div className="flex flex-col gap-2">
               <p>
-                <span className="text-xl font-medium mr-1">0</span> disponíveis
-                para adoção
+                <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">
+                  {profileAvailablePets.length}
+                </span>{" "}
+                disponíveis para adoção
               </p>
               <p>
-                <span className="text-xl font-medium mr-1">0</span> adotados{" "}
+                <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">0</span> adotados{" "}
               </p>
               <p>
-                <span className="text-xl font-medium mr-1">0</span> doados
+                <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">0</span> doados
               </p>
             </div>
           </section>
@@ -103,32 +105,46 @@ const Profile = () => {
               <p>{about != "" ? about : "Nada informado."}</p>
             </div>
             <hr className="text-[#424242]" />
-            <div className="flex flex-col gap-3 mb-4 w-full">
-              <h2 className="px-3 md:px-0 text-2xl font-medium mb-4 after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+            <div className="flex flex-col gap-3 w-full">
+              <h2 className={`px-3 md:px-0 text-2xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed ${
+                profileAvailablePets.length > 0 ? "mb-4" : ""
+              }`}>
                 Disponíveis para adoção
               </h2>
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                spaceBetween={50}
-                slidesPerView={1}
-              >
-                {profileAvailablePets.map((pet) => (
-                  <SwiperSlide key={pet.id}>
-                    <PetCard
-                      name={pet.name}
-                      species={pet.species}
-                      image={pet.image}
-                      location={`${pet.city}, ${pet.state}`}
-                      age={pet.age}
-                      gender={pet.gender}
-                      size={pet.size}
-                      id={pet.id}
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              {profileAvailablePets.length > 0 ? (
+                <Swiper
+                  modules={[Navigation, Pagination]}
+                  navigation
+                  pagination={{ clickable: true }}
+                  spaceBetween={50}
+                  slidesPerView={1}
+                >
+                  {profileAvailablePets.map((pet) => (
+                    <SwiperSlide key={pet.id}>
+                      <PetCard
+                        name={pet.name}
+                        species={pet.species}
+                        image={pet.image}
+                        location={`${pet.city}, ${pet.state}`}
+                        age={pet.age}
+                        gender={pet.gender}
+                        size={pet.size}
+                        id={pet.id}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                <div className="flex items-center justify-center relative">
+                  <Lottie
+                    animationData={noAvailablePets}
+                    className="w-[420px] min-w-[420px]"
+                  />
+                  <p className="font-[400] text-3xl text-center absolute bottom-8">
+                    Nada por enquanto.
+                  </p>
+                </div>
+              )}
             </div>
             <hr className="text-[#424242]" />
             <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
@@ -193,7 +209,6 @@ const Profile = () => {
                   </div>
                 </SwiperSlide>
               </Swiper>
-              <Lottie animationData={noAvailablePets} />
             </div>
           </section>
         </div>

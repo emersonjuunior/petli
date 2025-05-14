@@ -14,7 +14,7 @@ const Home = () => {
       </Helmet>
       <main className="min-h-[3000px]">
         <h1>Home</h1>
-        <Link to="/pet/magnolia-ALWm">Clique aqui</Link>
+        <Link to="/vitoria">Clique aqui</Link>
         <div className="w-full flex justify-center">
           <PetSummary name="Jason" image="/jason.jpg" date="07/05/2025" />
         </div>
