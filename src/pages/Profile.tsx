@@ -45,7 +45,7 @@ const Profile = () => {
       </Helmet>
       <main className="w-full">
         <div className="w-full max-w-7xl mx-auto md:px-12 lg:px-2 flex gap-10 flex-col lg:flex-row">
-          <section className="flex flex-col gap-5 px-4 lg:px-2 basis-[330px] md:w-[480px] md:max-w-[480px] md:mx-auto">
+          <section className="flex flex-col gap-5 px-4 lg:px-2 basis-[330px] md:w-full md:max-w-[520px] md:mx-auto">
             <img
               src={userProfile.userImage!}
               alt={`Foto de Perfil do Usuário ${userProfile.username}`}
@@ -98,7 +98,7 @@ const Profile = () => {
             </div>
           </section>
           <section className="flex-1 flex flex-col gap-4 border-1 border-[#424242] rounded-lg md:rounded-2xl py-8 md:p-8">
-            <div className="flex flex-col gap-3 px-3 md:px-0">
+            <div className="flex flex-col gap-4 px-3 md:px-0">
               <h2 className="text-3xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
                 Sobre
               </h2>
