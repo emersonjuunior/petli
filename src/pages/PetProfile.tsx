@@ -3,6 +3,7 @@ import { useParams, Navigate } from "react-router-dom";
 import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 import ViewImage from "../components/ViewImage";
+import AdoptModal from "../components/AdoptModal";
 import { Link, useLocation } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
@@ -12,6 +13,7 @@ const PetProfile = () => {
   const { pet, loading } = useGetProfile("pets", petId!);
   const [viewImage, setViewImage] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const [adoptModal, setAdoptModal] = useState(false);
   const location = useLocation();
   const { user, showSuccessNotification } = useUserContext();
 
@@ -29,10 +31,10 @@ const PetProfile = () => {
   };
 
   // copia a url da pagina
-  const handleCopyUrl = () => {
+  const handleCopyUrl = (text: string) => {
     const fullUrl = `${window.location.origin}${location.pathname}${location.search}`;
     navigator.clipboard.writeText(fullUrl).then(() => {
-      showSuccessNotification("Url copiada para a área de transferência!");
+      showSuccessNotification(text);
     });
   };
 
@@ -121,13 +123,17 @@ const PetProfile = () => {
                   <h3 className="text-lg font-medium">
                     O bichinho já tomou alguma vacina?
                   </h3>
-                  <p className="break-words font-light">{pet.vaccinated ? pet.vaccinated : "Nenhuma por enquanto."}</p>
+                  <p className="break-words font-light">
+                    {pet.vaccinated ? pet.vaccinated : "Nenhuma por enquanto."}
+                  </p>
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col gap-1">
                   <h3 className="text-lg font-medium">
                     Necessita de cuidados especiais?
                   </h3>
-                  <p className="break-words font-light">{pet.specialCare ? pet.specialCare : "Não necessita."}</p>
+                  <p className="break-words font-light">
+                    {pet.specialCare ? pet.specialCare : "Não necessita."}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -201,17 +207,25 @@ const PetProfile = () => {
           )}
           <div className="w-full flex flex-col gap-3 justify-center items-center">
             {user ? (
-              <button className="font-bold text-[22px] w-[270px] py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300">
+              <button
+                className="font-bold text-[22px] w-[270px] py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300"
+                onClick={() => setAdoptModal(true)}
+              >
                 Quero Adotar <i className="fa-solid fa-paw ml-1"></i>
               </button>
             ) : (
-              <button className="font-bold text-lg px-4 py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300">
-                Cadastre-se para adotar <i className="fa-solid fa-paw ml-1"></i>
-              </button>
+              <Link to="/cadastro">
+                <button className="font-bold text-lg px-4 py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300">
+                  Cadastre-se para adotar{" "}
+                  <i className="fa-solid fa-paw ml-1"></i>
+                </button>
+              </Link>
             )}
             <button
               className="font-medium text-lg w-[200px] py-2 rounded-lg cursor-pointer hover:text-gray-200 duration-300"
-              onClick={handleCopyUrl}
+              onClick={() =>
+                handleCopyUrl("Url copiada para a área de transferência!")
+              }
             >
               Compartilhar <i className="fa-solid fa-share-nodes ml-1"></i>
             </button>
@@ -222,6 +236,13 @@ const PetProfile = () => {
             image={imageUrl}
             name={pet.name}
             setViewImage={setViewImage}
+          />
+        )}
+        {adoptModal && (
+          <AdoptModal
+            contact={pet.contact}
+            setAdoptModal={setAdoptModal}
+            handleCopyUrl={handleCopyUrl}
           />
         )}
       </main>

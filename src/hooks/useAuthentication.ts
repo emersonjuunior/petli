@@ -28,6 +28,7 @@ export const useAuthentication = () => {
     setState,
     setContact,
     setAllowContact,
+    setAvailablePets,
   } = useUserContext();
   const navigate = useNavigate();
 
@@ -72,6 +73,7 @@ export const useAuthentication = () => {
       setMemberSince(memberSinceDate);
 
       showSuccessNotification("Conta criada com sucesso! 🐾");
+      navigate("/");
     } catch (error: any) {
       if (error.message.includes("email-already")) {
         setError("Esse usuário já existe.");
@@ -102,6 +104,7 @@ export const useAuthentication = () => {
       } else {
         showSuccessNotification("Bem-vindo de volta! 🐱");
       }
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -115,6 +118,7 @@ export const useAuthentication = () => {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       showSuccessNotification("Bem-vindo de volta! 🐱");
+      navigate("/");
     } catch (error: any) {
       if (error.code === "auth/invalid-email") {
         setError(
@@ -140,6 +144,7 @@ export const useAuthentication = () => {
     setState("");
     setContact("");
     setAllowContact(false);
+    setAvailablePets([]);
 
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");
