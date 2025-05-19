@@ -4,7 +4,7 @@ import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 import ViewImage from "../components/ViewImage";
 import AdoptModal from "../components/AdoptModal";
-import AdoptionRequest from "../components/adoptionRequest";
+import AdoptionRequest from "../components/AdoptionRequest";
 import { Link, useLocation } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
