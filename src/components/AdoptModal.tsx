@@ -29,25 +29,31 @@ const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl }: Props) => {
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
       <div
-        className="bg-bgGray w-full max-w-[560px] mx-2 rounded-lg p-4 md:p-8 relative"
+        className="bg-bgGray w-full max-w-[560px] mx-2 rounded-lg py-4 px-3 md:p-8 relative"
         ref={modalAdoptRef}
       >
         <i
           className="fa-solid fa-xmark absolute text-2xl right-4 top-4 cursor-pointer"
           onClick={() => setAdoptModal(false)}
         ></i>
-        <h2 className="text-xl md:text-2xl font-medium mb-4">
+        <h2 className="text-xl md:text-2xl font-medium mb-4 max-w-8/10">
           Pronto pra dar um novo lar? 🐾
         </h2>
-        <p className="mb-4 text-lg">
+        <hr className="text-[#404040] mb-4" />
+        <p className="mb-5 text-base md:text-lg">
           O responsável pelo pet está disponível para conversar diretamente com
-          você.
+          você! 🐶🐱
         </p>
         <div className="flex items-center gap-5 justify-end">
-          <button>Voltar</button>
+          <button
+            onClick={() => setAdoptModal(false)}
+            className="cursor-pointer"
+          >
+            Voltar
+          </button>
           {contact.includes("@") ? (
             <button
-              className="bg-[#4285F4] hover:bg-[#3367D6] px-4 py-2 rounded-xl font-semibod text-lg cursor-pointer duration-300"
+              className="bg-[#4285F4] hover:bg-[#3367D6] px-4 py-2 rounded-xl font-semibod text-base md:text-lg cursor-pointer duration-300"
               onClick={() => {
                 handleCopyUrl("Email copiado com sucesso! ✉️");
                 setAdoptModal(false);
@@ -62,7 +68,7 @@ const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl }: Props) => {
               href={`https://wa.me/55${contact.replace(/\D/g, "")}`}
               onClick={() => setAdoptModal(false)}
             >
-              <button className="bg-[#1EBE5D] hover:bg-[#25D366] px-4 py-2 rounded-xl font-semibod text-lg cursor-pointer duration-300">
+              <button className="bg-[#1EBE5D] hover:bg-[#25D366] px-4 py-2 rounded-xl font-semibod text-base md:text-lg cursor-pointer duration-300">
                 <i className="fa-brands fa-whatsapp text-xl mr-1"></i> Entrar em
                 contato
               </button>

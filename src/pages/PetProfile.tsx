@@ -4,6 +4,7 @@ import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 import ViewImage from "../components/ViewImage";
 import AdoptModal from "../components/AdoptModal";
+import AdoptionRequest from "../components/adoptionRequest";
 import { Link, useLocation } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
@@ -238,13 +239,22 @@ const PetProfile = () => {
             setViewImage={setViewImage}
           />
         )}
-        {adoptModal && (
-          <AdoptModal
-            contact={pet.contact}
-            setAdoptModal={setAdoptModal}
-            handleCopyUrl={handleCopyUrl}
-          />
-        )}
+        {adoptModal &&
+          (pet.allowContact ? (
+            <AdoptModal
+              contact={pet.contact}
+              setAdoptModal={setAdoptModal}
+              handleCopyUrl={handleCopyUrl}
+            />
+          ) : (
+            <AdoptionRequest
+              petId={pet.id}
+              setAdoptModal={setAdoptModal}
+              name={pet.name}
+              gender={pet.gender}
+              owner={pet.owner}
+            />
+          ))}
       </main>
     </>
   );

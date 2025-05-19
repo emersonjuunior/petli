@@ -16,7 +16,7 @@ import "swiper/css/pagination";
 
 const Profile = () => {
   const { usernameId } = useParams();
-  const { username, about, city, state, availablePets } = useUserContext();
+  const { username, about, city, state } = useUserContext();
 
   const { user: userProfile, loading } = useGetProfile(
     "usernames",
@@ -31,8 +31,6 @@ const Profile = () => {
   if (userProfile === null) {
     return <Navigate to="*" />;
   }
-
-  console.log(availablePets);
 
   return (
     <>
@@ -90,10 +88,16 @@ const Profile = () => {
                 disponíveis para adoção
               </p>
               <p>
-                <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">0</span> adotados{" "}
+                <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">
+                  0
+                </span>{" "}
+                adotados{" "}
               </p>
               <p>
-                <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">0</span> doados
+                <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">
+                  0
+                </span>{" "}
+                doados
               </p>
             </div>
           </section>
@@ -106,9 +110,11 @@ const Profile = () => {
             </div>
             <hr className="text-[#424242]" />
             <div className="flex flex-col gap-3 w-full">
-              <h2 className={`px-3 md:px-0 text-2xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed ${
-                profileAvailablePets.length > 0 ? "mb-4" : ""
-              }`}>
+              <h2
+                className={`px-3 md:px-0 text-2xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed ${
+                  profileAvailablePets.length > 0 ? "mb-4" : ""
+                }`}
+              >
                 Disponíveis para adoção
               </h2>
               {profileAvailablePets.length > 0 ? (
