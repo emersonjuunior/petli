@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, FormEvent } from "react";
 import Error from "./Error";
 import { useUserContext } from "../context/UserContext";
+import { useAdoptionRequest } from "../hooks/useAdoptionRequest";
 
 interface Props {
   setAdoptModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,8 +27,15 @@ interface IBGECity {
   nome: string;
 }
 
-const AdoptionRequest = ({ setAdoptModal, petId, name, gender, owner }: Props) => {
+const AdoptionRequest = ({
+  setAdoptModal,
+  petId,
+  name,
+  gender,
+  owner,
+}: Props) => {
   const { username } = useUserContext();
+  const { createAdoptionRequest } = useAdoptionRequest();
   const modalAdoptRef = useRef<HTMLDivElement>(null);
   const [uf, setUf] = useState("");
   const [city, setCity] = useState("");
@@ -94,15 +102,9 @@ const AdoptionRequest = ({ setAdoptModal, petId, name, gender, owner }: Props) =
   const handleAdoptionRequest = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = {
-      interested: username,
-      text,
-      location,
-      petId,
-      owner,
-    };
+    createAdoptionRequest(petId, text, location, owner)
 
-    console.log(data);
+    
   };
 
   return (
