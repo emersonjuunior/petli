@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../firebase/firebaseConfig";
-import { doc, collection, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useUserContext } from "../context/UserContext";
 
 export const useAdoptionRequest = () => {
@@ -60,5 +60,7 @@ export const useAdoptionRequest = () => {
 
   return {
     createAdoptionRequest,
+    error,
+    loading,
   };
 };

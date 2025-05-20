@@ -9,6 +9,7 @@ import { auth, db } from "../firebase/firebaseConfig";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { collection, query, getDocs, where } from "firebase/firestore";
 import { IPet } from "../interfaces/Pet";
+import { IRequestSent, IRequestReceived } from "../interfaces/Request";
 
 interface IUserContext {
   user: User | null;
@@ -34,6 +35,10 @@ interface IUserContext {
   setAllowContact: (name: boolean) => void;
   availablePets: IPet[];
   setAvailablePets: (pet: IPet[]) => void;
+  requestsSent: IRequestSent[];
+  setRequestsSent: (requests: IRequestSent[]) => void;
+  requestsReceived: IRequestReceived[];
+  setRequestsReceived: (requests: IRequestReceived[]) => void;
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
@@ -56,6 +61,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [contact, setContact] = useState<string>("");
   const [allowContact, setAllowContact] = useState<boolean>(false);
   const [availablePets, setAvailablePets] = useState<IPet[]>([]);
+  const [requestsSent, setRequestsSent] = useState<IRequestSent[]>([]);
+  const [requestsReceived, setRequestsReceived] = useState<IRequestReceived[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [successNotification, setSuccessNotification] =
@@ -138,6 +147,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setAllowContact,
         availablePets,
         setAvailablePets,
+        requestsSent,
+        setRequestsSent,
+        requestsReceived,
+        setRequestsReceived,
         successMsg,
         setSuccessMsg,
         successNotification,

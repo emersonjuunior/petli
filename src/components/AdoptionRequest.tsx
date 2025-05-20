@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState, FormEvent } from "react";
 import Error from "./Error";
-import { useUserContext } from "../context/UserContext";
 import { useAdoptionRequest } from "../hooks/useAdoptionRequest";
 
 interface Props {
@@ -34,7 +33,6 @@ const AdoptionRequest = ({
   gender,
   owner,
 }: Props) => {
-  const { username } = useUserContext();
   const { createAdoptionRequest } = useAdoptionRequest();
   const modalAdoptRef = useRef<HTMLDivElement>(null);
   const [uf, setUf] = useState("");
@@ -104,7 +102,7 @@ const AdoptionRequest = ({
 
     createAdoptionRequest(petId, text, location, owner)
 
-    
+
   };
 
   return (
