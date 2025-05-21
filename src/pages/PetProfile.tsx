@@ -49,15 +49,14 @@ const PetProfile = () => {
     });
   };
 
-  // lida com a logica de clicar no botao de adotar
+  // lida com a logica de clicar no botao de adotar 
   const handleAdopt = () => {
-    setAdoptModal(true);
+    setAdoptModal(true)
 
-    // se o usuário já tiver mandado uma requisição pra esse pet, redireciona pra pag de adoções do usuario
-    if (requestsAlreadySent.includes(pet.id)) {
+    if(requestsAlreadySent.includes(pet.id)){
       navigate("/minhas-adocoes")
     }
-  };
+  }
 
   return (
     <>
@@ -229,12 +228,10 @@ const PetProfile = () => {
           <div className="w-full flex flex-col gap-3 justify-center items-center">
             {user ? (
               <button
-              className={`${requestsAlreadySent.includes(pet.id) ? "text-lg w-[310px] md:text-[22px] md:w-[360px]" : "w-[270px] text-[22px]"} font-bold py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300`}
+                className="w-[290px] text-[21px] font-bold py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300"
                 onClick={handleAdopt}
               >
-                {requestsAlreadySent.includes(pet.id)
-                  ? "Acompanhar solicitação"
-                  : "Quero Adotar"}{" "}
+                {requestsAlreadySent.includes(pet.id) ? "Acompanhar adoção" : "Quero adotar"}
                 <i className="fa-solid fa-paw ml-1"></i>
               </button>
             ) : (
@@ -245,6 +242,7 @@ const PetProfile = () => {
                 </button>
               </Link>
             )}
+
             <button
               className="font-medium text-lg w-[200px] py-2 rounded-lg cursor-pointer hover:text-gray-200 duration-300"
               onClick={() =>
@@ -267,6 +265,7 @@ const PetProfile = () => {
             contact={pet.contact}
             setAdoptModal={setAdoptModal}
             handleCopyUrl={handleCopyUrl}
+            species={pet.species}
           />
         )}
         {adoptModal &&
@@ -278,6 +277,7 @@ const PetProfile = () => {
               name={pet.name}
               gender={pet.gender}
               owner={pet.owner}
+              species={pet.species}
             />
           )}
       </main>

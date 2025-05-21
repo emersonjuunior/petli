@@ -19,17 +19,16 @@ export const useAdoptionRequest = () => {
   const [loading, setLoading] = useState(false);
   const {
     username,
-    requestsSent,
     setRequestsSent,
     setRequestsReceived,
     hasLoadedReceived,
     setHasLoadedReceived,
     hasLoadedSent,
     setHasLoadedSent,
-    requestsAlreadySent,
     setRequestsAlreadySent,
     loadedRequests,
     setLoadedRequests,
+    showSuccessNotification,
   } = useUserContext();
 
   // pega os dados das solicitações de adoção enviadas
@@ -110,7 +109,8 @@ export const useAdoptionRequest = () => {
     petId: string,
     text: string,
     location: string,
-    owner: string
+    owner: string,
+    species: string
   ) => {
     try {
       setLoading(true);
@@ -132,6 +132,10 @@ export const useAdoptionRequest = () => {
 
       // atualiza o state local do usuario
       setRequestsSent((prev: IRequest[]) => [newRequest, ...prev]);
+      setRequestsAlreadySent((prev) => [...prev, petId]);
+      setLoadedRequests((prev) => [...prev, petId]);
+
+      showSuccessNotification(`Solicitação enviada! Você pode acompanhar suas adoções em "Minhas Adoções". ${species === "Gato" ? "🐱" : "🐶"}`);
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {
@@ -147,7 +151,6 @@ export const useAdoptionRequest = () => {
   ) => {
     setRequestLoading(true);
 
-    
     // verifica se o responsável do pet é o usuário logado
     if (owner === username) {
       setRequestLoading(false);

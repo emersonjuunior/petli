@@ -4,9 +4,10 @@ interface Props {
   setAdoptModal: React.Dispatch<React.SetStateAction<boolean>>;
   contact: string;
   handleCopyUrl: (text: string) => void;
+  species: string
 }
 
-const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl }: Props) => {
+const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl, species }: Props) => {
   const modalAdoptRef = useRef<HTMLDivElement>(null);
 
   // permite fechar o modal se clicar em qualquer lugar fora da imagem
@@ -42,7 +43,7 @@ const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl }: Props) => {
         <hr className="text-[#404040] mb-4" />
         <p className="mb-5 text-base md:text-lg">
           O responsável pelo pet está disponível para conversar diretamente com
-          você! 🐶🐱
+          você! {species === "Gato" ? "🐱" : "🐶"}
         </p>
         <div className="flex items-center gap-5 justify-end">
           <button

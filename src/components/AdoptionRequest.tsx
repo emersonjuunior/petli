@@ -8,6 +8,7 @@ interface Props {
   name: string;
   gender: string;
   owner: string;
+  species: string;
 }
 
 interface IBGEUF {
@@ -32,6 +33,7 @@ const AdoptionRequest = ({
   name,
   gender,
   owner,
+  species,
 }: Props) => {
   const { createAdoptionRequest } = useAdoptionRequest();
   const modalAdoptRef = useRef<HTMLDivElement>(null);
@@ -97,12 +99,12 @@ const AdoptionRequest = ({
   };
 
   // envia a solicitação de adoção
-  const handleAdoptionRequest = (e: FormEvent<HTMLFormElement>) => {
+  const handleAdoptionRequest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createAdoptionRequest(petId, text, location, owner)
+    await createAdoptionRequest(petId, text, location, owner, species);
 
-
+    setAdoptModal(false);
   };
 
   return (
@@ -125,7 +127,7 @@ const AdoptionRequest = ({
             <span className="font-semibold">solicitação de adoção</span>. O
             responsável vai analisar com carinho e, se aprovada, você receberá
             os <span className="font-semibold">dados de contato</span> para
-            conversar diretamente com ele! 🐶🐱
+            conversar diretamente com ele! {species === "Gato" ? "🐱" : "🐶"}
           </p>
           <hr className="text-[#404040]" />
 
