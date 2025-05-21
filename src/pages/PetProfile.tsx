@@ -1,24 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { useGetProfile } from "../hooks/useGetProfile";
 import Loading from "../components/Loading";
 import ViewImage from "../components/ViewImage";
 import AdoptModal from "../components/AdoptModal";
 import AdoptionRequest from "../components/AdoptionRequest";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
+import { useAdoptionRequest } from "../hooks/useAdoptionRequest";
 import { Helmet } from "react-helmet";
 
 const PetProfile = () => {
+  const navigate = useNavigate();
+  const { checkAdoptionRequest, requestLoading } = useAdoptionRequest();
   const { petId } = useParams();
   const { pet, loading } = useGetProfile("pets", petId!);
   const [viewImage, setViewImage] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [adoptModal, setAdoptModal] = useState(false);
   const location = useLocation();
-  const { user, showSuccessNotification } = useUserContext();
+  const { user, showSuccessNotification, requestsAlreadySent } =
+    useUserContext();
 
-  if (loading) {
+  useEffect(() => {
+    if (pet) {
+      checkAdoptionRequest(pet.id, pet.allowContact, pet.owner);
+    }
+  }, [pet]);
+
+  if (loading || requestLoading) {
     return <Loading />;
   }
 
@@ -37,6 +47,16 @@ const PetProfile = () => {
     navigator.clipboard.writeText(fullUrl).then(() => {
       showSuccessNotification(text);
     });
+  };
+
+  // lida com a logica de clicar no botao de adotar
+  const handleAdopt = () => {
+    setAdoptModal(true);
+
+    // se o usuário já tiver mandado uma requisição pra esse pet, redireciona pra pag de adoções do usuario
+    if (requestsAlreadySent.includes(pet.id)) {
+      navigate("/minhas-adocoes")
+    }
   };
 
   return (
@@ -209,14 +229,17 @@ const PetProfile = () => {
           <div className="w-full flex flex-col gap-3 justify-center items-center">
             {user ? (
               <button
-                className="font-bold text-[22px] w-[270px] py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300"
-                onClick={() => setAdoptModal(true)}
+              className={`${requestsAlreadySent.includes(pet.id) ? "text-lg w-[310px] md:text-[22px] md:w-[360px]" : "w-[270px] text-[22px]"} font-bold py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300`}
+                onClick={handleAdopt}
               >
-                Quero Adotar <i className="fa-solid fa-paw ml-1"></i>
+                {requestsAlreadySent.includes(pet.id)
+                  ? "Acompanhar solicitação"
+                  : "Quero Adotar"}{" "}
+                <i className="fa-solid fa-paw ml-1"></i>
               </button>
             ) : (
               <Link to="/cadastro">
-                <button className="font-bold text-lg px-4 py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300">
+                <button className="font-bold text-lg px-5 py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300">
                   Cadastre-se para adotar{" "}
                   <i className="fa-solid fa-paw ml-1"></i>
                 </button>
@@ -239,14 +262,16 @@ const PetProfile = () => {
             setViewImage={setViewImage}
           />
         )}
+        {adoptModal && pet.allowContact && (
+          <AdoptModal
+            contact={pet.contact}
+            setAdoptModal={setAdoptModal}
+            handleCopyUrl={handleCopyUrl}
+          />
+        )}
         {adoptModal &&
-          (pet.allowContact ? (
-            <AdoptModal
-              contact={pet.contact}
-              setAdoptModal={setAdoptModal}
-              handleCopyUrl={handleCopyUrl}
-            />
-          ) : (
+          !pet.allowContact &&
+          !requestsAlreadySent.includes(pet.id) && (
             <AdoptionRequest
               petId={pet.id}
               setAdoptModal={setAdoptModal}
@@ -254,7 +279,7 @@ const PetProfile = () => {
               gender={pet.gender}
               owner={pet.owner}
             />
-          ))}
+          )}
       </main>
     </>
   );

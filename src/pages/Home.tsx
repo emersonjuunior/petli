@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet";
 import Hero from "../components/Hero";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
         />
       </Helmet>
       <main className="min-h-[3000px]">
+        <Link to="/pet/megwi-VZb9">Clique aqui</Link>
         <Hero />
       </main>
     </>

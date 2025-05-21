@@ -1,16 +1,11 @@
-export interface IRequestSent {
-  petId: string;
-  date: Date;
-  text: string;
-  location: string;
-  owner: string;
-  status: string;
-}
+import { Timestamp } from "firebase/firestore";
 
-export interface IRequestReceived {
+export interface IRequest {
   petId: string;
-  date: Date;
+  date: Timestamp;
   text: string;
   location: string;
   interested: string;
+  owner: string;
+  status: string;
 }

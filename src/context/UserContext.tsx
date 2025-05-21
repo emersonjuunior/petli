@@ -9,7 +9,7 @@ import { auth, db } from "../firebase/firebaseConfig";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { collection, query, getDocs, where } from "firebase/firestore";
 import { IPet } from "../interfaces/Pet";
-import { IRequestSent, IRequestReceived } from "../interfaces/Request";
+import { IRequest } from "../interfaces/Request";
 
 interface IUserContext {
   user: User | null;
@@ -35,10 +35,18 @@ interface IUserContext {
   setAllowContact: (name: boolean) => void;
   availablePets: IPet[];
   setAvailablePets: (pet: IPet[]) => void;
-  requestsSent: IRequestSent[];
-  setRequestsSent: (requests: IRequestSent[]) => void;
-  requestsReceived: IRequestReceived[];
-  setRequestsReceived: (requests: IRequestReceived[]) => void;
+  requestsSent: IRequest[];
+  setRequestsSent: React.Dispatch<React.SetStateAction<IRequest[]>>;
+  requestsReceived: IRequest[];
+  setRequestsReceived: React.Dispatch<React.SetStateAction<IRequest[]>>;
+  requestsAlreadySent: string[];
+  setRequestsAlreadySent: React.Dispatch<React.SetStateAction<string[]>>;
+  loadedRequests: string[];
+  setLoadedRequests: React.Dispatch<React.SetStateAction<string[]>>;
+  hasLoadedSent: boolean;
+  setHasLoadedSent: (value: boolean) => void;
+  hasLoadedReceived: boolean;
+  setHasLoadedReceived: (value: boolean) => void;
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
@@ -61,10 +69,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [contact, setContact] = useState<string>("");
   const [allowContact, setAllowContact] = useState<boolean>(false);
   const [availablePets, setAvailablePets] = useState<IPet[]>([]);
-  const [requestsSent, setRequestsSent] = useState<IRequestSent[]>([]);
-  const [requestsReceived, setRequestsReceived] = useState<IRequestReceived[]>(
-    []
-  );
+  const [requestsSent, setRequestsSent] = useState<IRequest[]>([]);
+  const [requestsReceived, setRequestsReceived] = useState<IRequest[]>([]);
+  const [requestsAlreadySent, setRequestsAlreadySent] = useState<string[]>([]);
+  const [hasLoadedSent, setHasLoadedSent] = useState(false);
+  const [hasLoadedReceived, setHasLoadedReceived] = useState(false);
+  const [loadedRequests, setLoadedRequests] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string>("");
   const [successNotification, setSuccessNotification] =
@@ -151,6 +161,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setRequestsSent,
         requestsReceived,
         setRequestsReceived,
+        requestsAlreadySent,
+        setRequestsAlreadySent,
+        loadedRequests,
+        setLoadedRequests,
+        hasLoadedSent,
+        setHasLoadedSent,
+        hasLoadedReceived,
+        setHasLoadedReceived,
         successMsg,
         setSuccessMsg,
         successNotification,

@@ -16,6 +16,7 @@ import Success from "./components/Success";
 import CreatePet from "./pages/CreatePet";
 import PetProfile from "./pages/PetProfile";
 import EditProfile from "./pages/EditProfile";
+import MyAdoptions from "./pages/MyAdoptions";
 
 function App() {
   const { user, displayName, loading, successNotification, successMsg } =
@@ -40,6 +41,10 @@ function App() {
         <Route
           path="/editar-perfil"
           element={user ? <EditProfile /> : <Home />}
+        />
+        <Route
+          path="/minhas-adocoes"
+          element={user ? <MyAdoptions /> : <Home />}
         />
       </Routes>
     </BrowserRouter>
