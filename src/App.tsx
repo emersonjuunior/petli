@@ -5,6 +5,7 @@ import { useUserContext } from "./context/UserContext";
 import Header from "./components/Header";
 import Loading from "./components/Loading";
 import CreateUsernameModal from "./components/CreateUsernameModal";
+import Scroll from "./components/Scroll";
 
 // pages
 import Home from "./pages/Home";
@@ -30,6 +31,7 @@ function App() {
       <Header />
       {successNotification && <Success msg={successMsg} />}
       {user && displayName === "Google" && <CreateUsernameModal />}
+      <Scroll />
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
