@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface IPetCard {
   name: string;
   species: string;
@@ -37,5 +39,7 @@ export interface IPet {
 
   owner: string;
   date: string;
-}
 
+  pendingRequests: number;
+  createdAt: Timestamp;
+}

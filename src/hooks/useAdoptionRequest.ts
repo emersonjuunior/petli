@@ -9,6 +9,8 @@ import {
   setDoc,
   where,
   Timestamp,
+  updateDoc,
+  increment,
 } from "firebase/firestore";
 import { useUserContext } from "../context/UserContext";
 import { IRequest } from "../interfaces/Request";
@@ -105,7 +107,7 @@ export const useAdoptionRequest = () => {
     text: string,
     location: string,
     owner: string,
-    species: string
+    species: string,
   ) => {
     try {
       setLoading(true);
@@ -124,6 +126,12 @@ export const useAdoptionRequest = () => {
       const docId = `${username}-${petId}`;
       const docRef = doc(db, "adoptionRequests", docId);
       await setDoc(docRef, newRequest);
+
+      // incrementa o campo pendingRequests em +1
+      const petRef = doc(db, "pets", petId);
+      await updateDoc(petRef, {
+        pendingRequests: increment(1),
+      });
 
       // atualiza o state local do usuario
       setRequestsSent((prev: IRequest[]) => [newRequest, ...prev]);

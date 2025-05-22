@@ -11,6 +11,7 @@ import { useImages } from "../hooks/useImages";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
+import { Timestamp } from "firebase/firestore";
 
 const CreatePet = () => {
   const {
@@ -110,6 +111,9 @@ const CreatePet = () => {
 
       owner: username!,
       date: brazilianDate,
+
+      pendingRequests: 0,
+      createdAt: Timestamp.now(),
     };
 
     await createPet(newPet);

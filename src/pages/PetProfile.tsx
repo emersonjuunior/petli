@@ -49,14 +49,14 @@ const PetProfile = () => {
     });
   };
 
-  // lida com a logica de clicar no botao de adotar 
+  // lida com a logica de clicar no botao de adotar
   const handleAdopt = () => {
-    setAdoptModal(true)
+    setAdoptModal(true);
 
-    if(requestsAlreadySent.includes(pet.id)){
-      navigate("/minhas-adocoes")
+    if (requestsAlreadySent.includes(pet.id)) {
+      navigate("/minhas-adocoes");
     }
-  }
+  };
 
   return (
     <>
@@ -231,7 +231,9 @@ const PetProfile = () => {
                 className="w-[290px] text-[21px] font-bold py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300"
                 onClick={handleAdopt}
               >
-                {requestsAlreadySent.includes(pet.id) ? "Acompanhar adoção" : "Quero adotar"}
+                {requestsAlreadySent.includes(pet.id)
+                  ? "Acompanhar adoção"
+                  : "Quero adotar"}
                 <i className="fa-solid fa-paw ml-1"></i>
               </button>
             ) : (

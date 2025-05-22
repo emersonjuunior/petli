@@ -31,6 +31,8 @@ export const useAuthentication = () => {
     setAvailablePets,
     setRequestsReceived,
     setRequestsSent,
+    setHasLoadedReceived,
+    setHasLoadedSent,
   } = useUserContext();
   const navigate = useNavigate();
 
@@ -149,6 +151,8 @@ export const useAuthentication = () => {
     setAvailablePets([]);
     setRequestsReceived([]);
     setRequestsSent([]);
+    setHasLoadedReceived(false);
+    setHasLoadedSent(false);
 
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");
