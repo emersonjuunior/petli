@@ -47,6 +47,10 @@ interface IUserContext {
   setHasLoadedSent: (value: boolean) => void;
   hasLoadedReceived: boolean;
   setHasLoadedReceived: (value: boolean) => void;
+  hasLoadedAvailablePets: boolean;
+  setHasLoadedAvailablePets: (value: boolean) => void;
+  loadedAvailablePets: number;
+  setLoadedAvailablePets: React.Dispatch<React.SetStateAction<number>>;
   successMsg: string;
   setSuccessMsg: (msg: string) => void;
   successNotification: boolean;
@@ -72,6 +76,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [requestsSent, setRequestsSent] = useState<IRequest[]>([]);
   const [requestsReceived, setRequestsReceived] = useState<IRequest[]>([]);
   const [requestsAlreadySent, setRequestsAlreadySent] = useState<string[]>([]);
+  const [loadedAvailablePets, setLoadedAvailablePets] = useState(0);
+  const [hasLoadedAvailablePets, setHasLoadedAvailablePets] = useState(false);
   const [hasLoadedSent, setHasLoadedSent] = useState(false);
   const [hasLoadedReceived, setHasLoadedReceived] = useState(false);
   const [loadedRequests, setLoadedRequests] = useState<string[]>([]);
@@ -169,6 +175,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setHasLoadedSent,
         hasLoadedReceived,
         setHasLoadedReceived,
+        loadedAvailablePets,
+        setLoadedAvailablePets,
+        hasLoadedAvailablePets,
+        setHasLoadedAvailablePets,
         successMsg,
         setSuccessMsg,
         successNotification,

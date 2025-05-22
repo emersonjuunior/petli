@@ -5,7 +5,13 @@ import { db } from "../firebase/firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 export const useAvailablePets = (usernameId: string) => {
-  const { availablePets, setAvailablePets, username } = useUserContext();
+  const {
+    availablePets,
+    setAvailablePets,
+    username,
+    hasLoadedAvailablePets,
+    setHasLoadedAvailablePets,
+  } = useUserContext();
   const [petLoading, setPetLoading] = useState(false);
   const [profileAvailablePets, setProfileAvailablePets] = useState<IPet[]>([]);
 
@@ -20,12 +26,20 @@ export const useAvailablePets = (usernameId: string) => {
         return;
       }
 
+      // se for o perfil do usuário logado, já tiver sido feita a requisição antes, nao faz ela de novo
+      if (usernameId === username && hasLoadedAvailablePets) {
+        setProfileAvailablePets(availablePets);
+        setPetLoading(false);
+        return;
+      }
+
       const col = collection(db, "pets");
 
       const q = query(col, where("owner", "==", usernameId));
 
       const querySnapshot = await getDocs(q);
 
+      console.log("Requisição realizada.");
       // atualiza o state com o dado dos pets disponiveis
       if (!querySnapshot.empty) {
         const pets: IPet[] = querySnapshot.docs.map(
@@ -38,6 +52,7 @@ export const useAvailablePets = (usernameId: string) => {
           setAvailablePets(pets);
         }
       }
+      setHasLoadedAvailablePets(true);
       setPetLoading(false);
     };
 

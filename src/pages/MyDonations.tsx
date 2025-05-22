@@ -1,23 +1,50 @@
 import Loading from "../components/Loading";
 import { useUserContext } from "../context/UserContext";
-import { useAdoptionRequest } from "../hooks/useAdoptionRequest";
-import { useEffect } from "react";
+import { useAvailablePets } from "../hooks/useAvailablePets";
+import { useNavigate } from "react-router-dom";
 
 const MyDonations = () => {
-  const { requestsReceived } = useUserContext();
-  const { getRequestsReceived, requestLoading } = useAdoptionRequest();
+  const { username } = useUserContext();
+  const navigate = useNavigate();
+  const { petLoading, profileAvailablePets: userAvailablePets } =
+    useAvailablePets(username!);
 
-  useEffect(() => {
-    getRequestsReceived();
-  }, []);
+  console.log(userAvailablePets);
 
-  console.log(requestsReceived);
-
-  if (requestLoading) {
+  if (petLoading) {
     return <Loading />;
   }
 
-  return <main></main>;
+  const handleEditPet = (id: string) => {
+    const selectedPet = userAvailablePets.find((pet) => pet.id === id);
+
+    // redireciona para a pagina de editar com os dados do pet
+    navigate(`/editar/${id}`, {
+      state: { selectedPet },
+    });
+  };
+
+  return (
+    <main>
+      <section>
+        {userAvailablePets.map((pet) => (
+          <div key={pet.id}>
+            <img
+              src={pet.image}
+              alt={pet.name}
+              className="size-40 object-cover"
+            />
+            <button
+              className="cursor-pointer"
+              onClick={() => handleEditPet(pet.id)}
+            >
+              Editar
+            </button>
+          </div>
+        ))}
+      </section>
+    </main>
+  );
 };
 
 export default MyDonations;
