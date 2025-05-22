@@ -17,6 +17,7 @@ import Success from "./components/Success";
 import CreatePet from "./pages/CreatePet";
 import PetProfile from "./pages/PetProfile";
 import EditProfile from "./pages/EditProfile";
+import EditPet from "./pages/EditPet";
 import MyAdoptions from "./pages/MyAdoptions";
 import MyDonations from "./pages/MyDonations";
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/cadastro" element={user ? <Home /> : <Register />} />
         <Route path="/login" element={user ? <Home /> : <Login />} />
         <Route path="/:usernameId" element={<Profile />} />
+        <Route path="/editar/:petId" element={user ? <EditPet /> : <Home />} />
         <Route path="/novo-pet" element={user ? <CreatePet /> : <Home />} />
         <Route path="/pet/:petId" element={<PetProfile />} />
         <Route

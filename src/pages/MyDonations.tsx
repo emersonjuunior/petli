@@ -16,11 +16,11 @@ const MyDonations = () => {
   }
 
   const handleEditPet = (id: string) => {
-    const selectedPet = userAvailablePets.find((pet) => pet.id === id);
+    const pet = userAvailablePets.find((pet) => pet.id === id);
 
     // redireciona para a pagina de editar com os dados do pet
     navigate(`/editar/${id}`, {
-      state: { selectedPet },
+      state: { pet },
     });
   };
 

@@ -38,7 +38,6 @@ export interface IPet {
   moreImages?: string[];
 
   owner: string;
-  date: string;
 
   pendingRequests: number;
   createdAt: Timestamp;

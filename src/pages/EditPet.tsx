@@ -1,10 +1,11 @@
+import { useLocation, Navigate } from "react-router-dom";
+import { IPet } from "../interfaces/Pet";
 import { FormEvent, useState } from "react";
 import FirstStep from "../components/CreatePetSteps/FirstStep";
 import SecondStep from "../components/CreatePetSteps/SecondStep";
 import ThirdStep from "../components/CreatePetSteps/ThirdStep";
 import FourthStep from "../components/CreatePetSteps/FourthStep";
 import PetCard from "../components/PetCard";
-import { IPet } from "../interfaces/Pet";
 import { nanoid } from "nanoid";
 import { usePets } from "../hooks/usePets";
 import { useImages } from "../hooks/useImages";
@@ -13,7 +14,16 @@ import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
 import { Timestamp } from "firebase/firestore";
 
-const CreatePet = () => {
+const EditPet = () => {
+  const locationDOM = useLocation();
+  const pet = (locationDOM.state as { pet: IPet } | undefined)?.pet;
+
+  if (!pet) {
+    return <Navigate to="/minhas-doacoes" />;
+  }
+
+  console.log(pet);
+
   const {
     showSuccessNotification,
     username,
@@ -193,8 +203,8 @@ const CreatePet = () => {
                 setImageData={setImageData}
               />
             )}
- 
-           {step === 2 && (
+
+            {step === 2 && (
               <SecondStep
                 setLocation={setLocation}
                 city={city}
@@ -262,4 +272,5 @@ const CreatePet = () => {
     </>
   );
 };
-export default CreatePet;
+
+export default EditPet;
