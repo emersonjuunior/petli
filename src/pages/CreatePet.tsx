@@ -13,6 +13,14 @@ import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
 
 const CreatePet = () => {
+  const {
+    showSuccessNotification,
+    username,
+    allowContact,
+    state,
+    city: defaultCity,
+    contact: defaultContact,
+  } = useUserContext();
   const [step, setStep] = useState(1);
   const [species, setSpecies] = useState("");
   const [name, setName] = useState("");
@@ -21,12 +29,16 @@ const CreatePet = () => {
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [size, setSize] = useState("");
-  const [location, setLocation] = useState("");
-  const [city, setCity] = useState("");
-  const [uf, setUf] = useState("");
-  const [contactMethod, setContactMethod] = useState("WhatsApp");
+  const [location, setLocation] = useState(
+    defaultCity && state ? `${defaultCity}, ${state}` : ""
+  );
+  const [city, setCity] = useState(defaultCity ? defaultCity : "");
+  const [uf, setUf] = useState(state ? state : "");
+  const [contactMethod, setContactMethod] = useState(
+    defaultContact && defaultContact.includes("@") ? "Email" : "WhatsApp"
+  );
   const [contact, setContact] = useState("");
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(allowContact);
   const [vaccinated, setVaccinated] = useState("");
   const [dewormed, setDewormed] = useState<boolean | null>(null);
   const [neutered, setNeutered] = useState<boolean | null>(null);
@@ -45,7 +57,6 @@ const CreatePet = () => {
   const { createPet } = usePets();
   const { uploadImages } = useImages();
   const navigate = useNavigate();
-  const { showSuccessNotification, username } = useUserContext();
 
   const handleNewPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

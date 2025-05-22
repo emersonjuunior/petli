@@ -32,7 +32,7 @@ interface IUserContext {
   contact: string;
   setContact: (name: string) => void;
   allowContact: boolean;
-  setAllowContact: (name: boolean) => void;
+  setAllowContact: React.Dispatch<React.SetStateAction<boolean>>;
   availablePets: IPet[];
   setAvailablePets: (pet: IPet[]) => void;
   requestsSent: IRequest[];

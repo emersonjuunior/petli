@@ -77,26 +77,21 @@ export const useAdoptionRequest = () => {
         return;
       }
 
-      const docRef = doc(
-        db,
-        "usernames",
-        username!,
-        "requestsReceived",
-        "requestsReceived"
-      );
-      const docSnap = await getDoc(docRef);
+      const col = collection(db, "adoptionRequests");
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        console.log(data);
-        const requests = data.sent as IRequest[];
-        console.log(requests);
+      const q = query(col, where("owner", "==", username));
 
-        // passa os dados para o state e salva na memória que a requisição já foi feita
-        setRequestsReceived(requests);
-        setHasLoadedReceived(true);
-        console.log("Requisição feita");
+      const querySnapshot = await getDocs(q);
+
+      // atualiza o state com o dado dos pets disponiveis
+      if (!querySnapshot.empty) {
+        const adoptionRequests: IRequest[] = querySnapshot.docs.map(
+          (doc) => doc.data() as IRequest
+        );
+        setRequestsReceived(adoptionRequests);
       }
+
+      setHasLoadedReceived(true);
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {
@@ -135,7 +130,11 @@ export const useAdoptionRequest = () => {
       setRequestsAlreadySent((prev) => [...prev, petId]);
       setLoadedRequests((prev) => [...prev, petId]);
 
-      showSuccessNotification(`Solicitação enviada! Você pode acompanhar suas adoções em "Minhas Adoções". ${species === "Gato" ? "🐱" : "🐶"}`);
+      showSuccessNotification(
+        `Solicitação enviada! Você pode acompanhar suas adoções em "Minhas Adoções". ${
+          species === "Gato" ? "🐱" : "🐶"
+        }`
+      );
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {

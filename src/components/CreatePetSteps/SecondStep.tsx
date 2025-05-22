@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Error from "../Error";
 import Checkbox from "../Checkbox";
+import { useUserContext } from "../../context/UserContext";
 
 interface Props {
   setLocation: React.Dispatch<React.SetStateAction<string>>;
@@ -45,11 +46,16 @@ const SecondStep = ({
   setChecked,
   setStep,
 }: Props) => {
+  const { contact } = useUserContext();
   const [states, setStates] = useState<IBGEUF[]>([]);
   const [cities, setCities] = useState<IBGECity[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState(
+    contact && !contact.includes("@") ? contact : ""
+  );
+  const [email, setEmail] = useState(
+    contact && contact.includes("@") ? contact : ""
+  );
 
   // busca os estados do brasil com a api do ibge
   useEffect(() => {
@@ -84,6 +90,13 @@ const SecondStep = ({
   const handleSelectedCity = (value: string) => {
     setCity(value);
     setLocation(`${value}, ${uf}`);
+  };
+
+  // altera o state quando uma uf é selecionada
+  const handleSelectedUf = (value: string) => {
+    setUf(value);
+    setCity("");
+    setLocation("")
   };
 
   // máscara para input de número de wpp
@@ -151,7 +164,7 @@ const SecondStep = ({
               <label>
                 <select
                   value={uf}
-                  onChange={(e) => setUf(e.target.value)}
+                  onChange={(e) => handleSelectedUf(e.target.value)}
                   className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-5"
                   required
                 >

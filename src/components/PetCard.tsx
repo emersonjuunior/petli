@@ -75,6 +75,7 @@ const PetCard = ({
       <div className="flex items-center justify-center">
         <Link to={`/pet/${id}`}>
           <button
+            disabled={preview}
             className={`${
               preview
                 ? "border-[#414141] cursor-not-allowed"

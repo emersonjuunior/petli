@@ -44,7 +44,7 @@ const Menu = ({ toggleMenu, headerRef }: Props) => {
             <img
               src={userImage!}
               alt={`Foto de Perfil do Usuário ${displayName}`}
-              className="size-13 rounded-full"
+              className="size-13 rounded-full object-cover"
             />
             <p className="font-medium">Olá, {username}</p>
           </div>
