@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import Error from "../Error";
 import Checkbox from "../Checkbox";
-import { useUserContext } from "../../context/UserContext";
 
 interface Props {
   setLocation: React.Dispatch<React.SetStateAction<string>>;
@@ -15,6 +14,7 @@ interface Props {
   checked: boolean;
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  contact: string;
 }
 
 interface IBGEUF {
@@ -45,8 +45,8 @@ const SecondStep = ({
   checked,
   setChecked,
   setStep,
+  contact,
 }: Props) => {
-  const { contact } = useUserContext();
   const [states, setStates] = useState<IBGEUF[]>([]);
   const [cities, setCities] = useState<IBGECity[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -56,6 +56,11 @@ const SecondStep = ({
   const [email, setEmail] = useState(
     contact && contact.includes("@") ? contact : ""
   );
+
+  // atualiza o state do contato ao renderizar o componente
+  useEffect(() => {
+    setContact(contact);
+  }, []);
 
   // busca os estados do brasil com a api do ibge
   useEffect(() => {
@@ -96,7 +101,7 @@ const SecondStep = ({
   const handleSelectedUf = (value: string) => {
     setUf(value);
     setCity("");
-    setLocation("")
+    setLocation("");
   };
 
   // máscara para input de número de wpp
@@ -240,7 +245,7 @@ const SecondStep = ({
             <Checkbox
               title="Manter contato visível?"
               text={
-                "Se ativado, seu contato ficará visível a todos os interessados, permitindo contato direto. Caso contrário, os adotantes enviarão solicitações pela plataforma, e você decidirá com quem compartilhar seu contato."
+                "Se ativado, seu contato ficará visível a todos os interessados, permitindo contato direto. Caso contrário, os adotantes enviarão solicitações de adoção pela plataforma, e você decidirá com quem compartilhar seu contato."
               }
               checked={checked}
               setChecked={setChecked}

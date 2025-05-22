@@ -18,6 +18,7 @@ interface Props {
   imagePreview: string;
   setImagePreview: React.Dispatch<React.SetStateAction<string>>;
   setImageData: React.Dispatch<React.SetStateAction<FormData | null>>;
+  timeNumber?: string;
 }
 
 const FirstStep = ({
@@ -36,8 +37,9 @@ const FirstStep = ({
   imagePreview,
   setImagePreview,
   setImageData,
+  timeNumber,
 }: Props) => {
-  const [timeValue, setTimeValue] = useState("");
+  const [timeValue, setTimeValue] = useState(timeNumber ? timeNumber : "");
   const [time, setTime] = useState("anos");
   const [error, setError] = useState<string | null>(null);
 
@@ -247,7 +249,7 @@ const FirstStep = ({
           <label className="relative h-[150px] md:h-[180px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
               <img
-                src="./upload-picture.png"
+                src="/upload-picture.png"
                 alt="Nos envie uma foto do seu pet!"
                 className="min-w-25 min-h-[85px] w-25 h-auto"
               />

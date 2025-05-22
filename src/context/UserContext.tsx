@@ -34,7 +34,7 @@ interface IUserContext {
   allowContact: boolean;
   setAllowContact: React.Dispatch<React.SetStateAction<boolean>>;
   availablePets: IPet[];
-  setAvailablePets: (pet: IPet[]) => void;
+  setAvailablePets: React.Dispatch<React.SetStateAction<IPet[]>>;
   requestsSent: IRequest[];
   setRequestsSent: React.Dispatch<React.SetStateAction<IRequest[]>>;
   requestsReceived: IRequest[];
@@ -71,7 +71,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [contact, setContact] = useState<string>("");
-  const [allowContact, setAllowContact] = useState<boolean>(false);
+  const [allowContact, setAllowContact] = useState<boolean>(true);
   const [availablePets, setAvailablePets] = useState<IPet[]>([]);
   const [requestsSent, setRequestsSent] = useState<IRequest[]>([]);
   const [requestsReceived, setRequestsReceived] = useState<IRequest[]>([]);

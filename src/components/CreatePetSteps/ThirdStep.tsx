@@ -19,7 +19,10 @@ const ThirdStep = ({
   setSpecialCare,
   setStep,
 }: Props) => {
-  const [isVaccinated, setIsVaccinated] = useState<string | null>(null);
+  console.log(vaccinated);
+  const [isVaccinated, setIsVaccinated] = useState<string | null>(
+    vaccinated != "" ? vaccinated : "false"
+  );
   const [needSpecialCare, setNeedSpecialCare] = useState<string | null>(null);
 
   // envio de formulário
@@ -133,7 +136,6 @@ const ThirdStep = ({
                   needSpecialCare === "true"
                     ? "border-gray-400 focus:border-[#596A95]"
                     : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20"
-                    
                 }`}
                 maxLength={300}
                 required

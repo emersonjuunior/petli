@@ -34,6 +34,7 @@ const MyDonations = () => {
               alt={pet.name}
               className="size-40 object-cover"
             />
+            <p>{pet.name}</p>
             <button
               className="cursor-pointer"
               onClick={() => handleEditPet(pet.id)}

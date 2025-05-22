@@ -22,45 +22,49 @@ const EditPet = () => {
     return <Navigate to="/minhas-doacoes" />;
   }
 
-  console.log(pet);
+  console.log(pet)
 
   const {
     showSuccessNotification,
     username,
-    allowContact,
-    state,
-    city: defaultCity,
-    contact: defaultContact,
   } = useUserContext();
-  const [step, setStep] = useState(1);
-  const [species, setSpecies] = useState("");
-  const [name, setName] = useState("");
-  const [imagePreview, setImagePreview] = useState("");
-  const [breed, setBreed] = useState("");
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
-  const [size, setSize] = useState("");
-  const [location, setLocation] = useState(
-    defaultCity && state ? `${defaultCity}, ${state}` : ""
-  );
-  const [city, setCity] = useState(defaultCity ? defaultCity : "");
-  const [uf, setUf] = useState(state ? state : "");
+  const [step, setStep] = useState(3);
+  const [species, setSpecies] = useState(pet.species);
+  const [name, setName] = useState(pet.name);
+  const [imagePreview, setImagePreview] = useState(pet.image);
+  const [breed, setBreed] = useState(pet.breed);
+  const [gender, setGender] = useState(pet.gender);
+  const [age, setAge] = useState(pet.age);
+  const [size, setSize] = useState(pet.size);
+  const [location, setLocation] = useState(`${pet.city}, ${pet.state}`);
+  const [city, setCity] = useState(pet.city);
+  const [uf, setUf] = useState(pet.state);
   const [contactMethod, setContactMethod] = useState(
-    defaultContact && defaultContact.includes("@") ? "Email" : "WhatsApp"
+    pet.contact.includes("@") ? "Email" : "WhatsApp"
   );
-  const [contact, setContact] = useState("");
-  const [checked, setChecked] = useState(allowContact);
-  const [vaccinated, setVaccinated] = useState("");
-  const [dewormed, setDewormed] = useState<boolean | null>(null);
-  const [neutered, setNeutered] = useState<boolean | null>(null);
-  const [specialCare, setSpecialCare] = useState("");
+  const [contact, setContact] = useState(pet.contact);
+  const [checked, setChecked] = useState(pet.allowContact);
+  const [vaccinated, setVaccinated] = useState(
+    pet.vaccinated ? pet.vaccinated : ""
+  );
+  const [dewormed, setDewormed] = useState<boolean | null>(
+    pet.dewormed ? true : false
+  );
+  const [neutered, setNeutered] = useState<boolean | null>(
+    pet.neutered ? true : false
+  );
+  const [specialCare, setSpecialCare] = useState(
+    pet.specialCare ? pet.specialCare : ""
+  );
   const [goodWithOtherAnimals, setGoodWithOtherAnimals] = useState<
     boolean | null
-  >(null);
+  >(pet.goodWithOtherAnimals ? true : false);
   const [goodWithChildren, setGoodWithChildren] = useState<boolean | null>(
-    null
+    pet.goodWithChildren ? true : false
   );
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(
+    pet.description ? pet.description : ""
+  );
   const [moreImagesPreview, setMoreImagesPreview] = useState<string[]>([]);
   const [imageData, setImageData] = useState<FormData | null>(null);
   const [moreImagesData, setMoreImagesData] = useState<FormData[]>([]);
@@ -136,17 +140,17 @@ const EditPet = () => {
   return (
     <>
       <Helmet>
-        <title>Cadastrar Pet | Petli</title>
+        <title>Editar Pet | Petli</title>
         <meta
           name="description"
-          content="Cadastre seu pet e ajude a encontrar um novo lar cheio de amor e cuidado. Contribua para transformar vidas!"
+          content="Edite as informações de seu pet e ajude a encontrar um novo lar cheio de amor e cuidado. Contribua para transformar vidas!"
         />
       </Helmet>
       <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8">
         <section className="flex-1 h-[720px] px-2 md:px-6">
           <div className="min-h-[125px] mb-3 md:mb-0">
             <h1 className="font-medium text-2xl lg:text-3xl mb-6 max-w-[92%] md:max-w-full md:whitespace-nowrap">
-              Encontre um <span className="text-accentBlue">novo lar</span> para
+              Edite <span className="text-accentBlue">as informações</span> do
               seu pet 🐾
             </h1>
             <div className="flex items-center gap-1 md:gap-2">
@@ -201,6 +205,7 @@ const EditPet = () => {
                 imagePreview={imagePreview}
                 setImagePreview={setImagePreview}
                 setImageData={setImageData}
+                timeNumber={pet.age.split("")[0]}
               />
             )}
 
@@ -217,6 +222,7 @@ const EditPet = () => {
                 checked={checked}
                 setChecked={setChecked}
                 setStep={setStep}
+                contact={pet.contact}
               />
             )}
             {step === 3 && (

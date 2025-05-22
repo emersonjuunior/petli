@@ -19,7 +19,7 @@ const PetProfile = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [adoptModal, setAdoptModal] = useState(false);
   const location = useLocation();
-  const { user, showSuccessNotification, requestsAlreadySent } =
+  const { user, showSuccessNotification, requestsAlreadySent, username } =
     useUserContext();
 
   useEffect(() => {
@@ -226,7 +226,13 @@ const PetProfile = () => {
             </section>
           )}
           <div className="w-full flex flex-col gap-3 justify-center items-center">
-            {user ? (
+            {user && pet.owner === username ? (
+              <Link to="/minhas-doacoes">
+                <button className="font-bold text-lg px-5 py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300">
+                  Gerenciar adoção <i className="fa-solid fa-paw ml-1"></i>
+                </button>
+              </Link>
+            ) : user ? (
               <button
                 className="w-[290px] text-[21px] font-bold py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300"
                 onClick={handleAdopt}

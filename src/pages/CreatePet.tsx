@@ -59,6 +59,8 @@ const CreatePet = () => {
   const { uploadImages } = useImages();
   const navigate = useNavigate();
 
+  console.log(contact)
+
   const handleNewPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -193,8 +195,8 @@ const CreatePet = () => {
                 setImageData={setImageData}
               />
             )}
- 
-           {step === 2 && (
+
+            {step === 2 && (
               <SecondStep
                 setLocation={setLocation}
                 city={city}
@@ -207,6 +209,7 @@ const CreatePet = () => {
                 checked={checked}
                 setChecked={setChecked}
                 setStep={setStep}
+                contact={defaultContact}
               />
             )}
             {step === 3 && (
