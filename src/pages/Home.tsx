@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet";
 import Hero from "../components/Hero";
 import { Link } from "react-router-dom";
+import { deleteImage } from "../utils/deleteImage";
 
 const Home = () => {
   return (
@@ -14,6 +15,9 @@ const Home = () => {
       </Helmet>
       <main className="min-h-[3000px]">
         <Link to="/pet/megwi-VZb9">Clique aqui</Link>
+        <button onClick={() => deleteImage("blob_f2uent")}>
+          Deletar Imagem
+        </button>
         <Hero />
       </main>
     </>
