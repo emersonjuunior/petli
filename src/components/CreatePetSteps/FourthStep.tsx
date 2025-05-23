@@ -1,6 +1,6 @@
-import { FormEvent } from "react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Error from "../Error";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   name: string;
@@ -14,6 +14,8 @@ interface Props {
   handleNewPet(e: FormEvent<HTMLFormElement>): void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
+  goodWithOtherAnimals?: boolean | null;
+  goodWithChildren?: boolean | null;
 }
 
 const FourthStep = ({
@@ -28,8 +30,14 @@ const FourthStep = ({
   handleNewPet,
   setStep,
   loading,
+  goodWithChildren,
+  goodWithOtherAnimals,
 }: Props) => {
   const [error, setError] = useState<string | null>(null);
+
+  // variavel que verifica se está na pagina de editar pets
+  const location = useLocation();
+  const checkLocation = location.pathname.includes("editar");
 
   // input de enviar imagens
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,6 +114,7 @@ const FourthStep = ({
               <div className="flex gap-2">
                 <div>
                   <input
+                    defaultChecked={checkLocation && goodWithOtherAnimals!}
                     type="radio"
                     name="goodWithOtherAnimals"
                     value="true"
@@ -117,6 +126,7 @@ const FourthStep = ({
                 </div>
                 <div>
                   <input
+                    defaultChecked={checkLocation && !goodWithOtherAnimals}
                     type="radio"
                     name="goodWithOtherAnimals"
                     value="false"
@@ -134,6 +144,7 @@ const FourthStep = ({
               <div className="flex gap-2">
                 <div>
                   <input
+                    defaultChecked={checkLocation && goodWithChildren!}
                     type="radio"
                     name="goodWithChildren"
                     value="true"
@@ -145,6 +156,7 @@ const FourthStep = ({
                 </div>
                 <div>
                   <input
+                    defaultChecked={checkLocation && !goodWithChildren}
                     type="radio"
                     name="goodWithChildren"
                     value="false"
@@ -166,7 +178,7 @@ const FourthStep = ({
           <label className="relative h-[150px] md:h-[180px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
               <img
-                src="./upload-picture.png"
+                src="/upload-picture.png"
                 alt="Nos envie uma foto do seu pet!"
                 className="min-w-25 min-h-[85px] w-25 h-auto"
               />

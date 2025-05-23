@@ -22,13 +22,10 @@ const EditPet = () => {
     return <Navigate to="/minhas-doacoes" />;
   }
 
-  console.log(pet)
+  console.log(pet);
 
-  const {
-    showSuccessNotification,
-    username,
-  } = useUserContext();
-  const [step, setStep] = useState(3);
+  const { showSuccessNotification, username } = useUserContext();
+  const [step, setStep] = useState(4);
   const [species, setSpecies] = useState(pet.species);
   const [name, setName] = useState(pet.name);
   const [imagePreview, setImagePreview] = useState(pet.image);
@@ -65,7 +62,9 @@ const EditPet = () => {
   const [description, setDescription] = useState(
     pet.description ? pet.description : ""
   );
-  const [moreImagesPreview, setMoreImagesPreview] = useState<string[]>([]);
+  const [moreImagesPreview, setMoreImagesPreview] = useState<string[]>(
+    pet.moreImages ? [...pet.moreImages] : []
+  );
   const [imageData, setImageData] = useState<FormData | null>(null);
   const [moreImagesData, setMoreImagesData] = useState<FormData[]>([]);
   const [loading, setLoading] = useState(false);
@@ -234,6 +233,8 @@ const EditPet = () => {
                 specialCare={specialCare}
                 setSpecialCare={setSpecialCare}
                 setStep={setStep}
+                dewormed={dewormed}
+                neutered={neutered}
               />
             )}
             {step === 4 && (
@@ -249,6 +250,8 @@ const EditPet = () => {
                 handleNewPet={handleNewPet}
                 setStep={setStep}
                 loading={loading}
+                goodWithChildren={goodWithChildren}
+                goodWithOtherAnimals={goodWithOtherAnimals}
               />
             )}
           </div>

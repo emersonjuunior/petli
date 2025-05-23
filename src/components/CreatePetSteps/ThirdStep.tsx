@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   vaccinated: string;
@@ -8,6 +9,8 @@ interface Props {
   specialCare: string;
   setSpecialCare: React.Dispatch<React.SetStateAction<string>>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  dewormed?: boolean | null;
+  neutered?: boolean | null;
 }
 
 const ThirdStep = ({
@@ -18,6 +21,8 @@ const ThirdStep = ({
   specialCare,
   setSpecialCare,
   setStep,
+  dewormed,
+  neutered,
 }: Props) => {
   console.log(vaccinated);
   const [isVaccinated, setIsVaccinated] = useState<string | null>(
@@ -25,12 +30,39 @@ const ThirdStep = ({
   );
   const [needSpecialCare, setNeedSpecialCare] = useState<string | null>(null);
 
+  // variavel que verifica se está na pagina de editar pets
+  const location = useLocation();
+  const checkLocation = location.pathname.includes("editar");
+
   // envio de formulário
   const handleThirdStep = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setStep(4);
   };
+
+  // verifica se está na pag de edição
+  useEffect(() => {
+    if (checkLocation) {
+      if (vaccinated != "") {
+        setIsVaccinated("true");
+      } else {
+        setIsVaccinated("false");
+        setVaccinated("Nenhuma por enquanto.");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (checkLocation) {
+      if (specialCare != "") {
+        setNeedSpecialCare("true");
+      } else {
+        setNeedSpecialCare("false");
+        setSpecialCare("Não necessita.");
+      }
+    }
+  }, []);
 
   return (
     <section className="bg-bgGray rounded-lg shadow-lg h-[585px] min-h-fit">
@@ -55,6 +87,7 @@ const ThirdStep = ({
                     name="isVaccinated"
                     value="true"
                     className="cursor-pointer mr-2"
+                    defaultChecked={checkLocation && vaccinated != ""}
                     required
                     onChange={() => {
                       setIsVaccinated("true");
@@ -69,6 +102,7 @@ const ThirdStep = ({
                     name="isVaccinated"
                     value="false"
                     className="cursor-pointer mr-2"
+                    defaultChecked={checkLocation && vaccinated === ""}
                     onChange={() => {
                       setVaccinated("Nenhuma por enquanto.");
                       setIsVaccinated("false");
@@ -106,6 +140,7 @@ const ThirdStep = ({
                     name="needSpecialCare"
                     value="true"
                     className="cursor-pointer mr-2"
+                    defaultChecked={checkLocation && specialCare != ""}
                     required
                     onChange={() => {
                       setNeedSpecialCare("true");
@@ -119,6 +154,7 @@ const ThirdStep = ({
                     type="radio"
                     name="needSpecialCare"
                     value="false"
+                    defaultChecked={checkLocation && specialCare === ""}
                     className="cursor-pointer mr-2"
                     onChange={() => {
                       setSpecialCare("Não necessita.");
@@ -155,6 +191,7 @@ const ThirdStep = ({
                     name="neutered"
                     value="true"
                     className="cursor-pointer"
+                    defaultChecked={checkLocation && neutered!}
                     required
                     onChange={() => setNeutered(true)}
                   />{" "}
@@ -166,6 +203,7 @@ const ThirdStep = ({
                     name="neutered"
                     value="false"
                     className="cursor-pointer"
+                    defaultChecked={checkLocation && !neutered}
                     onChange={() => setNeutered(false)}
                   />{" "}
                   Não
@@ -183,6 +221,7 @@ const ThirdStep = ({
                     name="dewormed"
                     value="true"
                     className="cursor-pointer"
+                    defaultChecked={checkLocation && dewormed!}
                     required
                     onChange={() => setDewormed(true)}
                   />{" "}
@@ -194,6 +233,7 @@ const ThirdStep = ({
                     name="dewormed"
                     value="false"
                     className="cursor-pointer"
+                    defaultChecked={checkLocation && !dewormed}
                     onChange={() => setDewormed(false)}
                   />{" "}
                   Não
