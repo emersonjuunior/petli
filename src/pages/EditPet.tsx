@@ -1,18 +1,16 @@
 import { useLocation, Navigate } from "react-router-dom";
 import { IPet } from "../interfaces/Pet";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import FirstStep from "../components/CreatePetSteps/FirstStep";
 import SecondStep from "../components/CreatePetSteps/SecondStep";
 import ThirdStep from "../components/CreatePetSteps/ThirdStep";
 import FourthStep from "../components/CreatePetSteps/FourthStep";
 import PetCard from "../components/PetCard";
-import { nanoid } from "nanoid";
 import { usePets } from "../hooks/usePets";
 import { useImages } from "../hooks/useImages";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
-import { Timestamp } from "firebase/firestore";
 
 const EditPet = () => {
   const locationDOM = useLocation();
@@ -22,9 +20,8 @@ const EditPet = () => {
     return <Navigate to="/minhas-doacoes" />;
   }
 
-  console.log(pet);
 
-  const { showSuccessNotification, username } = useUserContext();
+  const { showSuccessNotification, username, availablePets } = useUserContext();
   const [step, setStep] = useState(4);
   const [species, setSpecies] = useState(pet.species);
   const [name, setName] = useState(pet.name);
@@ -68,42 +65,34 @@ const EditPet = () => {
   const [imageData, setImageData] = useState<FormData | null>(null);
   const [moreImagesData, setMoreImagesData] = useState<FormData[]>([]);
   const [loading, setLoading] = useState(false);
-  const { createPet } = usePets();
+  const { editPet } = usePets();
   const { uploadImages } = useImages();
   const navigate = useNavigate();
 
-  const handleNewPet = async (e: FormEvent<HTMLFormElement>) => {
+  // verifica se o pet sendo editado existe no state
+  useEffect(() => {
+    const currentPet = availablePets.find((pet) => pet.id === pet.id);
+
+    if(!currentPet){
+      navigate("/minhas-doacoes")
+    } 
+  }, []);
+
+  // lida com a logica de editar pets
+  const handleEditPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
 
-    const result = await uploadImages(imageData, moreImagesData);
-
-    if (!result) return;
-
-    const { image, moreImages } = result;
-    const randomId = nanoid(4);
-
-    // normaliza o nome do pet pra gerar a url
-    const normalizedName = name
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim();
-
-    const petSlug = normalizedName.split(" ").join("-");
-    const petId = `${petSlug}-${randomId}`;
-
-    const newPet: IPet = {
-      id: petId,
+    const updatedPet: IPet = {
+      id: pet.id,
       species,
       name,
       breed,
       gender,
       age,
       size,
-      image,
+      image: pet.image,
 
       state: uf,
       city,
@@ -118,22 +107,24 @@ const EditPet = () => {
       ...(goodWithOtherAnimals === true && { goodWithOtherAnimals }),
       ...(goodWithChildren === true && { goodWithChildren }),
       ...(description !== "" && { description }),
-      ...(moreImages.length > 0 && { moreImages }),
+      ...(pet.moreImages && pet.moreImages!.length > 0 && { moreImages: pet.moreImages }),
 
       owner: username!,
 
-      pendingRequests: 0,
-      createdAt: Timestamp.now(),
+      pendingRequests: pet.pendingRequests,
+      createdAt: pet.createdAt,
     };
 
-    await createPet(newPet);
+    await editPet(updatedPet);
 
-    showSuccessNotification(
+    /*   showSuccessNotification(
       `Tudo certo, que ${
         gender === "Macho" ? "o" : gender === "Fêmea" ? "a" : "o(a)"
       } ${name} conquiste muitos corações! 🎉`
     );
     navigate(`/pet/${petId}`);
+
+    setLoading(false); */
   };
 
   return (
@@ -247,7 +238,7 @@ const EditPet = () => {
                 moreImagesPreview={moreImagesPreview}
                 setMoreImagesPreview={setMoreImagesPreview}
                 setMoreImagesData={setMoreImagesData}
-                handleNewPet={handleNewPet}
+                handleNewPet={handleEditPet}
                 setStep={setStep}
                 loading={loading}
                 goodWithChildren={goodWithChildren}

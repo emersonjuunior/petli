@@ -9,8 +9,6 @@ const MyDonations = () => {
   const { petLoading, profileAvailablePets: userAvailablePets } =
     useAvailablePets(username!);
 
-  console.log(userAvailablePets);
-
   if (petLoading) {
     return <Loading />;
   }
