@@ -1,6 +1,6 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
+import { VercelResponse } from "@vercel/node";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler( res: VercelResponse) {
   try {
     res.status(200).json({
       CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || "Not Defined",
