@@ -118,8 +118,7 @@ const EditProfile = () => {
       data.append("cloud_name", "djzmzwwtm");
 
       setImageData(data);
-    } catch (err) {
-      console.error("Erro ao redimensionar imagem:", err);
+    } catch {
       setImageError("Erro ao processar a imagem.");
     }
   };

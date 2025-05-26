@@ -4,6 +4,7 @@ import { useUserContext } from "../context/UserContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
+import { deleteImage } from "../utils/deleteImage";
 
 interface IProfile {
   displayName: string;
@@ -94,8 +95,9 @@ export const useEditProfile = () => {
             const regex = /upload\/(?:v\d+\/)?(.+)\.[a-zA-Z]+$/;
             const match = userImage.match(regex);
             const publicId = match ? match[1] : null;
-            console.log(publicId);
+
             // função de excluir imagem do cloudinary
+            deleteImage(publicId!);
           }
         } catch (error) {
           console.error("Erro ao enviar imagem para o Cloudinary:", error);
@@ -133,6 +135,8 @@ export const useEditProfile = () => {
           allowContact: updatedUser.allowContact,
         }),
       };
+
+      console.log(userImage, data.userImage);
 
       // envia os dados ao firestore
       await setDoc(userRef, { ...data }, { merge: true });

@@ -39,7 +39,6 @@ export const useAvailablePets = (usernameId: string) => {
 
       const querySnapshot = await getDocs(q);
 
-      console.log("Requisição realizada.");
       // atualiza o state com o dado dos pets disponiveis
       if (!querySnapshot.empty) {
         const pets: IPet[] = querySnapshot.docs.map(
