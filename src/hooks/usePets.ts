@@ -50,6 +50,7 @@ export const usePets = () => {
     if (isEqual(cleanData, cleanPet)) {
       showSuccessNotification("Alterações salvas com sucesso!");
       setLoading(false);
+      navigate("/minhas-doacoes");
       return;
     }
 
@@ -77,8 +78,12 @@ export const usePets = () => {
       // atualiza o objeto com as novas urls
       const { image, moreImages } = result;
 
-      cleanData.image = image;
-      cleanData.moreImages = moreImages;
+      if (imageData) {
+        cleanData.image = image;
+      }
+      if (moreImagesData.length > 0) {
+        cleanData.moreImages = moreImages;
+      }
     }
 
     // monta um objeto somente com os campos que foram alterados

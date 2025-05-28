@@ -59,8 +59,6 @@ const CreatePet = () => {
   const { uploadImages } = useImages();
   const navigate = useNavigate();
 
-  console.log(contact)
-
   const handleNewPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
