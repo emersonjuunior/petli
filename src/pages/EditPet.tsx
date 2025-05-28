@@ -112,14 +112,6 @@ const EditPet = () => {
 
     await editPet(updatedPet, imageData!, moreImagesData);
 
-    /*   showSuccessNotification(
-      `Tudo certo, que ${
-        gender === "Macho" ? "o" : gender === "Fêmea" ? "a" : "o(a)"
-      } ${name} conquiste muitos corações! 🎉`
-    );
-    navigate(`/pet/${petId}`);
-
-    setLoading(false); */
   };
 
   return (

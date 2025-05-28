@@ -2,12 +2,17 @@ import Loading from "../components/Loading";
 import { useUserContext } from "../context/UserContext";
 import { useAvailablePets } from "../hooks/useAvailablePets";
 import { useNavigate } from "react-router-dom";
+import DeletePetModal from "../components/DeletePetModal";
+import { useState } from "react";
 
 const MyDonations = () => {
   const { username } = useUserContext();
   const navigate = useNavigate();
   const { petLoading, profileAvailablePets: userAvailablePets } =
     useAvailablePets(username!);
+  const [deletePetModal, setDeletePetModal] = useState(false);
+  const [currentPetId, setCurrentPetId] = useState<string | null>(null);
+  const [currentPetName, setCurrentPetName] = useState<string | null>(null);
 
   if (petLoading) {
     return <Loading />;
@@ -22,6 +27,12 @@ const MyDonations = () => {
     });
   };
 
+  const handleDeletePet = (id: string, name: string) => {
+    setDeletePetModal(true);
+    setCurrentPetId(id);
+    setCurrentPetName(name);
+  };
+
   return (
     <main>
       <section>
@@ -32,16 +43,32 @@ const MyDonations = () => {
               alt={pet.name}
               className="size-40 object-cover"
             />
-            <p>{pet.name}</p>
-            <button
-              className="cursor-pointer"
-              onClick={() => handleEditPet(pet.id)}
-            >
-              Editar
-            </button>
+            <div className="flex flex-col gap-3 items-start">
+              {" "}
+              <p>{pet.name}</p>
+              <button
+                className="cursor-pointer"
+                onClick={() => handleEditPet(pet.id)}
+              >
+                Editar
+              </button>
+              <button
+                className="cursor-pointer"
+                onClick={() => handleDeletePet(pet.id, pet.name)}
+              >
+                Excluir
+              </button>
+            </div>
           </div>
         ))}
       </section>
+      {deletePetModal && (
+        <DeletePetModal
+          petName={currentPetName!}
+          petId={currentPetId!}
+          setDeletePetModal={setDeletePetModal}
+        />
+      )}
     </main>
   );
 };
