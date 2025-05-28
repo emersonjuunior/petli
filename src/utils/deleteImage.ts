@@ -1,7 +1,7 @@
 export async function deleteImage(url: string) {
-  const regex = /upload\/(?:v\d+\/)?(.+)\.[a-zA-Z]+(?:\?.*)?$/;
-  const match = url.match(regex);
-  const public_id = match ? match[1] : null;
+  const parts = url.split("/");
+  const fileNameWithExtension = parts[parts.length - 1];
+  const public_id = fileNameWithExtension.split(".")[0];
 
   if (!public_id) {
     throw new Error("Não foi possível extrair o public_id da URL");

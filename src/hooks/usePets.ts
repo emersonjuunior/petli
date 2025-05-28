@@ -101,10 +101,10 @@ export const usePets = () => {
     );
 
     // deleta as imagens
-    if (imagesToDelete.length > 0) {
-      imagesToDelete.forEach((image) => {
-        deleteImage(image);
-      });
+    try {
+      await Promise.all(imagesToDelete.map((image) => deleteImage(image)));
+    } catch (error) {
+      console.error("Erro ao deletar imagem:", error);
     }
 
     showSuccessNotification("Alterações salvas com sucesso!");
