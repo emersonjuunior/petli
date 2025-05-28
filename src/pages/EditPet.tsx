@@ -7,7 +7,6 @@ import ThirdStep from "../components/CreatePetSteps/ThirdStep";
 import FourthStep from "../components/CreatePetSteps/FourthStep";
 import PetCard from "../components/PetCard";
 import { usePets } from "../hooks/usePets";
-import { useImages } from "../hooks/useImages";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
@@ -20,9 +19,8 @@ const EditPet = () => {
     return <Navigate to="/minhas-doacoes" />;
   }
 
-
-  const { showSuccessNotification, username, availablePets } = useUserContext();
-  const [step, setStep] = useState(4);
+  const { username, availablePets } = useUserContext();
+  const [step, setStep] = useState(1);
   const [species, setSpecies] = useState(pet.species);
   const [name, setName] = useState(pet.name);
   const [imagePreview, setImagePreview] = useState(pet.image);
@@ -64,25 +62,21 @@ const EditPet = () => {
   );
   const [imageData, setImageData] = useState<FormData | null>(null);
   const [moreImagesData, setMoreImagesData] = useState<FormData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const { editPet } = usePets();
-  const { uploadImages } = useImages();
+  const { editPet, loading } = usePets();
   const navigate = useNavigate();
 
   // verifica se o pet sendo editado existe no state
   useEffect(() => {
     const currentPet = availablePets.find((pet) => pet.id === pet.id);
 
-    if(!currentPet){
-      navigate("/minhas-doacoes")
-    } 
+    if (!currentPet) {
+      navigate("/minhas-doacoes");
+    }
   }, []);
 
   // lida com a logica de editar pets
   const handleEditPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setLoading(true);
 
     const updatedPet: IPet = {
       id: pet.id,
@@ -92,7 +86,7 @@ const EditPet = () => {
       gender,
       age,
       size,
-      image: pet.image,
+      image: imagePreview,
 
       state: uf,
       city,
@@ -107,7 +101,8 @@ const EditPet = () => {
       ...(goodWithOtherAnimals === true && { goodWithOtherAnimals }),
       ...(goodWithChildren === true && { goodWithChildren }),
       ...(description !== "" && { description }),
-      ...(pet.moreImages && pet.moreImages!.length > 0 && { moreImages: pet.moreImages }),
+      ...(moreImagesPreview &&
+        moreImagesPreview!.length > 0 && { moreImages: moreImagesPreview }),
 
       owner: username!,
 
@@ -115,7 +110,7 @@ const EditPet = () => {
       createdAt: pet.createdAt,
     };
 
-    await editPet(updatedPet);
+    await editPet(updatedPet, imageData!, moreImagesData);
 
     /*   showSuccessNotification(
       `Tudo certo, que ${

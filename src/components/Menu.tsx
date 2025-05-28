@@ -141,7 +141,7 @@ const Menu = ({ toggleMenu, headerRef }: Props) => {
         </li>
         <li onClick={toggleMenu}>
           <NavLink
-            to="/quero-doar"
+            to="/novo-pet"
             className={({ isActive }) =>
               `text-xl tracking-wider duration-200 hover:text-gray-200 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:transition-all hover:after:w-full hover:after:bg-secondaryYellow ${
                 isActive

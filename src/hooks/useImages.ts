@@ -5,50 +5,53 @@ export const useImages = () => {
     moreImagesData: FormData[] | null
   ) => {
     try {
-      if (!imageData || !moreImagesData) return;
+      let image;
 
-      // faz upload da imagem principal
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/djzmzwwtm/image/upload",
-        {
-          method: "POST",
-          body: imageData,
-        }
-      );
+      if (imageData) {
+        // faz upload da imagem principal
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/djzmzwwtm/image/upload",
+          {
+            method: "POST",
+            body: imageData,
+          }
+        );
 
-      const result = await res.json();
-      const optimizedUrl = result.secure_url.replace(
-        "/upload/",
-        "/upload/w_600,f_auto,q_auto/"
-      );
-      const image = optimizedUrl;
+        const result = await res.json();
+        const optimizedUrl = result.secure_url.replace(
+          "/upload/",
+          "/upload/w_600,f_auto,q_auto/"
+        );
+        image = optimizedUrl;
+      }
 
       // faz upload das imagens extras
       const moreImages: string[] = [];
 
-      await Promise.all(
-        moreImagesData.map(async (data) => {
-          try {
-            const moreImagesRes = await fetch(
-              "https://api.cloudinary.com/v1_1/djzmzwwtm/image/upload",
-              {
-                method: "POST",
-                body: data,
-              }
-            );
+      if (moreImagesData) {
+        await Promise.all(
+          moreImagesData.map(async (data) => {
+            try {
+              const moreImagesRes = await fetch(
+                "https://api.cloudinary.com/v1_1/djzmzwwtm/image/upload",
+                {
+                  method: "POST",
+                  body: data,
+                }
+              );
 
-            const moreImagesResult = await moreImagesRes.json();
-            const optimizedUrl = moreImagesResult.secure_url.replace(
-              "/upload/",
-              "/upload/w_600,f_auto,q_auto/"
-            );
-            moreImages.push(optimizedUrl);
-          } catch (error) {
-            throw new Error("Erro no upload das imagens.");
-          }
-        })
-      );
-
+              const moreImagesResult = await moreImagesRes.json();
+              const optimizedUrl = moreImagesResult.secure_url.replace(
+                "/upload/",
+                "/upload/w_600,f_auto,q_auto/"
+              );
+              moreImages.push(optimizedUrl);
+            } catch (error) {
+              throw new Error("Erro no upload das imagens.");
+            }
+          })
+        );
+      }
       return { image, moreImages };
     } catch (error: any) {
       throw new Error(error);

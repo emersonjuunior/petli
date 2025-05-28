@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { db } from "../firebase/firebaseConfig";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, updateDoc } from "firebase/firestore";
 import { IPet } from "../interfaces/Pet";
 import { useUserContext } from "../context/UserContext";
 import isEqual from "lodash.isequal";
+import { deleteImage } from "../utils/deleteImage";
+import { deleteField } from "firebase/firestore";
+import { useImages } from "./useImages";
+import { useNavigate } from "react-router-dom";
 
 export const usePets = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const { availablePets, setAvailablePets } = useUserContext();
+  const [loading, setLoading] = useState(false);
+  const { availablePets, setAvailablePets, showSuccessNotification } =
+    useUserContext();
+  const { uploadImages } = useImages();
 
   // salva o novo pet no banco de dados
   const createPet = async (data: IPet) => {
@@ -23,18 +31,80 @@ export const usePets = () => {
   };
 
   // função de editar o pet
-  const editPet = async (data: IPet) => {
+  const editPet = async (
+    data: IPet,
+    imageData: FormData,
+    moreImagesData: FormData[]
+  ) => {
+    setLoading(true);
+
     const currentPet = availablePets.find((pet) => pet.id === data.id);
+
+    // variável que armazena as imagens que foram alteradas, para serem deletadas no cloudinary
+    const imagesToDelete: string[] = [];
 
     const cleanData = cleanObject(data);
     const cleanPet = cleanObject(currentPet);
 
     // verifica se há alguma alteração
     if (isEqual(cleanData, cleanPet)) {
-      console.log("Não houve nenhuma alteração.");
-    } else {
-      console.log("Houve alteração.");
+      showSuccessNotification("Alterações salvas com sucesso!");
+      setLoading(false);
+      return;
     }
+
+    // verifica se alterou a imagem principal
+    if (!isEqual(cleanData.image, cleanPet.image)) {
+      imagesToDelete.push(cleanPet.image);
+    }
+
+    // verifica se alterou as imagens adicionais
+    if (!isEqual(cleanData.moreImages, cleanPet.moreImages)) {
+      const moreImagesToDelete =
+        cleanPet.moreImages?.filter(
+          (item: string) => !cleanData.moreImages?.includes(item)
+        ) || [];
+
+      imagesToDelete.push(...moreImagesToDelete);
+    }
+
+    // upa as imagens
+    if (imageData || moreImagesData.length > 0) {
+      const result = await uploadImages(imageData, moreImagesData);
+
+      if (!result) return;
+
+      // atualiza o objeto com as novas urls
+      const { image, moreImages } = result;
+
+      cleanData.image = image;
+      cleanData.moreImages = moreImages;
+    }
+
+    // monta um objeto somente com os campos que foram alterados
+    const updatedPet = getUpdatedFields(cleanPet, cleanData);
+
+    // atualiza no firestore
+    const petRef = doc(db, "pets", data.id);
+    await updateDoc(petRef, updatedPet);
+
+    // atualiza o state local
+    setAvailablePets((prevPets) =>
+      prevPets.map((pet) =>
+        pet.id === data.id ? { ...pet, ...cleanData } : pet
+      )
+    );
+
+    // deleta as imagens
+    if (imagesToDelete.length > 0) {
+      imagesToDelete.forEach((image) => {
+        deleteImage(image);
+      });
+    }
+
+    showSuccessNotification("Alterações salvas com sucesso!");
+    setLoading(false);
+    navigate("/minhas-doacoes");
   };
 
   // limpa os objetos antes de comparar
@@ -59,9 +129,45 @@ export const usePets = () => {
     return cleanedObj;
   };
 
+  // monta um novo objeto apenas com as propriedades que alteraram entre os objetos de parametro da função
+  const getUpdatedFields = (oldData: any, newData: any) => {
+    const updatedFields: any = {};
+
+    const allKeys = new Set([...Object.keys(oldData), ...Object.keys(newData)]);
+
+    allKeys.forEach((key) => {
+      const oldValue = oldData[key];
+      const newValue = newData[key];
+
+      // Caso o campo não exista mais no novo dado, deve ser removido
+      const fieldRemoved =
+        !(key in newData) ||
+        newValue === undefined ||
+        newValue === null ||
+        (typeof newValue === "string" && newValue.trim() === "");
+
+      if (fieldRemoved) {
+        if (key in oldData) {
+          updatedFields[key] = deleteField();
+        }
+        return;
+      }
+
+      // Se valor foi alterado
+      const valueChanged =
+        JSON.stringify(oldValue) !== JSON.stringify(newValue);
+      if (valueChanged) {
+        updatedFields[key] = newValue;
+      }
+    });
+
+    return updatedFields;
+  };
+
   return {
     createPet,
     editPet,
     error,
+    loading,
   };
 };

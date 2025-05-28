@@ -92,12 +92,8 @@ export const useEditProfile = () => {
 
           // verifica se a foto de perfil anterior era do cloudinary, e apaga
           if (userImage?.includes("res.cloudinary.com")) {
-            const regex = /upload\/(?:v\d+\/)?(.+)\.[a-zA-Z]+$/;
-            const match = userImage.match(regex);
-            const publicId = match ? match[1] : null;
-
             // função de excluir imagem do cloudinary
-            deleteImage(publicId!);
+            deleteImage(userImage);
           }
         } catch (error) {
           console.error("Erro ao enviar imagem para o Cloudinary:", error);

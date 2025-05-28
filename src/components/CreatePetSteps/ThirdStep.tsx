@@ -24,7 +24,6 @@ const ThirdStep = ({
   dewormed,
   neutered,
 }: Props) => {
-  console.log(vaccinated);
   const [isVaccinated, setIsVaccinated] = useState<string | null>(
     vaccinated != "" ? vaccinated : "false"
   );
