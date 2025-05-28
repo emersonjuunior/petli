@@ -1,16 +1,16 @@
 export async function deleteImage(url: string) {
   const regex = /upload\/(?:v\d+\/)?(.+)\.[a-zA-Z]+(?:\?.*)?$/;
   const match = url.match(regex);
-  const publicId = match ? match[1] : null;
+  const public_id = match ? match[1] : null;
 
-  if (!publicId) {
-    throw new Error("Não foi possível extrair o publicId da URL");
+  if (!public_id) {
+    throw new Error("Não foi possível extrair o public_id da URL");
   }
 
   const response = await fetch("/api/deleteImage", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ publicId }),
+    body: JSON.stringify({ public_id }),
   });
 
   const data = await response.json();
