@@ -14,7 +14,7 @@ const Home = () => {
         />
       </Helmet>
       <main className="min-h-[3000px]">
-        <Link to="/pet/megwi-VZb9">Clique aqui</Link>
+        <Link to="/emersonjr">Clique aqui</Link>
         <button onClick={() => deleteImage("blob_f2uent")}>
           Deletar Imagem
         </button>

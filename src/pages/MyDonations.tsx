@@ -6,10 +6,9 @@ import DeletePetModal from "../components/DeletePetModal";
 import { useState } from "react";
 
 const MyDonations = () => {
-  const { username } = useUserContext();
+  const { username, availablePets } = useUserContext();
   const navigate = useNavigate();
-  const { petLoading, profileAvailablePets: userAvailablePets } =
-    useAvailablePets(username!);
+  const { petLoading } = useAvailablePets(username!);
   const [deletePetModal, setDeletePetModal] = useState(false);
   const [currentPetId, setCurrentPetId] = useState<string | null>(null);
   const [currentPetName, setCurrentPetName] = useState<string | null>(null);
@@ -23,7 +22,7 @@ const MyDonations = () => {
   }
 
   const handleEditPet = (id: string) => {
-    const pet = userAvailablePets.find((pet) => pet.id === id);
+    const pet = availablePets.find((pet) => pet.id === id);
 
     // redireciona para a pagina de editar com os dados do pet
     navigate(`/editar/${id}`, {
@@ -47,7 +46,7 @@ const MyDonations = () => {
   return (
     <main>
       <section>
-        {userAvailablePets.map((pet) => (
+        {availablePets.map((pet) => (
           <div key={pet.id}>
             <img
               src={pet.image}
