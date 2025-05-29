@@ -158,6 +158,9 @@ export const usePets = () => {
       }
 
       await Promise.all(imagesToDelete.map((image) => deleteImage(image)));
+
+      // atualiza o state local
+      setAvailablePets((prev) => prev.filter((pet) => pet.id !== petId));
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {

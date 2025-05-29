@@ -57,6 +57,7 @@ const MyDonations = () => {
             <div className="flex flex-col gap-3 items-start">
               {" "}
               <p>{pet.name}</p>
+              <p>{pet.pendingRequests}</p>
               <button
                 className="cursor-pointer"
                 onClick={() => handleEditPet(pet.id)}

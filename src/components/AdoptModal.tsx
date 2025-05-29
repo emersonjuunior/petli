@@ -37,7 +37,7 @@ const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl, species }: Props) =
           className="fa-solid fa-xmark absolute text-2xl right-4 top-4 cursor-pointer"
           onClick={() => setAdoptModal(false)}
         ></i>
-        <h2 className="text-xl md:text-2xl font-medium mb-4 max-w-8/10">
+        <h2 className="text-xl md:text-2xl font-medium mb-4 max-w-7/10">
           Pronto pra dar um novo lar? 🐾
         </h2>
         <hr className="text-[#404040] mb-4" />
