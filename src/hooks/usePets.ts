@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { db } from "../firebase/firebaseConfig";
-import { setDoc, doc, updateDoc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  updateDoc,
+  deleteField,
+  deleteDoc,
+  query,
+  collection,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { IPet } from "../interfaces/Pet";
 import { useUserContext } from "../context/UserContext";
 import isEqual from "lodash.isequal";
 import { deleteImage } from "../utils/deleteImage";
-import { deleteField } from "firebase/firestore";
 import { useImages } from "./useImages";
 import { useNavigate } from "react-router-dom";
 
@@ -112,6 +121,50 @@ export const usePets = () => {
     navigate("/minhas-doacoes");
   };
 
+  // remove o pet e todos os dados relacionados
+  const deletePet = async (
+    petId: string,
+    petImage: string | null,
+    petMoreImages: string[] | undefined
+  ) => {
+    try {
+      setLoading(true);
+      const imagesToDelete: string[] = [];
+
+      // remove o pet
+      await deleteDoc(doc(db, "pets", petId));
+
+      // remove as solicitações de adoção
+      const q = query(
+        collection(db, "adoptionRequests"),
+        where("petId", "==", petId)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      const deletionPromises = querySnapshot.docs.map((document) =>
+        deleteDoc(doc(db, "adoptionRequests", document.id))
+      );
+
+      await Promise.all(deletionPromises);
+
+      // remove as imagens
+      if (petImage) {
+        imagesToDelete.push(petImage);
+      }
+
+      if (petMoreImages && petMoreImages.length > 0) {
+        imagesToDelete.push(...petMoreImages);
+      }
+
+      await Promise.all(imagesToDelete.map((image) => deleteImage(image)));
+    } catch {
+      setError("Algo deu errado, tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // limpa os objetos antes de comparar
   const cleanObject = (obj: any) => {
     const cleanedObj: any = {};
@@ -172,7 +225,9 @@ export const usePets = () => {
   return {
     createPet,
     editPet,
+    deletePet,
     error,
+    setError,
     loading,
   };
 };

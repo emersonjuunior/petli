@@ -13,6 +13,10 @@ const MyDonations = () => {
   const [deletePetModal, setDeletePetModal] = useState(false);
   const [currentPetId, setCurrentPetId] = useState<string | null>(null);
   const [currentPetName, setCurrentPetName] = useState<string | null>(null);
+  const [currentPetImage, setCurrentPetImage] = useState<string | null>(null);
+  const [currentPetMoreImages, setCurrentPetMoreImages] = useState<
+    string[] | undefined
+  >([]);
 
   if (petLoading) {
     return <Loading />;
@@ -27,10 +31,17 @@ const MyDonations = () => {
     });
   };
 
-  const handleDeletePet = (id: string, name: string) => {
+  const handleDeletePet = (
+    id: string,
+    name: string,
+    petImage: string,
+    petMoreImages: string[] | undefined
+  ) => {
     setDeletePetModal(true);
     setCurrentPetId(id);
     setCurrentPetName(name);
+    setCurrentPetImage(petImage);
+    setCurrentPetMoreImages(petMoreImages);
   };
 
   return (
@@ -54,7 +65,9 @@ const MyDonations = () => {
               </button>
               <button
                 className="cursor-pointer"
-                onClick={() => handleDeletePet(pet.id, pet.name)}
+                onClick={() =>
+                  handleDeletePet(pet.id, pet.name, pet.image, pet.moreImages)
+                }
               >
                 Excluir
               </button>
@@ -67,6 +80,8 @@ const MyDonations = () => {
           petName={currentPetName!}
           petId={currentPetId!}
           setDeletePetModal={setDeletePetModal}
+          petImage={currentPetImage}
+          petMoreImages={currentPetMoreImages}
         />
       )}
     </main>
