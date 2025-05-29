@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet";
 const PetProfile = () => {
   const navigate = useNavigate();
   const { checkAdoptionRequest, requestLoading } = useAdoptionRequest();
+  const [imgLoad, setImgLoad] = useState(true);
   const { petId } = useParams();
   const { pet, loading } = useGetProfile("pets", petId!);
   const [viewImage, setViewImage] = useState(false);
@@ -58,6 +59,8 @@ const PetProfile = () => {
     }
   };
 
+  console.log(imgLoad);
+
   return (
     <>
       <Helmet>
@@ -70,15 +73,23 @@ const PetProfile = () => {
       <main className="w-full">
         <div className="w-full max-w-7xl mx-auto px-2 md:px-4">
           <section className="flex flex-col gap-5 md:flex-row max-w-full items-center px-4 py-2 md:px-2">
-            <div className="flex-1 min-w-4/10 w-full max-w-[360px] md:max-w-full max-h-[360px] md:max-h-[500px] md:min-h-[500px] overflow-hidden flex items-center justify-center rounded-4xl">
+            {imgLoad && (
+              <div className="flex-1 min-w-4/10 w-full max-w-[360px] md:max-w-1/2 min-h-[360px] max-h-[360px] md:max-h-[500px] md:min-h-[400px] lg:min-h-[500px] bg-bgGray rounded-4xl animate-pulse"></div>
+            )}
+            <div
+              className={`${
+                imgLoad ? "hidden" : ""
+              } flex-1 min-w-4/10 w-full max-w-[360px] md:max-w-full min-h-[360px] max-h-[360px] md:max-h-[500px] md:min-h-[400px] lg:min-h-[500px] overflow-hidden flex items-center justify-center rounded-4xl`}
+            >
               <img
-                loading="lazy"
                 src={pet.image}
                 alt={`Foto do Pet ${pet.name}`}
-                className="object-cover rounded-xl hover:brightness-115 cursor-pointer duration-300"
+                onLoad={() => setImgLoad(false)}
+                className="rounded-4xl object-cover min-w-full hover:brightness-115 cursor-pointer duration-300"
                 onClick={() => handleViewImage(pet.image)}
               />
             </div>
+
             <div className="flex-1 flex items-center md:px-10 lg:px-14 h-[500px] min-h-fit w-full relative pb-14 md:pb-0 truncate">
               <div className="flex flex-col w-full justify-center h-fit">
                 <h1 className="font-medium text-3xl md:text-4xl lg:text-6xl mb-4 min-h-fit">
@@ -215,6 +226,7 @@ const PetProfile = () => {
                   >
                     <img
                       src={image}
+                      loading="lazy"
                       alt={`Imagens adicionais do pet ${pet.name}`}
                       className="object-cover hover:brightness-115 cursor-pointer duration-300"
                       onClick={() => handleViewImage(image)}

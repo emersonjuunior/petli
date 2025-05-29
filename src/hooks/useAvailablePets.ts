@@ -21,7 +21,6 @@ export const useAvailablePets = (usernameId: string) => {
 
       // se for o perfil do usuário logado e já tiver pets disponiveis no contexto, nao faz a requisição
       if (usernameId === username && availablePets.length > 0) {
-        console.log("1");
         setProfileAvailablePets(availablePets);
         setPetLoading(false);
         return;
@@ -29,7 +28,6 @@ export const useAvailablePets = (usernameId: string) => {
 
       // se for o perfil do usuário logado, já tiver sido feita a requisição antes, nao faz ela de novo
       if (usernameId === username && hasLoadedAvailablePets) {
-        console.log("2");
         setProfileAvailablePets(availablePets);
         setPetLoading(false);
         return;
