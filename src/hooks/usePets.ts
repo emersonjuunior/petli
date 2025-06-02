@@ -184,7 +184,8 @@ export const usePets = () => {
     image: string,
     petName: string,
     petId: string,
-    petMoreImages: string[] | undefined
+    petMoreImages: string[] | undefined,
+    petGender: string
   ) => {
     setError(null);
     setLoading(true);
@@ -247,8 +248,14 @@ export const usePets = () => {
 
       // remove todos os dados do pet, exceto a imagem principal
       await deletePet(petId, null, petMoreImages);
+
+      showSuccessNotification(
+        `Adoção concluída, que ${
+          petGender === "Macho" ? "o" : petGender === "Fêmea" ? "a" : "o(a)"
+        } ${petName} seja muito feliz! 🏠`
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {
       setLoading(false);
