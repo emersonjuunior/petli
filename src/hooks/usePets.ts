@@ -190,8 +190,6 @@ export const usePets = () => {
     setError(null);
     setLoading(true);
     try {
-      let adopterData;
-
       if (checked) {
         if (name.length < 4) {
           setError("Por favor, digite um nome de usuário válido.");
@@ -215,9 +213,6 @@ export const usePets = () => {
           setLoading(false);
 
           return;
-        } else {
-          const userData = usernameSnapshot.data();
-          adopterData = userData.adoptedPets || [];
         }
       }
 
