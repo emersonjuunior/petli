@@ -10,6 +10,9 @@ import {
   collection,
   where,
   getDocs,
+  getDoc,
+  Timestamp,
+  arrayUnion,
 } from "firebase/firestore";
 import { IPet } from "../interfaces/Pet";
 import { useUserContext } from "../context/UserContext";
@@ -17,13 +20,19 @@ import isEqual from "lodash.isequal";
 import { deleteImage } from "../utils/deleteImage";
 import { useImages } from "./useImages";
 import { useNavigate } from "react-router-dom";
+import { IDonatedPet } from "../interfaces/Pet";
 
 export const usePets = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { availablePets, setAvailablePets, showSuccessNotification } =
-    useUserContext();
+  const {
+    username,
+    availablePets,
+    setAvailablePets,
+    showSuccessNotification,
+    setDonatedPets,
+  } = useUserContext();
   const { uploadImages } = useImages();
 
   // salva o novo pet no banco de dados
@@ -168,6 +177,84 @@ export const usePets = () => {
     }
   };
 
+  // lida com a adoção do pet, remove todos os dados relacionados a ele, e cria os docs de adoção e doação relacionados a ele
+  const adoptedPet = async (
+    checked: boolean,
+    name: string,
+    image: string,
+    petName: string,
+    petId: string,
+    petMoreImages: string[] | undefined
+  ) => {
+    setError(null);
+    setLoading(true);
+    try {
+      let adopterData;
+
+      if (checked) {
+        if (name.length < 4) {
+          setError("Por favor, digite um nome de usuário válido.");
+          setLoading(false);
+          return;
+        }
+
+        if (name === username) {
+          setError("Por favor, digite um nome de usuário válido.");
+          setLoading(false);
+
+          return;
+        }
+
+        // verifica se o usuário existe
+        const usernameRef = doc(db, "usernames", name);
+        const usernameSnapshot = await getDoc(usernameRef);
+
+        if (!usernameSnapshot.exists()) {
+          setError("Esse usuário não existe.");
+          setLoading(false);
+
+          return;
+        } else {
+          const userData = usernameSnapshot.data();
+          adopterData = userData.adoptedPets || [];
+        }
+      }
+
+      // imagem compactada
+      const newImage = image.replace("w_600", "w_300");
+
+      // monta o novo objeto a ser armazenado
+      const newDonatedPet: IDonatedPet = {
+        date: Timestamp.now(),
+        name: petName,
+        image: newImage,
+      };
+
+      await updateDoc(doc(db, "usernames", username!), {
+        donatedPets: arrayUnion(newDonatedPet),
+      });
+
+      // atualiza o state local
+      setDonatedPets((prev) => [...prev, newDonatedPet]);
+
+      // se o pet foi adotado pela plataforma, adiciona ao histórico de doações do usuário que adotou
+      if (checked) {
+        // adiciona o pet nos dados do adotante
+        await updateDoc(doc(db, "usernames", name), {
+          adoptedPets: arrayUnion(newDonatedPet),
+        });
+      }
+
+      // remove todos os dados do pet, exceto a imagem principal
+      await deletePet(petId, null, petMoreImages);
+    } catch (error) {
+      console.log(error)
+      setError("Algo deu errado, tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // limpa os objetos antes de comparar
   const cleanObject = (obj: any) => {
     const cleanedObj: any = {};
@@ -227,6 +314,7 @@ export const usePets = () => {
 
   return {
     createPet,
+    adoptedPet,
     editPet,
     deletePet,
     error,

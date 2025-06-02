@@ -198,7 +198,7 @@ const EditProfile = () => {
         <title>Editar Perfil | Petli</title>
         <meta
           name="description"
-          content="Altere as informações da sua conta."
+          content="Altere as informações do seu perfil."
         />
       </Helmet>
       <main className="px-2 md:px-5">

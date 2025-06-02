@@ -57,7 +57,7 @@ const DeletePetModal = ({
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
       <div
-        className="bg-[#282828] w-full max-w-[560px] mx-2 rounded-lg"
+        className="bg-[#282828] w-full max-w-[560px] mx-1 rounded-lg"
         ref={deletePetModalRef}
       >
         <div className="py-4 px-3 md:px-8 md:py-6 relative">
@@ -95,6 +95,11 @@ const DeletePetModal = ({
             </label>
           </div>
           <hr className="text-[#505050]" />
+          {error && (
+            <div className="px-4 my-2">
+              <Error error={error} setError={setError} />
+            </div>
+          )}
           <div className="bg-[#282828] rounded-lg rounded-t-none flex gap-3 justify-end items-center py-4 px-3 md:px-8 md:py-6">
             <button
               className="cursor-pointer"
@@ -116,10 +121,6 @@ const DeletePetModal = ({
             </button>
           </div>
         </form>
-        <div className="mb-3 px-4">
-          {" "}
-          {error && <Error error={error} setError={setError} />}
-        </div>
       </div>
     </div>
   );

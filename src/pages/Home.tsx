@@ -2,8 +2,11 @@ import { Helmet } from "react-helmet";
 import Hero from "../components/Hero";
 import { Link } from "react-router-dom";
 import { deleteImage } from "../utils/deleteImage";
+import { useUserContext } from "../context/UserContext";
 
 const Home = () => {
+  const { donatedPets } = useUserContext();
+  console.log(donatedPets);
   return (
     <>
       <Helmet>

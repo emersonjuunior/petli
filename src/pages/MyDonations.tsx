@@ -4,12 +4,15 @@ import { useAvailablePets } from "../hooks/useAvailablePets";
 import { useNavigate } from "react-router-dom";
 import DeletePetModal from "../components/DeletePetModal";
 import { useState } from "react";
+import AdoptedPetModal from "../components/AdoptedPetModal";
 
 const MyDonations = () => {
   const { username, availablePets } = useUserContext();
   const navigate = useNavigate();
   const { petLoading } = useAvailablePets(username!);
   const [deletePetModal, setDeletePetModal] = useState(false);
+  const [adoptedPetModal, setAdoptedPetModal] = useState(false);
+  const [currentPetGender, setCurrentPetGender] = useState<string | null>(null);
   const [currentPetId, setCurrentPetId] = useState<string | null>(null);
   const [currentPetName, setCurrentPetName] = useState<string | null>(null);
   const [currentPetImage, setCurrentPetImage] = useState<string | null>(null);
@@ -30,16 +33,17 @@ const MyDonations = () => {
     });
   };
 
-  const handleDeletePet = (
+  const handleSelectPet = (
     id: string,
     name: string,
     petImage: string,
+    petGender: string,
     petMoreImages: string[] | undefined
   ) => {
-    setDeletePetModal(true);
     setCurrentPetId(id);
     setCurrentPetName(name);
     setCurrentPetImage(petImage);
+    setCurrentPetGender(petGender);
     setCurrentPetMoreImages(petMoreImages);
   };
 
@@ -65,9 +69,31 @@ const MyDonations = () => {
               </button>
               <button
                 className="cursor-pointer"
-                onClick={() =>
-                  handleDeletePet(pet.id, pet.name, pet.image, pet.moreImages)
-                }
+                onClick={() => {
+                  handleSelectPet(
+                    pet.id,
+                    pet.name,
+                    pet.image,
+                    pet.gender,
+                    pet.moreImages
+                  );
+                  setAdoptedPetModal(true);
+                }}
+              >
+                Marcar como Adotado
+              </button>
+              <button
+                className="cursor-pointer"
+                onClick={() => {
+                  handleSelectPet(
+                    pet.id,
+                    pet.name,
+                    pet.image,
+                    pet.gender,
+                    pet.moreImages
+                  );
+                  setDeletePetModal(true);
+                }}
               >
                 Excluir
               </button>
@@ -81,6 +107,16 @@ const MyDonations = () => {
           petId={currentPetId!}
           setDeletePetModal={setDeletePetModal}
           petImage={currentPetImage}
+          petMoreImages={currentPetMoreImages}
+        />
+      )}
+      {adoptedPetModal && (
+        <AdoptedPetModal
+          setAdoptedPetModal={setAdoptedPetModal}
+          petName={currentPetName!}
+          petId={currentPetId!}
+          petGender={currentPetGender!}
+          petImage={currentPetImage!}
           petMoreImages={currentPetMoreImages}
         />
       )}

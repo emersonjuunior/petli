@@ -8,7 +8,7 @@ import {
 import { auth, db } from "../firebase/firebaseConfig";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { collection, query, getDocs, where } from "firebase/firestore";
-import { IPet } from "../interfaces/Pet";
+import { IPet, IDonatedPet } from "../interfaces/Pet";
 import { IRequest } from "../interfaces/Request";
 
 interface IUserContext {
@@ -35,6 +35,8 @@ interface IUserContext {
   setAllowContact: React.Dispatch<React.SetStateAction<boolean>>;
   availablePets: IPet[];
   setAvailablePets: React.Dispatch<React.SetStateAction<IPet[]>>;
+  donatedPets: IDonatedPet[];
+  setDonatedPets: React.Dispatch<React.SetStateAction<IDonatedPet[]>>;
   requestsSent: IRequest[];
   setRequestsSent: React.Dispatch<React.SetStateAction<IRequest[]>>;
   requestsReceived: IRequest[];
@@ -73,6 +75,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [contact, setContact] = useState<string>("");
   const [allowContact, setAllowContact] = useState<boolean>(true);
   const [availablePets, setAvailablePets] = useState<IPet[]>([]);
+  const [donatedPets, setDonatedPets] = useState<IDonatedPet[]>([]);
   const [requestsSent, setRequestsSent] = useState<IRequest[]>([]);
   const [requestsReceived, setRequestsReceived] = useState<IRequest[]>([]);
   const [requestsAlreadySent, setRequestsAlreadySent] = useState<string[]>([]);
@@ -123,6 +126,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         if (data.state !== undefined) setState(data.state);
         if (data.contact !== undefined) setContact(data.contact);
         if (data.allowContact !== undefined) setAllowContact(data.allowContact);
+        if (data.donatedPets !== undefined) setDonatedPets(data.donatedPets);
       }
     } catch (error) {
       console.error("Erro ao buscar username:", error);
@@ -163,6 +167,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setAllowContact,
         availablePets,
         setAvailablePets,
+        donatedPets,
+        setDonatedPets,
         requestsSent,
         setRequestsSent,
         requestsReceived,
