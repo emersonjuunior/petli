@@ -34,6 +34,7 @@ export const useAuthentication = () => {
     setHasLoadedReceived,
     setHasLoadedSent,
     setDonatedPets,
+    setAdoptedPets,
   } = useUserContext();
   const navigate = useNavigate();
 
@@ -155,6 +156,7 @@ export const useAuthentication = () => {
     setHasLoadedReceived(false);
     setHasLoadedSent(false);
     setDonatedPets([]);
+    setAdoptedPets([]);
 
     signOut(auth);
     showSuccessNotification("Até logo, volte sempre! 🐶");

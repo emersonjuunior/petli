@@ -89,13 +89,17 @@ const Profile = () => {
               </p>
               <p>
                 <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">
-                  0
+                  {userProfile.adoptedPets
+                    ? userProfile.adoptedPets.length
+                    : "0"}
                 </span>{" "}
                 adotados{" "}
               </p>
               <p>
                 <span className="text-xl font-medium mr-1 min-w-[14px] inline-block">
-                  0
+                  {userProfile.donatedPets
+                    ? userProfile.donatedPets.length
+                    : "0"}
                 </span>{" "}
                 doados
               </p>
@@ -152,70 +156,68 @@ const Profile = () => {
                 </div>
               )}
             </div>
-            <hr className="text-[#424242]" />
-            <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
-              <h2 className="px-3 md:px-0 text-2xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
-                Adotados
-              </h2>
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                spaceBetween={50}
-                slidesPerView={1}
-              >
-                <SwiperSlide>
-                  <div className="h-full flex justify-center items-center">
-                    <PetSummary
-                      name="Jason"
-                      image="/jason.jpg"
-                      date="07/05/2025"
-                    />
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="h-full flex justify-center items-center">
-                    <PetSummary
-                      name="Jason"
-                      image="/jason.jpg"
-                      date="07/05/2025"
-                    />
-                  </div>
-                </SwiperSlide>
-              </Swiper>
-            </div>
-            <hr className="text-[#424242]" />
-            <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
-              <h2 className="px:0 md:px-0 text-2xl font-medium mb-3 after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
-                Doados
-              </h2>
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                spaceBetween={50}
-                slidesPerView={1}
-              >
-                <SwiperSlide>
-                  <div className="h-full flex justify-center items-center">
-                    <PetSummary
-                      name="Jason"
-                      image="/jason.jpg"
-                      date="07/05/2025"
-                    />
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="h-full flex justify-center items-center">
-                    <PetSummary
-                      name="Jason"
-                      image="/jason.jpg"
-                      date="07/05/2025"
-                    />
-                  </div>
-                </SwiperSlide>
-              </Swiper>
-            </div>
+            {userProfile.adoptedPets && userProfile.adoptedPets.length > 0 && (
+              <>
+                {" "}
+                <hr className="text-[#424242]" />
+                <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
+                  <h2 className="px-3 md:px-0 text-2xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+                    Adotados
+                  </h2>
+
+                  <Swiper
+                    modules={[Navigation, Pagination]}
+                    navigation
+                    pagination={{ clickable: true }}
+                    spaceBetween={50}
+                    slidesPerView={1}
+                  >
+                    {userProfile.adoptedPets.map((pet, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="h-full flex justify-center items-center">
+                          <PetSummary
+                            name={pet.name}
+                            image={pet.image}
+                            date={pet.date}
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </>
+            )}
+            {userProfile.donatedPets && userProfile.donatedPets.length > 0 && (
+              <>
+                {" "}
+                <hr className="text-[#424242]" />
+                <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
+                  <h2 className="px:0 md:px-0 text-2xl font-medium mb-3 after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+                    Doados
+                  </h2>
+
+                  <Swiper
+                    modules={[Navigation, Pagination]}
+                    navigation
+                    pagination={{ clickable: true }}
+                    spaceBetween={50}
+                    slidesPerView={1}
+                  >
+                    {userProfile.donatedPets.map((pet, index) => (
+                      <SwiperSlide key={index}>
+                        <div className="h-full flex justify-center items-center">
+                          <PetSummary
+                            name={pet.name}
+                            image={pet.image}
+                            date={pet.date}
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              </>
+            )}
           </section>
         </div>
       </main>

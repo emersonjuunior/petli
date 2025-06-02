@@ -185,7 +185,8 @@ export const usePets = () => {
     petName: string,
     petId: string,
     petMoreImages: string[] | undefined,
-    petGender: string
+    petGender: string,
+    setAdoptedPetModal: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     setError(null);
     setLoading(true);
@@ -243,6 +244,9 @@ export const usePets = () => {
 
       // remove todos os dados do pet, exceto a imagem principal
       await deletePet(petId, null, petMoreImages);
+
+      // fecha o modal e exibe a msg de sucesso
+      setAdoptedPetModal(false);
 
       showSuccessNotification(
         `Adoção concluída, que ${

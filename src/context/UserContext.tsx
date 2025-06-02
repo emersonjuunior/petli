@@ -37,6 +37,8 @@ interface IUserContext {
   setAvailablePets: React.Dispatch<React.SetStateAction<IPet[]>>;
   donatedPets: IDonatedPet[];
   setDonatedPets: React.Dispatch<React.SetStateAction<IDonatedPet[]>>;
+  adoptedPets: IDonatedPet[];
+  setAdoptedPets: React.Dispatch<React.SetStateAction<IDonatedPet[]>>;
   requestsSent: IRequest[];
   setRequestsSent: React.Dispatch<React.SetStateAction<IRequest[]>>;
   requestsReceived: IRequest[];
@@ -76,6 +78,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [allowContact, setAllowContact] = useState<boolean>(true);
   const [availablePets, setAvailablePets] = useState<IPet[]>([]);
   const [donatedPets, setDonatedPets] = useState<IDonatedPet[]>([]);
+  const [adoptedPets, setAdoptedPets] = useState<IDonatedPet[]>([]);
   const [requestsSent, setRequestsSent] = useState<IRequest[]>([]);
   const [requestsReceived, setRequestsReceived] = useState<IRequest[]>([]);
   const [requestsAlreadySent, setRequestsAlreadySent] = useState<string[]>([]);
@@ -169,6 +172,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         setAvailablePets,
         donatedPets,
         setDonatedPets,
+        adoptedPets,
+        setAdoptedPets,
         requestsSent,
         setRequestsSent,
         requestsReceived,

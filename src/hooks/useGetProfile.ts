@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
-import { IPet } from "../interfaces/Pet";
+import { IPet, IDonatedPet } from "../interfaces/Pet";
 import { useUserContext } from "../context/UserContext";
 
 interface IUsername {
@@ -10,6 +10,8 @@ interface IUsername {
   displayName: string | null;
   userImage: string | null;
   memberSince: string | null;
+  donatedPets: IDonatedPet[];
+  adoptedPets: IDonatedPet[];
 }
 
 // pega o nome do usuário ou pet através dos parametros da url e busca no firestore
@@ -22,7 +24,9 @@ export const useGetProfile = (col: string, profileUsername: string) => {
     username: currentUsername,
     userImage,
     displayName,
-    memberSince
+    memberSince,
+    adoptedPets,
+    donatedPets,
   } = useUserContext();
 
   useEffect(() => {
@@ -30,7 +34,14 @@ export const useGetProfile = (col: string, profileUsername: string) => {
       setLoading(true);
       try {
         if (currentUsername === profileUsername) {
-          setUser({ username: currentUsername, userImage, displayName, memberSince });
+          setUser({
+            username: currentUsername,
+            userImage,
+            displayName,
+            memberSince,
+            adoptedPets,
+            donatedPets,
+          });
           setLoading(false);
           return { user, loading };
         }

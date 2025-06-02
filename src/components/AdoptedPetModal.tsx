@@ -45,7 +45,7 @@ const AdoptedPetModal = ({
   // função de envio do formulario
   const handleAdoptedPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await adoptedPet(checked, name, petImage, petName, petId, petMoreImages, petGender);
+    await adoptedPet(checked, name, petImage, petName, petId, petMoreImages, petGender, setAdoptedPetModal);
   };
 
   return (
