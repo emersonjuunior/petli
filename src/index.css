@@ -108,7 +108,7 @@ body {
   background-color: #f6a93b !important;
 }
 
-#pet-card-title {
+.pet-card-title {
   clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
 }
 

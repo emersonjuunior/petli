@@ -25,7 +25,7 @@ const Header = () => {
     <header
       ref={headerRef}
       className={`min-h-[50px] h-[8vh] bg-[#303030] opacity-95 shadow-sm sticky top-0 z-50 border-b-[#404040] border-b-2 px-2 md:px-4 ${
-        location.pathname === "/" ? "mb-0" : "mb-12"
+        location.pathname === "/" ? "mb-0" : "mb-14"
       }`}
     >
       <div className="w-full max-w-[1400px] mx-auto flex items-center justify-between h-full px-4">

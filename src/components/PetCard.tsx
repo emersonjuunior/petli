@@ -16,7 +16,7 @@ const PetCard = ({
   const [imgLoad, setImgLoad] = useState(true);
   return (
     <article className="bg-[#292929] rounded-md shadow-lg w-[310px] md:w-[360px] h-[450px] md:h-[500px] border-1 border-bgGray border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
-      {imgLoad && image != "" &&  (
+      {imgLoad && image != "" && (
         <div className="w-full min-h-[188px] max-h-[188px] md:min-h-[220px] md:max-h-[220px] rounded-lg shadow-md bg-bgGray animate-pulse"></div>
       )}
       <div className="rounded-lg flex justify-center">
@@ -37,10 +37,7 @@ const PetCard = ({
           />
         )}
       </div>
-      <h3
-        id="pet-card-title"
-        className="text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto mb-3 truncate max-w-9/10"
-      >
+      <h3 className="pet-card-title text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto mb-3 truncate max-w-9/10">
         <i
           className={`fa-solid ${
             species === "Cachorro"

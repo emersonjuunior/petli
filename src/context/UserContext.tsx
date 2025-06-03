@@ -130,6 +130,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         if (data.contact !== undefined) setContact(data.contact);
         if (data.allowContact !== undefined) setAllowContact(data.allowContact);
         if (data.donatedPets !== undefined) setDonatedPets(data.donatedPets);
+        if (data.adoptedPets !== undefined) setAdoptedPets(data.adoptedPets);
       }
     } catch (error) {
       console.error("Erro ao buscar username:", error);

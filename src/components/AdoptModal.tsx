@@ -69,7 +69,7 @@ const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl, species }: Props) =
               href={`https://wa.me/55${contact.replace(/\D/g, "")}`}
               onClick={() => setAdoptModal(false)}
             >
-              <button className="bg-[#1EBE5D] hover:bg-[#25D366] px-4 py-2 rounded-xl font-semibod text-base md:text-lg cursor-pointer duration-300">
+              <button className="bg-[#1EBE5D] hover:bg-[#25D366] px-4 py-2 rounded-xl font-semibold text-base md:text-lg cursor-pointer duration-300">
                 <i className="fa-brands fa-whatsapp text-xl mr-1"></i> Entrar em
                 contato
               </button>

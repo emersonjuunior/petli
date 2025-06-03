@@ -84,7 +84,7 @@ const AdoptedPetModal = ({
           <div className="py-4 px-3 md:px-8 md:py-6 flex flex-col gap-2">
             <Checkbox
               title="A adoção foi feita por alguém aqui na plataforma?"
-              text="Se você marcar essa opção, este pet será vinculado ao perfil do adotante e ficará visível na lista de pets adotados dele. Se deixar desmarcado, o pet será marcado como adotado sem ser vinculado a nenhum usuário."
+              text="Se você marcar essa opção, esse pet será vinculado ao perfil do adotante e ficará visível na lista de pets adotados dele. Se deixar desmarcado, nenhum usuário da plataforma será marcado como adotante desse pet."
               checked={checked}
               setChecked={setChecked}
             />
