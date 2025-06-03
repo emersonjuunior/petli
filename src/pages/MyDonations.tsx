@@ -24,6 +24,9 @@ const MyDonations = () => {
     string[] | undefined
   >([]);
 
+  console.log(availablePets);
+  console.log(petLoading);
+
   if (petLoading) {
     return <Loading />;
   }
@@ -89,7 +92,7 @@ const MyDonations = () => {
           </div>
           {active === 1 && (
             <>
-              {availablePets.length > 0 ? (
+              {availablePets && availablePets.length > 0 ? (
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {availablePets.map((pet) => (
                     <div key={pet.id}>
@@ -99,7 +102,8 @@ const MyDonations = () => {
                           <img
                             src={pet.image}
                             alt={pet.name}
-                            className="w-full h-[210px] object-cover rounded-3xl p-3 pb-0 hover:brightness-110 duration-300"
+                            loading="lazy"
+                            className="w-full min-h-[210px] max-h-[210px] object-cover rounded-3xl p-3 pb-0 hover:brightness-110 duration-300"
                           />
                         </Link>
                         <div className="flex flex-col gap-4 items-start px-4 mb-4">
@@ -164,8 +168,8 @@ const MyDonations = () => {
                   ))}
                   <div
                     className={`hidden w-[320px] md:w-[340px] mx-auto items-center justify-center ${
-                      availablePets.length % 2 != 0 ? "md:flex lg:hidden" : ""
-                    } ${availablePets.length % 3 != 0 ? "lg:flex" : ""}`}
+                      availablePets.length % 2 != 0 ? "md:flex" : ""
+                    } ${availablePets.length % 3 != 0 ? "lg:flex" : "lg:hidden"}`}
                   >
                     <Link to="/novo-pet">
                       <div className="flex items-center justify-center size-40 rounded-full duration-300 hover:bg-[#292929]/80 bg-[#292929]/50 border-bgGray border-1">
@@ -174,7 +178,7 @@ const MyDonations = () => {
                     </Link>
                   </div>
                 </section>
-              ) : (
+              ) : petLoading ? (
                 <div className="flex flex-col justify-center items-center">
                   <NoPets text="Nada por enquanto." />
                   <Link to="/novo-pet">
@@ -186,6 +190,8 @@ const MyDonations = () => {
                     </button>
                   </Link>
                 </div>
+              ) : (
+                <></>
               )}
             </>
           )}
