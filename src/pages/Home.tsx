@@ -1,12 +1,8 @@
 import { Helmet } from "react-helmet";
 import Hero from "../components/Hero";
 import { Link } from "react-router-dom";
-import { deleteImage } from "../utils/deleteImage";
-import { useUserContext } from "../context/UserContext";
 
 const Home = () => {
-  const { donatedPets } = useUserContext();
-  console.log(donatedPets);
   return (
     <>
       <Helmet>
@@ -17,10 +13,8 @@ const Home = () => {
         />
       </Helmet>
       <main className="min-h-[3000px]">
-        <Link to="/emersonjr">Clique aqui</Link>
-        <button onClick={() => deleteImage("blob_f2uent")}>
-          Deletar Imagem
-        </button>
+        <Link to="/emer">Clique aqui</Link>
+
         <Hero />
       </main>
     </>

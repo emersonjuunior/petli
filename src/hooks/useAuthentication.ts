@@ -31,6 +31,7 @@ export const useAuthentication = () => {
     setAvailablePets,
     setRequestsReceived,
     setRequestsSent,
+    setHasLoadedAvailablePets,
     setHasLoadedReceived,
     setHasLoadedSent,
     setDonatedPets,
@@ -153,6 +154,7 @@ export const useAuthentication = () => {
     setAvailablePets([]);
     setRequestsReceived([]);
     setRequestsSent([]);
+    setHasLoadedAvailablePets(false);
     setHasLoadedReceived(false);
     setHasLoadedSent(false);
     setDonatedPets([]);

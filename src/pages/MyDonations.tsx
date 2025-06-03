@@ -6,9 +6,11 @@ import DeletePetModal from "../components/DeletePetModal";
 import { useState } from "react";
 import AdoptedPetModal from "../components/AdoptedPetModal";
 import { Helmet } from "react-helmet";
+import NoPets from "../components/NoPets";
+import PetSummary from "../components/PetSummary";
 
 const MyDonations = () => {
-  const { username, availablePets } = useUserContext();
+  const { username, availablePets, donatedPets } = useUserContext();
   const navigate = useNavigate();
   const { petLoading } = useAvailablePets(username!);
   const [active, setActive] = useState(1);
@@ -85,89 +87,140 @@ const MyDonations = () => {
               pets já doados
             </h2>
           </div>
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {availablePets.map((pet) => (
-              <div key={pet.id}>
-                <article className="group w-[320px] md:w-[340px] mx-auto rounded-xl rounded-b-none border-1 border-bgGray bg-[#292929] border-b-primaryRed">
-                  <Link to={`/pet/${pet.id}`}>
-                    {" "}
-                    <img
-                      src={pet.image}
-                      alt={pet.name}
-                      className="w-full h-[210px] object-cover rounded-3xl p-3 pb-0 hover:brightness-110 duration-300"
-                    />
-                  </Link>
-                  <div className="flex flex-col gap-4 items-start px-4 mb-4">
-                    <h3 className="pet-card-title text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto md:mb-1 truncate max-w-9/10">
-                      {pet.name}
-                    </h3>
-                    {pet.allowContact ? (
-                      <div className="h-[35px] md:h-[40px] w-full flex justify-center items-center bg-bgGray hover:bg-[#373737] px-4 py-2 rounded-xl font-medium duration-300">
-                        <p>
-                          Contato visível{" "}
-                          <i className="fa-solid fa-check ml-1"></i>
-                        </p>
+          {active === 1 && (
+            <>
+              {availablePets.length > 0 ? (
+                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {availablePets.map((pet) => (
+                    <div key={pet.id}>
+                      <article className="group w-[320px] md:w-[340px] mx-auto rounded-xl rounded-b-none border-1 border-bgGray bg-[#292929] border-b-primaryRed">
+                        <Link to={`/pet/${pet.id}`}>
+                          {" "}
+                          <img
+                            src={pet.image}
+                            alt={pet.name}
+                            className="w-full h-[210px] object-cover rounded-3xl p-3 pb-0 hover:brightness-110 duration-300"
+                          />
+                        </Link>
+                        <div className="flex flex-col gap-4 items-start px-4 mb-4">
+                          <h3 className="pet-card-title text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto md:mb-1 truncate max-w-9/10">
+                            {pet.name}
+                          </h3>
+                          {pet.allowContact ? (
+                            <div className="h-[35px] md:h-[40px] w-full flex justify-center items-center bg-bgGray hover:bg-[#373737] px-4 py-2 rounded-xl font-medium duration-300">
+                              <p>
+                                Contato visível{" "}
+                                <i className="fa-solid fa-check ml-1"></i>
+                              </p>
+                            </div>
+                          ) : (
+                            <button className="h-[35px] md:h-[40px] w-full  flex justify-center items-center gap-4 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
+                              Solicitações de adoção
+                              <span className="min-w-[22px] h-[22px] flex items-center justify-center bg-[#f04747] text-white text-sm font-semibold rounded-full">
+                                {pet.pendingRequests}
+                              </span>
+                            </button>
+                          )}
+                          <button
+                            onClick={() => handleEditPet(pet.id)}
+                            className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                          >
+                            Editar <i className="fa-solid fa-pen-to-square"></i>
+                          </button>
+                          <button
+                            className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                            onClick={() => {
+                              handleSelectPet(
+                                pet.id,
+                                pet.name,
+                                pet.image,
+                                pet.gender,
+                                pet.moreImages
+                              );
+                              setAdoptedPetModal(true);
+                            }}
+                          >
+                            Marcar como Adotado{" "}
+                            <i className="fa-solid fa-paw"></i>
+                          </button>
+                          <button
+                            className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                            onClick={() => {
+                              handleSelectPet(
+                                pet.id,
+                                pet.name,
+                                pet.image,
+                                pet.gender,
+                                pet.moreImages
+                              );
+                              setDeletePetModal(true);
+                            }}
+                          >
+                            Remover <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </div>
+                      </article>
+                    </div>
+                  ))}
+                  <div
+                    className={`hidden w-[320px] md:w-[340px] mx-auto items-center justify-center ${
+                      availablePets.length % 2 != 0 ? "md:flex lg:hidden" : ""
+                    } ${availablePets.length % 3 != 0 ? "lg:flex" : ""}`}
+                  >
+                    <Link to="/novo-pet">
+                      <div className="flex items-center justify-center size-40 rounded-full duration-300 hover:bg-[#292929]/80 bg-[#292929]/50 border-bgGray border-1">
+                        <i className="fa-solid fa-plus text-6xl"></i>
                       </div>
-                    ) : (
-                      <button className="h-[35px] md:h-[40px] w-full  flex justify-center items-center gap-4 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
-                        Solicitações de adoção
-                        <span className="min-w-[22px] h-[22px] flex items-center justify-center bg-[#f04747] text-white text-sm font-semibold rounded-full">
-                          {pet.pendingRequests}
-                        </span>
+                    </Link>
+                  </div>
+                </section>
+              ) : (
+                <div className="flex flex-col justify-center items-center">
+                  <NoPets text="Nada por enquanto." />
+                  <Link to="/novo-pet">
+                    <button
+                      type="submit"
+                      className="text-lg font-medium py-2 rounded-lg w-[310px] duration-300 hover:bg-rose-700 shadow-md mb-3 bg-primaryRed cursor-pointer"
+                    >
+                      Adicionar novo pet
+                    </button>
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
+          {active === 2 && (
+            <>
+              {donatedPets.length > 0 ? (
+                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {donatedPets.map((pet, index) => (
+                    <div key={index}>
+                      {" "}
+                      <PetSummary
+                        image={pet.image}
+                        date={pet.date}
+                        name={pet.name}
+                      />
+                    </div>
+                  ))}
+                </section>
+              ) : (
+                <div className="flex flex-col justify-center items-center">
+                  <NoPets text="Nada por enquanto." />
+                  <Link to="/novo-pet">
+                    {availablePets.length === 0 && (
+                      <button
+                        type="submit"
+                        className="text-lg font-medium py-2 rounded-lg w-[310px] duration-300 hover:bg-rose-700 shadow-md mb-3 bg-primaryRed cursor-pointer"
+                      >
+                        Adicionar novo pet
                       </button>
                     )}
-                    <button
-                      onClick={() => handleEditPet(pet.id)}
-                      className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
-                    >
-                      Editar <i className="fa-solid fa-pen-to-square"></i>
-                    </button>
-                    <button
-                      className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
-                      onClick={() => {
-                        handleSelectPet(
-                          pet.id,
-                          pet.name,
-                          pet.image,
-                          pet.gender,
-                          pet.moreImages
-                        );
-                        setAdoptedPetModal(true);
-                      }}
-                    >
-                      Marcar como Adotado <i className="fa-solid fa-paw"></i>
-                    </button>
-                    <button
-                      className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
-                      onClick={() => {
-                        handleSelectPet(
-                          pet.id,
-                          pet.name,
-                          pet.image,
-                          pet.gender,
-                          pet.moreImages
-                        );
-                        setDeletePetModal(true);
-                      }}
-                    >
-                      Remover <i className="fa-solid fa-trash"></i>
-                    </button>
-                  </div>
-                </article>
-              </div>
-            ))}
-            <div
-              className={`hidden w-[320px] md:w-[340px] mx-auto items-center justify-center ${
-                availablePets.length % 2 != 0 ? "md:flex lg:hidden" : ""
-              } ${availablePets.length % 3 != 0 ? "lg:flex" : ""}`}
-            >
-              <Link to="/novo-pet">
-                <div className="flex items-center justify-center size-40 rounded-full duration-300 hover:bg-[#292929]/80 bg-[#292929]/50 border-bgGray border-1">
-                  <i className="fa-solid fa-plus text-6xl"></i>
+                  </Link>
                 </div>
-              </Link>
-            </div>
-          </section>
+              )}
+            </>
+          )}
         </div>
         {deletePetModal && (
           <DeletePetModal
