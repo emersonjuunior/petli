@@ -63,13 +63,13 @@ const MyDonations = () => {
           <h1 className="font-semibold text-3xl md:text-4xl mb-6 md:mb-10 after:content-[''] after:block after:h-[2px] after:w-20 after:bg-primaryRed">
             Minhas Doações
           </h1>
-          <div className="flex overflow-x-scroll overflow-y-hidden md:overflow-x-hidden whitespace-nowrap relative gap-20 border-[#505050] w-full border-b-2 mb-14 pb-4 text-lg font-medium">
+          <div className="flex overflow-x-scroll md:overflow-x-visible whitespace-nowrap relative gap-14 md:gap-20 border-[#505050] w-full border-b-2 mb-10 md:mb-14 pb-4 text-lg font-medium">
             <h2
               onClick={() => setActive(1)}
               className={`${
                 active === 1
                   ? "relative after:absolute after:content-[''] after:bottom-[-18px] after:left-0 after:w-full after:h-[2px] after:bg-gray-300"
-                  : "text-gray-200 opacity-60"
+                  : "text-gray-200 opacity-50"
               } cursor-pointer duration-300 hover:opacity-100`}
             >
               disponíveis para doação
@@ -79,7 +79,7 @@ const MyDonations = () => {
               className={`${
                 active === 2
                   ? "relative after:absolute after:content-[''] after:bottom-[-18px] after:left-0 after:w-full after:h-[2px] after:bg-gray-300"
-                  : "text-gray-200 opacity-60"
+                  : "text-gray-200 opacity-50"
               } cursor-pointer duration-300 hover:opacity-100`}
             >
               pets já doados
@@ -88,7 +88,7 @@ const MyDonations = () => {
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {availablePets.map((pet) => (
               <div key={pet.id}>
-                <article className="group w-[340px] mx-auto rounded-xl rounded-b-none border-1 border-bgGray bg-[#292929] border-b-primaryRed">
+                <article className="group w-[320px] md:w-[340px] mx-auto rounded-xl rounded-b-none border-1 border-bgGray bg-[#292929] border-b-primaryRed">
                   <Link to={`/pet/${pet.id}`}>
                     {" "}
                     <img
@@ -98,18 +98,18 @@ const MyDonations = () => {
                     />
                   </Link>
                   <div className="flex flex-col gap-4 items-start px-4 mb-4">
-                    <h3 className="pet-card-title text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto mb-1 truncate max-w-9/10">
+                    <h3 className="pet-card-title text-2xl font-bold bg-primaryRed px-5 py-2 w-fit min-w-1/2 group-hover:min-w-[62%] duration-300 text-center mx-auto md:mb-1 truncate max-w-9/10">
                       {pet.name}
                     </h3>
                     {pet.allowContact ? (
-                      <div className="w-full h-[40px] flex justify-center items-center bg-bgGray hover:bg-[#373737] px-4 py-2 rounded-xl font-medium duration-300">
+                      <div className="h-[35px] md:h-[40px] w-full flex justify-center items-center bg-bgGray hover:bg-[#373737] px-4 py-2 rounded-xl font-medium duration-300">
                         <p>
                           Contato visível{" "}
                           <i className="fa-solid fa-check ml-1"></i>
                         </p>
                       </div>
                     ) : (
-                      <button className="w-full h-[40px] flex justify-center items-center gap-4 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
+                      <button className="h-[35px] md:h-[40px] w-full  flex justify-center items-center gap-4 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
                         Solicitações de adoção
                         <span className="min-w-[22px] h-[22px] flex items-center justify-center bg-[#f04747] text-white text-sm font-semibold rounded-full">
                           {pet.pendingRequests}
@@ -118,12 +118,12 @@ const MyDonations = () => {
                     )}
                     <button
                       onClick={() => handleEditPet(pet.id)}
-                      className="w-full h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                      className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
                     >
                       Editar <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button
-                      className="w-full h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                      className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
                       onClick={() => {
                         handleSelectPet(
                           pet.id,
@@ -138,7 +138,7 @@ const MyDonations = () => {
                       Marcar como Adotado <i className="fa-solid fa-paw"></i>
                     </button>
                     <button
-                      className="w-full h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                      className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
                       onClick={() => {
                         handleSelectPet(
                           pet.id,
@@ -156,6 +156,17 @@ const MyDonations = () => {
                 </article>
               </div>
             ))}
+            <div
+              className={`hidden w-[320px] md:w-[340px] mx-auto items-center justify-center ${
+                availablePets.length % 2 != 0 ? "md:flex lg:hidden" : ""
+              } ${availablePets.length % 3 != 0 ? "lg:flex" : ""}`}
+            >
+              <Link to="/novo-pet">
+                <div className="flex items-center justify-center size-40 rounded-full duration-300 hover:bg-[#292929]/80 bg-[#292929]/50 border-bgGray border-1">
+                  <i className="fa-solid fa-plus text-6xl"></i>
+                </div>
+              </Link>
+            </div>
           </section>
         </div>
         {deletePetModal && (
