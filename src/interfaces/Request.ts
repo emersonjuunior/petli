@@ -8,4 +8,6 @@ export interface IRequest {
   interested: string;
   owner: string;
   status: string;
+  petImage: string;
+  adoptionAnswers: string;
 }

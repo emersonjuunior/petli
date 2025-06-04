@@ -182,16 +182,16 @@ const SecondStep = ({
               <legend className="text-lg font-medium mb-2 px-1">
                 Localização 📍
               </legend>
-              <div className="flex w-full gap-5 md:gap-10">
+              <div className="flex w-full gap-3 md:gap-10">
                 <label className="flex-1">
                   <select
                     value={uf}
                     onChange={(e) => handleSelectedUf(e.target.value)}
-                    className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-2"
+                    className="text-sm md:text-base border-b-2 border-gray-400 w-full h-[34px] px-2 mb-2"
                     required
                   >
                     <option value="" disabled hidden>
-                      Selecione o estado
+                      Seu estado
                     </option>
                     {states.map((state) => (
                       <option value={state.sigla} key={state.sigla}>
@@ -204,11 +204,11 @@ const SecondStep = ({
                   <select
                     value={city}
                     onChange={(e) => handleSelectedCity(e.target.value)}
-                    className="border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
+                    className="text-sm md:text-base border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
                     required
                   >
                     <option value="" disabled hidden>
-                      Selecione a cidade
+                      Sua cidade
                     </option>
                     {cities.map((city) => (
                       <option value={city.nome} key={city.nome}>
@@ -224,7 +224,7 @@ const SecondStep = ({
             <legend className="text-lg font-medium mb-2 px-1">
               Contato 📞
             </legend>
-            <div className="flex w-full gap-5 md:gap-10">
+            <div className="flex w-full gap-3 md:gap-10">
               <label className="flex-1">
                 <select
                   className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-2"

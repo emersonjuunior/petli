@@ -108,18 +108,22 @@ export const useAdoptionRequest = () => {
     location: string,
     owner: string,
     species: string,
+    petImage: string,
+    adoptionAnswers: string
   ) => {
     try {
       setLoading(true);
 
       const newRequest: IRequest = {
         petId,
+        petImage,
         date: Timestamp.now(),
         text,
         location,
         owner,
         status: "Em análise",
         interested: username!,
+        adoptionAnswers,
       };
 
       // cria um documento com id do username-petId

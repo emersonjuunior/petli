@@ -9,6 +9,8 @@ interface Props {
   gender: string;
   owner: string;
   species: string;
+  petImage: string;
+  adoptionQuestions: string;
 }
 
 interface IBGEUF {
@@ -34,6 +36,8 @@ const AdoptionRequest = ({
   gender,
   owner,
   species,
+  petImage,
+  adoptionQuestions,
 }: Props) => {
   const { createAdoptionRequest } = useAdoptionRequest();
   const modalAdoptRef = useRef<HTMLDivElement>(null);
@@ -44,6 +48,7 @@ const AdoptionRequest = ({
   const [error, setError] = useState<string | null>(null);
   const [location, setLocation] = useState("");
   const [text, setText] = useState("");
+  const [adoptionAnswers, setAdoptionAnswers] = useState("")
 
   // permite fechar o modal se clicar em qualquer lugar fora da imagem
   useEffect(() => {
@@ -102,7 +107,15 @@ const AdoptionRequest = ({
   const handleAdoptionRequest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await createAdoptionRequest(petId, text, location, owner, species);
+    await createAdoptionRequest(
+      petId,
+      text,
+      location,
+      owner,
+      species,
+      petImage,
+      adoptionAnswers
+    );
 
     setAdoptModal(false);
   };
@@ -110,16 +123,18 @@ const AdoptionRequest = ({
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
       <div
-        className="bg-bgGray w-full max-w-[750px] mx-2 rounded-lg p-4 md:p-8 relative max-h-[500px] overflow-y-auto md:max-h-full"
+        className="bg-bgGray w-full max-w-[750px] mx-2 rounded-lg p-4 md:p-8 relative max-h-[500px] md:max-h-[750px] overflow-y-auto"
         ref={modalAdoptRef}
       >
-        {" "}
         <i
           className="fa-solid fa-xmark absolute text-2xl right-4 top-4 cursor-pointer"
           onClick={() => setAdoptModal(false)}
         ></i>
-        <form className="flex flex-col gap-5" onSubmit={handleAdoptionRequest}>
-          <h2 className="text-xl md:text-2xl font-medium max-w-9/10">
+        <form
+          className="flex flex-col gap-3 md:gap-5"
+          onSubmit={handleAdoptionRequest}
+        >
+          <h2 className="text-xl md:text-2xl font-medium max-w-8/10">
             Pronto pra dar um novo lar? 🐾
           </h2>
           <p className="text-sm md:text-base">
@@ -130,55 +145,60 @@ const AdoptionRequest = ({
             conversar diretamente com ele! {species === "Gato" ? "🐱" : "🐶"}
           </p>
           <hr className="text-[#404040]" />
-
           <fieldset>
             <legend className="text-lg font-medium mb-3 px-1">
               Localização 📍
             </legend>
-            <label>
-              <select
-                value={uf}
-                onChange={(e) => setUf(e.target.value)}
-                className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-5"
-                required
-              >
-                <option value="" disabled hidden>
-                  Selecione o estado
-                </option>
-                {states.map((state) => (
-                  <option value={state.sigla} key={state.sigla}>
-                    {state.nome}
+            <div className="flex gap-3 md:gap-7">
+              <label className="flex-1">
+                <select
+                  value={uf}
+                  onChange={(e) => setUf(e.target.value)}
+                  className="text-sm md:text-base border-b-2 border-gray-400 w-full h-[34px] px-2 mb-5"
+                  required
+                >
+                  <option value="" disabled hidden>
+                    Seu estado
                   </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <select
-                value={city}
-                onChange={(e) => handleSelectedCity(e.target.value)}
-                className="border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
-                required
-              >
-                <option value="" disabled hidden>
-                  Selecione a cidade
-                </option>
-                {cities.map((city) => (
-                  <option value={city.nome} key={city.nome}>
-                    {city.nome}
+                  {states.map((state) => (
+                    <option value={state.sigla} key={state.sigla}>
+                      {state.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex-1">
+                <select
+                  value={city}
+                  onChange={(e) => handleSelectedCity(e.target.value)}
+                  className="text-sm md:text-base border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
+                  required
+                >
+                  <option value="" disabled hidden>
+                    Sua cidade
                   </option>
-                ))}
-              </select>
-            </label>
+                  {cities.map((city) => (
+                    <option value={city.nome} key={city.nome}>
+                      {city.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
           </fieldset>
           <label className="flex flex-col gap-2">
-            <span className="text-[17px] font-medium">
-              Conte um pouco sobre você e por que deseja adotar{" "}
-              {gender === "Macho" ? "o" : gender === "Fêmea" ? "a" : "o(a)"}{" "}
+            <span className="text-base md:text-[17px] font-medium">
+              Conte um pouco sobre você e por que deseja adotar {""}
+              {gender === "Macho"
+                ? "o"
+                : gender === "Fêmea"
+                ? "a"
+                : "o(a)"}{" "}
               {name}
             </span>
             <div className="relative">
               <textarea
-                className="w-full text-sm md:text-base border-[#404040] border-2 rounded-lg min-h-[220px] max-h-[220px] md:min-h-[190px] md:max-h-[190px] px-3 py-2 md:px-4 md:py-3 focus:border-[#606060] outline-none"
+                className="w-full text-sm md:text-base border-[#404040] border-2 rounded-lg md:min-h-[220px] md:max-h-[220px] min-h-[190px] max-h-[190px] px-3 py-2 md:px-4 md:py-3 focus:border-[#606060] outline-none"
                 maxLength={300}
                 minLength={15}
                 value={text}
@@ -188,6 +208,30 @@ const AdoptionRequest = ({
               ></textarea>
               <p className="absolute bottom-3 right-3 font-medium rounded-lg p-[1px] ">
                 {text.length}/300
+              </p>
+            </div>
+          </label>
+          <label className="flex flex-col gap-1">
+            <p className="text-base md:text-[17px] font-medium">
+              Responda as perguntas deixadas pelo responsável d
+              {gender === "Macho" ? "o" : gender === "Fêmea" ? "a" : "o(a)"}{" "}
+              {name}:
+            </p>
+            <span className="italic text-sm md:text-base">
+              - {adoptionQuestions}
+            </span>
+            <div className="relative">
+              <textarea
+                className="w-full text-sm md:text-base border-[#404040] border-2 rounded-lg md:min-h-[220px] md:max-h-[220px] min-h-[190px] max-h-[190px] px-3 py-2 md:px-4 md:py-3 focus:border-[#606060] outline-none"
+                maxLength={300}
+                minLength={1}
+                value={adoptionAnswers}
+                placeholder="Nada informado."
+                onChange={(e) => setAdoptionAnswers(e.target.value)}
+                required
+              ></textarea>
+              <p className="absolute bottom-3 right-3 font-medium rounded-lg p-[1px] ">
+                {adoptionAnswers.length}/300
               </p>
             </div>
           </label>

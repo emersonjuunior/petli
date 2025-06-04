@@ -23,10 +23,7 @@ const MyDonations = () => {
   const [currentPetMoreImages, setCurrentPetMoreImages] = useState<
     string[] | undefined
   >([]);
-
-  console.log(availablePets);
-  console.log(petLoading);
-
+  
   if (petLoading) {
     return <Loading />;
   }

@@ -59,8 +59,6 @@ const PetProfile = () => {
     }
   };
 
-  console.log(imgLoad);
-
   return (
     <>
       <Helmet>
@@ -298,6 +296,8 @@ const PetProfile = () => {
               gender={pet.gender}
               owner={pet.owner}
               species={pet.species}
+              petImage={pet.image}
+              adoptionQuestions={pet.adoptionQuestions!}
             />
           )}
       </main>
