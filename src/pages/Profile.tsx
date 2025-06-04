@@ -4,8 +4,6 @@ import { useAvailablePets } from "../hooks/useAvailablePets";
 import Loading from "../components/Loading";
 import { useUserContext } from "../context/UserContext";
 import { Helmet } from "react-helmet";
-import Lottie from "lottie-react";
-import noAvailablePets from "../assets/no-available-pets.json";
 import PetCard from "../components/PetCard";
 import PetSummary from "../components/PetSummary";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +11,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import NoPets from "../components/NoPets";
 
 const Profile = () => {
   const { usernameId } = useParams();
@@ -145,15 +144,7 @@ const Profile = () => {
                   ))}
                 </Swiper>
               ) : (
-                <div className="flex items-center justify-center relative">
-                  <Lottie
-                    animationData={noAvailablePets}
-                    className="w-[420px] min-w-[420px]"
-                  />
-                  <p className="font-[400] text-3xl text-center absolute bottom-8">
-                    Nada por enquanto.
-                  </p>
-                </div>
+                <NoPets text="Nada por enquanto" />
               )}
             </div>
             {userProfile.adoptedPets && userProfile.adoptedPets.length > 0 && (

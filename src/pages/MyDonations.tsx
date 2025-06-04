@@ -73,7 +73,7 @@ const MyDonations = () => {
               onClick={() => setActive(1)}
               className={`${
                 active === 1
-                  ? "relative after:absolute after:content-[''] after:bottom-[-18px] after:left-0 after:w-full after:h-[2px] after:bg-gray-300"
+                  ? "relative after:absolute after:content-[''] after:bottom-[-16px] md:after:bottom-[-18px] after:left-0 after:w-full after:h-[2px] after:bg-gray-300"
                   : "text-gray-200 opacity-50"
               } cursor-pointer duration-300 hover:opacity-100`}
             >
@@ -83,7 +83,7 @@ const MyDonations = () => {
               onClick={() => setActive(2)}
               className={`${
                 active === 2
-                  ? "relative after:absolute after:content-[''] after:bottom-[-18px] after:left-0 after:w-full after:h-[2px] after:bg-gray-300"
+                  ? "relative after:absolute after:content-[''] after:bottom-[-16px] md:after:bottom-[-18px] after:left-0 after:w-full after:h-[2px] after:bg-gray-300"
                   : "text-gray-200 opacity-50"
               } cursor-pointer duration-300 hover:opacity-100`}
             >
@@ -92,13 +92,15 @@ const MyDonations = () => {
           </div>
           {active === 1 && (
             <>
-              {availablePets && availablePets.length > 0 ? (
+              {availablePets && availablePets.length > 0 && (
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {availablePets.map((pet) => (
                     <div key={pet.id}>
                       <article className="group w-[320px] md:w-[340px] mx-auto rounded-xl rounded-b-none border-1 border-bgGray bg-[#292929] border-b-primaryRed">
-                        <Link to={`/pet/${pet.id}`}>
-                          {" "}
+                        <Link to={`/pet/${pet.id}`} className="relative">
+                          <div className="absolute opacity-0 group-hover:opacity-100 duration-300 font-semibold text-xl group-hover:bg-bgBlack/70 w-full h-full flex items-center justify-center">
+                            Ver perfil
+                          </div>
                           <img
                             src={pet.image}
                             alt={pet.name}
@@ -169,7 +171,9 @@ const MyDonations = () => {
                   <div
                     className={`hidden w-[320px] md:w-[340px] mx-auto items-center justify-center ${
                       availablePets.length % 2 != 0 ? "md:flex" : ""
-                    } ${availablePets.length % 3 != 0 ? "lg:flex" : "lg:hidden"}`}
+                    } ${
+                      availablePets.length % 3 != 0 ? "lg:flex" : "lg:hidden"
+                    }`}
                   >
                     <Link to="/novo-pet">
                       <div className="flex items-center justify-center size-40 rounded-full duration-300 hover:bg-[#292929]/80 bg-[#292929]/50 border-bgGray border-1">
@@ -178,7 +182,8 @@ const MyDonations = () => {
                     </Link>
                   </div>
                 </section>
-              ) : petLoading ? (
+              )}
+              {!petLoading && availablePets.length === 0 ? (
                 <div className="flex flex-col justify-center items-center">
                   <NoPets text="Nada por enquanto." />
                   <Link to="/novo-pet">
@@ -200,7 +205,7 @@ const MyDonations = () => {
               {donatedPets.length > 0 ? (
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {donatedPets.map((pet, index) => (
-                    <div key={index}>
+                    <div key={index} className=" w-full flex justify-center">
                       {" "}
                       <PetSummary
                         image={pet.image}
