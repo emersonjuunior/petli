@@ -168,13 +168,18 @@ const FourthStep = ({
               </div>
             </label>
           </fieldset>
-          <textarea
-            className="w-full min-h-[90px] max-h-[90px] border-1 rounded-lg outline-none text-sm px-2 py-1"
-            placeholder="Conte algo especial sobre o pet, como sua história, personalidade ou qualquer detalhe importante. (opcional)"
-            maxLength={500}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
+          <div className="relative">
+            <textarea
+              className="w-full min-h-[90px] max-h-[90px] border-1 rounded-lg outline-none text-sm px-2 py-1"
+              placeholder="Conte algo especial sobre o pet, como sua história, personalidade ou qualquer detalhe importante. (opcional)"
+              maxLength={500}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+            <p className="absolute bottom-2 right-2 font-medium bg-bgBlack/20 rounded-lg p-[1px] ">
+              {description.length}/200
+            </p>
+          </div>
           <label className="relative h-[150px] md:h-[180px] w-full flex flex-col items-center justify-center gap-2 cursor-pointer border-2 border-dashed border-gray-300 p-6 rounded-xl">
             <div className="flex items-center justify-center">
               <img

@@ -36,6 +36,9 @@ const EditPet = () => {
   );
   const [contact, setContact] = useState(pet.contact);
   const [checked, setChecked] = useState(pet.allowContact);
+  const [adoptionQuestions, setAdoptionQuestions] = useState(
+    pet.adoptionQuestions ? pet.adoptionQuestions : ""
+  );
   const [vaccinated, setVaccinated] = useState(
     pet.vaccinated ? pet.vaccinated : ""
   );
@@ -92,6 +95,7 @@ const EditPet = () => {
       city,
       contact,
       allowContact: checked,
+      ...(!checked && { adoptionQuestions }),
 
       ...(vaccinated !== "Nenhuma por enquanto." && { vaccinated }),
       ...(neutered === true && { neutered }),
@@ -111,7 +115,6 @@ const EditPet = () => {
     };
 
     await editPet(updatedPet, imageData!, moreImagesData);
-
   };
 
   return (
@@ -200,6 +203,8 @@ const EditPet = () => {
                 setChecked={setChecked}
                 setStep={setStep}
                 contact={pet.contact}
+                adoptionQuestions={adoptionQuestions}
+                setAdoptionQuestions={setAdoptionQuestions}
               />
             )}
             {step === 3 && (

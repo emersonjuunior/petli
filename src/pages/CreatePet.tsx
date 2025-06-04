@@ -40,6 +40,7 @@ const CreatePet = () => {
   );
   const [contact, setContact] = useState("");
   const [checked, setChecked] = useState(allowContact);
+  const [adoptionQuestions, setAdoptionQuestions] = useState("");
   const [vaccinated, setVaccinated] = useState("");
   const [dewormed, setDewormed] = useState<boolean | null>(null);
   const [neutered, setNeutered] = useState<boolean | null>(null);
@@ -96,6 +97,7 @@ const CreatePet = () => {
       city,
       contact,
       allowContact: checked,
+      ...(!checked && { adoptionQuestions }),
 
       ...(vaccinated !== "Nenhuma por enquanto." && { vaccinated }),
       ...(neutered === true && { neutered }),
@@ -208,6 +210,8 @@ const CreatePet = () => {
                 setChecked={setChecked}
                 setStep={setStep}
                 contact={defaultContact}
+                adoptionQuestions={adoptionQuestions}
+                setAdoptionQuestions={setAdoptionQuestions}
               />
             )}
             {step === 3 && (

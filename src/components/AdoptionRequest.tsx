@@ -119,7 +119,7 @@ const AdoptionRequest = ({
           onClick={() => setAdoptModal(false)}
         ></i>
         <form className="flex flex-col gap-5" onSubmit={handleAdoptionRequest}>
-          <h2 className="text-xl md:text-2xl font-medium max-w-8/10">
+          <h2 className="text-xl md:text-2xl font-medium max-w-9/10">
             Pronto pra dar um novo lar? 🐾
           </h2>
           <p className="text-sm md:text-base">

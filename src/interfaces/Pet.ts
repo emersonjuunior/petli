@@ -26,6 +26,7 @@ export interface IPet {
   city: string;
   contact: string;
   allowContact: boolean;
+  adoptionQuestions?: string;
 
   vaccinated?: string;
   neutered?: boolean;

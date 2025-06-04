@@ -13,6 +13,8 @@ interface Props {
   setContact: React.Dispatch<React.SetStateAction<string>>;
   checked: boolean;
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  adoptionQuestions: string;
+  setAdoptionQuestions: React.Dispatch<React.SetStateAction<string>>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   contact: string;
 }
@@ -46,6 +48,8 @@ const SecondStep = ({
   setChecked,
   setStep,
   contact,
+  adoptionQuestions,
+  setAdoptionQuestions,
 }: Props) => {
   const [states, setStates] = useState<IBGEUF[]>([]);
   const [cities, setCities] = useState<IBGECity[]>([]);
@@ -90,6 +94,13 @@ const SecondStep = ({
         setError("Algo deu errado, tente novamente mais tarde.");
       });
   }, [uf]);
+
+  // limpa o input de adoptionRequests, se mudar o valor de allowContact
+  useEffect(() => {
+    if (checked) {
+      setAdoptionQuestions("");
+    }
+  }, [checked]);
 
   // altera o state quando uma cidade é selecionada
   const handleSelectedCity = (value: string) => {
@@ -145,6 +156,11 @@ const SecondStep = ({
       return;
     }
 
+    if (!checked && adoptionQuestions === "") {
+      setError("Por favor, escreva perguntas para o adotante.");
+      return;
+    }
+
     setStep(3);
   };
 
@@ -160,56 +176,58 @@ const SecondStep = ({
         onSubmit={handleSecondStep}
         className="px-3 md:px-10 flex flex-col gap-4 md:gap-6"
       >
-        <div className="px-3 md:px-9 flex flex-col gap-6 md:gap-9 h-[370px]">
+        <div className="px-3 md:px-9 flex flex-col gap-3 md:gap-5 min-h-fit">
           <div className="flex flex-col">
             <fieldset>
-              <legend className="text-lg font-medium mb-3 px-1">
+              <legend className="text-lg font-medium mb-2 px-1">
                 Localização 📍
               </legend>
-              <label>
-                <select
-                  value={uf}
-                  onChange={(e) => handleSelectedUf(e.target.value)}
-                  className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-5"
-                  required
-                >
-                  <option value="" disabled hidden>
-                    Selecione o estado
-                  </option>
-                  {states.map((state) => (
-                    <option value={state.sigla} key={state.sigla}>
-                      {state.nome}
+              <div className="flex w-full gap-5 md:gap-10">
+                <label className="flex-1">
+                  <select
+                    value={uf}
+                    onChange={(e) => handleSelectedUf(e.target.value)}
+                    className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-2"
+                    required
+                  >
+                    <option value="" disabled hidden>
+                      Selecione o estado
                     </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <select
-                  value={city}
-                  onChange={(e) => handleSelectedCity(e.target.value)}
-                  className="border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
-                  required
-                >
-                  <option value="" disabled hidden>
-                    Selecione a cidade
-                  </option>
-                  {cities.map((city) => (
-                    <option value={city.nome} key={city.nome}>
-                      {city.nome}
+                    {states.map((state) => (
+                      <option value={state.sigla} key={state.sigla}>
+                        {state.nome}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex-1">
+                  <select
+                    value={city}
+                    onChange={(e) => handleSelectedCity(e.target.value)}
+                    className="border-b-2 border-gray-400 w-full h-[34px] px-2 max-h-40 overflow-y-auto"
+                    required
+                  >
+                    <option value="" disabled hidden>
+                      Selecione a cidade
                     </option>
-                  ))}
-                </select>
-              </label>
+                    {cities.map((city) => (
+                      <option value={city.nome} key={city.nome}>
+                        {city.nome}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
             </fieldset>
           </div>
           <fieldset className="flex flex-col">
-            <legend className="text-lg font-medium mb-3 px-1">
+            <legend className="text-lg font-medium mb-2 px-1">
               Contato 📞
             </legend>
             <div className="flex w-full gap-5 md:gap-10">
               <label className="flex-1">
                 <select
-                  className="border-b-2 border-gray-400 w-full h-[34px] px-2"
+                  className="border-b-2 border-gray-400 w-full h-[34px] px-2 mb-2"
                   value={contactMethod}
                   onChange={(e) => setContactMethod(e.target.value)}
                 >
@@ -241,7 +259,7 @@ const SecondStep = ({
               </label>
             </div>
           </fieldset>
-          <label className="flex items-center space-x-2">
+          <label className="flex items-center">
             <Checkbox
               title="Manter contato visível?"
               text={
@@ -251,10 +269,32 @@ const SecondStep = ({
               setChecked={setChecked}
             />
           </label>
+          <fieldset className="relative">
+            <legend className="mb-1">Perguntas para adotantes 🐾</legend>
+            <textarea
+              disabled={checked}
+              className={`w-full min-h-[115px] max-h-[115px] border-1 rounded-lg outline-none text-sm p-2 ${
+                !checked
+                  ? "border-gray-400 focus:border-[#596A95]"
+                  : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20 font-medium"
+              }`}
+              maxLength={300}
+              placeholder={
+                checked
+                  ? "Como seu contato está visível, não é necessário criar perguntas."
+                  : "Adicione perguntas que os adotantes deverão responder na solicitação. Isso te ajuda a conhecer melhor quem deseja adotar."
+              }
+              value={adoptionQuestions}
+              onChange={(e) => setAdoptionQuestions(e.target.value)}
+            ></textarea>
+            <p className="absolute bottom-3 right-3 font-medium bg-bgBlack/20 rounded-lg p-[1px] ">
+              {adoptionQuestions.length}/300
+            </p>
+          </fieldset>
         </div>
         <div className="w-full h-[.5px] bg-[#555252] mx-auto"></div>
         <div
-          className={`flex w-full items-center h-[50px] gap-1 ${
+          className={`flex w-full items-center h-[50px] mb-3 gap-1 ${
             error ? "justify-between" : "justify-end"
           }`}
         >

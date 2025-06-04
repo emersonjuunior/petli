@@ -113,18 +113,23 @@ const ThirdStep = ({
             </label>
             <label className="flex-1 md:flex-2 flex flex-col gap-2 max-w-[320px]">
               <span className="font-medium">Se sim, quais vacinas?</span>
-              <textarea
-                className={`w-full min-h-[80px] max-h-[80px] border-1 rounded-lg outline-none text-sm px-2 py-1 ${
-                  isVaccinated === "true"
-                    ? "border-gray-400 focus:border-[#596A95]"
-                    : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20"
-                }`}
-                maxLength={200}
-                required
-                disabled={!(isVaccinated === "true")}
-                value={vaccinated}
-                onChange={(e) => setVaccinated(e.target.value)}
-              ></textarea>
+              <div className="w-full min-h-[80px] max-h-[80px] relative">
+                <textarea
+                  className={`w-full h-full max-h-full min-h-full border-1 rounded-lg outline-none text-sm px-2 py-1 ${
+                    isVaccinated === "true"
+                      ? "border-gray-400 focus:border-[#596A95]"
+                      : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20"
+                  }`}
+                  maxLength={200}
+                  required
+                  disabled={!(isVaccinated === "true")}
+                  value={vaccinated}
+                  onChange={(e) => setVaccinated(e.target.value)}
+                ></textarea>
+                <p className="absolute bottom-1 right-1 font-medium bg-bgBlack/20 rounded-lg p-[1px] ">
+                  {vaccinated.length}/200
+                </p>
+              </div>
             </label>
           </fieldset>
           <fieldset className="flex w-full">
@@ -166,18 +171,23 @@ const ThirdStep = ({
             </label>
             <label className="flex-1 md:flex-2 flex flex-col gap-2 max-w-[320px]">
               <span className="font-medium">Se sim, quais cuidados?</span>
-              <textarea
-                className={`w-full min-h-[80px] max-h-[80px] border-1 rounded-lg outline-none text-sm px-2 py-1 ${
-                  needSpecialCare === "true"
-                    ? "border-gray-400 focus:border-[#596A95]"
-                    : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20"
-                }`}
-                maxLength={300}
-                required
-                disabled={!(needSpecialCare === "true")}
-                value={specialCare}
-                onChange={(e) => setSpecialCare(e.target.value)}
-              ></textarea>
+              <div className="w-full min-h-[80px] max-h-[80px] relative">
+                <textarea
+                  className={`w-full min-h-full max-h-full border-1 rounded-lg outline-none text-sm px-2 py-1 ${
+                    needSpecialCare === "true"
+                      ? "border-gray-400 focus:border-[#596A95]"
+                      : "text-gray-100 border-gray-300 cursor-not-allowed opacity-20"
+                  }`}
+                  maxLength={300}
+                  required
+                  disabled={!(needSpecialCare === "true")}
+                  value={specialCare}
+                  onChange={(e) => setSpecialCare(e.target.value)}
+                ></textarea>
+                  <p className="absolute bottom-1 right-1 font-medium bg-bgBlack/20 rounded-lg p-[1px] ">
+                  {specialCare.length}/300
+                </p>
+              </div>
             </label>
           </fieldset>
           <fieldset className="flex w-full gap-2">
