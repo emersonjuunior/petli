@@ -19,6 +19,9 @@ export const useAdoptionRequest = () => {
   const [requestLoading, setRequestLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [currentRequestsReceived, setCurrentRequestsReceived] = useState<
+    IRequest[]
+  >([]);
   const {
     username,
     setRequestsSent,
@@ -31,6 +34,7 @@ export const useAdoptionRequest = () => {
     loadedRequests,
     setLoadedRequests,
     showSuccessNotification,
+    requestsReceived,
   } = useUserContext();
 
   // pega os dados das solicitações de adoção enviadas
@@ -68,20 +72,23 @@ export const useAdoptionRequest = () => {
   };
 
   // pega os dados das solicitações de adoção recebidas
-  const getRequestsReceived = async () => {
+  const getRequestsReceived = async (petId: string) => {
     try {
       setRequestLoading(true);
 
-      // verifica se os dados já foram carregados antes
-      if (hasLoadedReceived) {
-        console.log("Dados já existem, requisição não foi feita.");
+      if (hasLoadedReceived.includes(petId)) {
+        const filterRequests = requestsReceived.filter(
+          (request) => request.petId === petId
+        );
+
+        setCurrentRequestsReceived(filterRequests);
         setRequestLoading(false);
         return;
       }
 
       const col = collection(db, "adoptionRequests");
 
-      const q = query(col, where("owner", "==", username));
+      const q = query(col, where("petId", "==", petId));
 
       const querySnapshot = await getDocs(q);
 
@@ -91,9 +98,15 @@ export const useAdoptionRequest = () => {
           (doc) => doc.data() as IRequest
         );
         setRequestsReceived(adoptionRequests);
+        const filterRequests = adoptionRequests.filter(
+          (request) => request.petId === petId
+        );
+
+        setCurrentRequestsReceived(filterRequests);
       }
 
-      setHasLoadedReceived(true);
+      setHasLoadedReceived((prev) => [...prev, petId]);
+      setRequestLoading(false);
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {
@@ -114,9 +127,12 @@ export const useAdoptionRequest = () => {
     try {
       setLoading(true);
 
+      // imagem compactada
+      const newImage = petImage.replace("w_600", "w_300");
+
       const newRequest: IRequest = {
         petId,
-        petImage,
+        petImage: newImage,
         date: Timestamp.now(),
         text,
         location,
@@ -212,5 +228,6 @@ export const useAdoptionRequest = () => {
     requestLoading,
     error,
     loading,
+    currentRequestsReceived,
   };
 };

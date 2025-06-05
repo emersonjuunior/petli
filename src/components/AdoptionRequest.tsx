@@ -123,7 +123,7 @@ const AdoptionRequest = ({
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
       <div
-        className="bg-bgGray w-full max-w-[750px] mx-2 rounded-lg p-4 md:p-8 relative max-h-[500px] md:max-h-[750px] overflow-y-auto"
+        className="bg-bgGray w-full max-w-[750px] mx-2 rounded-lg p-4 md:p-8 relative max-h-[500px] md:max-h-[700px] lg:max-h-[730px] xl:max-h-[760px] overflow-y-auto"
         ref={modalAdoptRef}
       >
         <i

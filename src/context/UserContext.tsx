@@ -49,8 +49,8 @@ interface IUserContext {
   setLoadedRequests: React.Dispatch<React.SetStateAction<string[]>>;
   hasLoadedSent: boolean;
   setHasLoadedSent: (value: boolean) => void;
-  hasLoadedReceived: boolean;
-  setHasLoadedReceived: (value: boolean) => void;
+  hasLoadedReceived: string[];
+  setHasLoadedReceived: React.Dispatch<React.SetStateAction<string[]>>;
   hasLoadedAvailablePets: boolean;
   setHasLoadedAvailablePets: (value: boolean) => void;
   loadedAvailablePets: number;
@@ -85,7 +85,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const [loadedAvailablePets, setLoadedAvailablePets] = useState(0);
   const [hasLoadedAvailablePets, setHasLoadedAvailablePets] = useState(false);
   const [hasLoadedSent, setHasLoadedSent] = useState(false);
-  const [hasLoadedReceived, setHasLoadedReceived] = useState(false);
+  const [hasLoadedReceived, setHasLoadedReceived] = useState<string[]>([]);
   const [loadedRequests, setLoadedRequests] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState<string>("");

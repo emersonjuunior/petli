@@ -8,6 +8,7 @@ import AdoptedPetModal from "../components/AdoptedPetModal";
 import { Helmet } from "react-helmet";
 import NoPets from "../components/NoPets";
 import PetSummary from "../components/PetSummary";
+import ManageRequests from "../components/ManageRequests";
 
 const MyDonations = () => {
   const { username, availablePets, donatedPets } = useUserContext();
@@ -16,14 +17,18 @@ const MyDonations = () => {
   const [active, setActive] = useState(1);
   const [deletePetModal, setDeletePetModal] = useState(false);
   const [adoptedPetModal, setAdoptedPetModal] = useState(false);
+  const [manageRequestsModal, setManageRequestsModal] = useState(false);
   const [currentPetGender, setCurrentPetGender] = useState<string | null>(null);
   const [currentPetId, setCurrentPetId] = useState<string | null>(null);
   const [currentPetName, setCurrentPetName] = useState<string | null>(null);
   const [currentPetImage, setCurrentPetImage] = useState<string | null>(null);
+  const [currentPendingRequests, setCurrentPendingRequests] = useState<
+    number | null
+  >(null);
   const [currentPetMoreImages, setCurrentPetMoreImages] = useState<
     string[] | undefined
   >([]);
-  
+
   if (petLoading) {
     return <Loading />;
   }
@@ -42,13 +47,15 @@ const MyDonations = () => {
     name: string,
     petImage: string,
     petGender: string,
-    petMoreImages: string[] | undefined
+    petMoreImages: string[] | undefined,
+    pendingRequests: number
   ) => {
     setCurrentPetId(id);
     setCurrentPetName(name);
     setCurrentPetImage(petImage);
     setCurrentPetGender(petGender);
     setCurrentPetMoreImages(petMoreImages);
+    setCurrentPendingRequests(pendingRequests);
   };
 
   return (
@@ -93,7 +100,7 @@ const MyDonations = () => {
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {availablePets.map((pet) => (
                     <div key={pet.id}>
-                      <article className="group w-[320px] md:w-[340px] mx-auto rounded-xl rounded-b-none border-1 border-bgGray bg-[#292929] border-b-primaryRed">
+                      <article className="shadow-lg group w-[320px] md:w-[340px] mx-auto rounded-xl rounded-b-none border-1 border-bgGray bg-[#292929] border-b-primaryRed">
                         <Link to={`/pet/${pet.id}`} className="relative">
                           <div className="absolute opacity-0 group-hover:opacity-100 duration-300 font-semibold text-xl group-hover:bg-bgBlack/70 w-full h-full flex items-center justify-center">
                             Ver perfil
@@ -117,7 +124,20 @@ const MyDonations = () => {
                               </p>
                             </div>
                           ) : (
-                            <button className="h-[35px] md:h-[40px] w-full  flex justify-center items-center gap-4 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
+                            <button
+                              onClick={() => {
+                                handleSelectPet(
+                                  pet.id,
+                                  pet.name,
+                                  pet.image,
+                                  pet.gender,
+                                  pet.moreImages,
+                                  pet.pendingRequests
+                                );
+                                setManageRequestsModal(true);
+                              }}
+                              className="h-[35px] md:h-[40px] w-full  flex justify-center items-center gap-4 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                            >
                               Solicitações de adoção
                               <span className="min-w-[22px] h-[22px] flex items-center justify-center bg-[#f04747] text-white text-sm font-semibold rounded-full">
                                 {pet.pendingRequests}
@@ -138,7 +158,8 @@ const MyDonations = () => {
                                 pet.name,
                                 pet.image,
                                 pet.gender,
-                                pet.moreImages
+                                pet.moreImages,
+                                pet.pendingRequests
                               );
                               setAdoptedPetModal(true);
                             }}
@@ -154,7 +175,8 @@ const MyDonations = () => {
                                 pet.name,
                                 pet.image,
                                 pet.gender,
-                                pet.moreImages
+                                pet.moreImages,
+                                pet.pendingRequests
                               );
                               setDeletePetModal(true);
                             }}
@@ -247,6 +269,15 @@ const MyDonations = () => {
             petGender={currentPetGender!}
             petImage={currentPetImage!}
             petMoreImages={currentPetMoreImages}
+          />
+        )}
+        {manageRequestsModal && (
+          <ManageRequests
+            petId={currentPetId!}
+            pendingRequests={currentPendingRequests!}
+            setManageRequestsModal={setManageRequestsModal}
+            petGender={currentPetGender!}
+            petName={currentPetName!}
           />
         )}
       </main>
