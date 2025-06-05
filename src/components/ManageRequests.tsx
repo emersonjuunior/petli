@@ -55,33 +55,33 @@ const ManageRequests = ({
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
       <div
-        className="bg-bgGray w-full max-w-[750px] mx-2 md:mx-5 lg:mx-2 rounded-lg p-4 md:p-8 relative max-h-[500px] md:max-h-[750px] xl:max-h-[780px] overflow-y-auto min-h-[750px]"
+        className="bg-bgGray w-full max-w-[750px] mx-2 md:mx-5 lg:mx-2 rounded-lg p-4 md:p-8 relative max-h-[550px] md:max-h-[750px] xl:max-h-[790px]"
         ref={manageRequestsModalRef}
       >
         <i
           className="fa-solid fa-xmark absolute text-2xl right-4 top-4 cursor-pointer"
           onClick={() => setManageRequestsModal(false)}
         ></i>
-        <h2 className="text-xl md:text-2xl font-medium max-w-8/10 mb-2">
+        <h2 className="text-lg md:text-2xl font-medium max-w-8/10 mb-2">
           Gerenciar solicitações de adoção ✍️
         </h2>
-        <p className="mb-2 md:mb-4 text-base md:text-[17px]">
+        <p className="mb-2 md:mb-4 text-sm md:text-[17px]">
           Veja e gerencie as solicitações de adoção recebidas para{" "}
           <span className="font-semibold">
             {petGender === "Macho" ? "o" : petGender === "Fêmea" ? "a" : "o(a)"}{" "}
             {petName}
           </span>
-          . Você pode{" "}
+          . Ao aprovar, seu{" "}
           <span className="font-medium">
-            aprovar ou recusar uma solicitação
+            contato ficará visível para o adotante
           </span>
           .
         </p>
         <hr className="text-[#505050] mb-1 md:mb-3" />
-        <section className="border-1 min-h-[500px] md:min-h-[500px] xl:min-h-[450px] max-h-[350px] md:max-h-[500px] xl:max-h-[500px] mb-1 md:mb-3">
+        <section className="min-h-[330px] md:min-h-[500px] xl:min-h-[520px] max-h-[355px] md:max-h-[330px] xl:max-h-[520px] overflow-y-auto mb-1 md:mb-3">
           {initialLoading ||
             (requestLoading && (
-              <div className="w-full min-h-[350px] md:min-h-[350px] xl:min-h-[450px] bg-[#404040] rounded-xl animate-pulse"></div>
+              <div className="min-h-[330px] md:min-h-[500px] xl:min-h-[520px] max-h-[355px] md:max-h-[330px] xl:max-h-[520px] bg-[#404040] rounded-xl animate-pulse"></div>
             ))}
           {!requestLoading &&
             !initialLoading &&
@@ -89,9 +89,9 @@ const ManageRequests = ({
               <div className="flex justify-center items-center flex-col relative">
                 <Lottie
                   animationData={noAvailablePets}
-                  className="w-xs min-w-xs md:w-md md:min-w-md xl:w-lg xl:min-w-lg border-1 flex"
+                  className="w-[260px] md:w-[440px] md:min-w-[440px] xl:w-[460px] xl:min-w-[460px] flex"
                 />
-                <p className="absolute bottom-2 md:bottom-5 text-base md:text-lg font-medium max-w-[200px] text-center">
+                <p className="absolute bottom-[-10px] md:bottom-5 text-base md:text-lg font-medium max-w-[200px] text-center">
                   Nenhuma solicitação por enquanto
                 </p>
               </div>
@@ -101,13 +101,20 @@ const ManageRequests = ({
             currentRequestsReceived.length > 0 && (
               <>
                 {currentRequestsReceived.map((request, index) => (
-                  <article key={index}>{request.adoptionAnswers}
-                  {pendingRequests}</article>
+                  <article key={index}>
+                    {request.adoptionAnswers}
+                    {pendingRequests}
+                  </article>
                 ))}
               </>
             )}
         </section>
-        <hr className="text-[#505050] mb-1 md:mb-2" />
+        <hr className="text-[#505050] mb-2 md:mb-4" />
+        <div className="flex justify-end">
+          <button className="text-base md:text-lg font-semibold cursor-pointer hover:text-gray-100 duration-300">
+            Voltar
+          </button>
+        </div>
       </div>
     </div>
   );
