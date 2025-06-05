@@ -72,11 +72,21 @@ export const useAdoptionRequest = () => {
   };
 
   // pega os dados das solicitações de adoção recebidas
-  const getRequestsReceived = async (petId: string) => {
+  const getRequestsReceived = async (
+    petId: string,
+    pendingRequests: number
+  ) => {
     try {
       setRequestLoading(true);
 
+      if (pendingRequests === 0) {
+        console.log("Esse pet não tem nenhuma solicitação.");
+        setRequestLoading(false);
+        return;
+      }
+
       if (hasLoadedReceived.includes(petId)) {
+        console.log("Os dados já foram buscados.")
         const filterRequests = requestsReceived.filter(
           (request) => request.petId === petId
         );
@@ -97,12 +107,21 @@ export const useAdoptionRequest = () => {
         const adoptionRequests: IRequest[] = querySnapshot.docs.map(
           (doc) => doc.data() as IRequest
         );
-        setRequestsReceived(adoptionRequests);
-        const filterRequests = adoptionRequests.filter(
-          (request) => request.petId === petId
-        );
 
-        setCurrentRequestsReceived(filterRequests);
+        // atualiza o state local
+        setRequestsReceived((prev) => {
+          const newRequests = adoptionRequests.filter(
+            (newReq) => !prev.some((prevReq) => prevReq.petId === newReq.petId)
+          );
+          return [...prev, ...newRequests];
+        });
+
+        setCurrentRequestsReceived((prev) => {
+          const newRequests = adoptionRequests.filter(
+            (newReq) => !prev.some((prevReq) => prevReq.petId === newReq.petId)
+          );
+          return [...prev, ...newRequests];
+        });
       }
 
       setHasLoadedReceived((prev) => [...prev, petId]);

@@ -25,7 +25,7 @@ const ManageRequests = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      await getRequestsReceived(petId);
+      await getRequestsReceived(petId, pendingRequests);
       setInitialLoading(false);
     };
 
@@ -49,8 +49,6 @@ const ManageRequests = ({
     };
   }, [setManageRequestsModal]);
 
-  console.log(requestLoading);
-  console.log(initialLoading);
 
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
@@ -103,7 +101,6 @@ const ManageRequests = ({
                 {currentRequestsReceived.map((request, index) => (
                   <article key={index}>
                     {request.adoptionAnswers}
-                    {pendingRequests}
                   </article>
                 ))}
               </>
@@ -111,7 +108,10 @@ const ManageRequests = ({
         </section>
         <hr className="text-[#505050] mb-2 md:mb-4" />
         <div className="flex justify-end">
-          <button className="text-base md:text-lg font-semibold cursor-pointer hover:text-gray-100 duration-300">
+          <button
+            onClick={() => setManageRequestsModal(false)}
+            className="text-base md:text-lg font-semibold cursor-pointer hover:text-gray-100 duration-300"
+          >
             Voltar
           </button>
         </div>
