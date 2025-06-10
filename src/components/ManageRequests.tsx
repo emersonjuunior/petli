@@ -27,6 +27,7 @@ const ManageRequests = ({
     requestLoading,
     currentRequestsReceived,
     acceptOrRejectRequest,
+    btnLoading,
   } = useAdoptionRequest();
   const [initialLoading, setInitialLoading] = useState(true);
 
@@ -144,14 +145,24 @@ const ManageRequests = ({
                     </div>
                     <div className="flex items-center gap-2 md:gap-4 w-full justify-end">
                       <button
+                        disabled={btnLoading}
                         onClick={() => acceptOrRejectRequest(request, true)}
-                        className="py-[6px] px-3 md:px-5 md:text-lg font-medium rounded-lg bg-green-700 hover:bg-green-600 duration-300 cursor-pointer"
+                        className={`${
+                          btnLoading
+                            ? "cursor-progress opacity-80"
+                            : "cursor-pointer"
+                        } py-[6px] px-3 md:px-5 md:text-lg font-medium rounded-lg bg-green-700 hover:bg-green-600 duration-300`}
                       >
                         Exibir Contato
                       </button>
                       <button
+                        disabled={btnLoading}
                         onClick={() => acceptOrRejectRequest(request, false)}
-                        className="py-1 px-3 md:px-4 rounded-lg text-sm md:text-base font-medium bg-red-700 hover:bg-red-600 duration-300 cursor-pointer"
+                        className={`${
+                          btnLoading
+                            ? "cursor-progress opacity-80"
+                            : "cursor-pointer"
+                        } py-1 px-3 md:px-4 rounded-lg text-sm md:text-base font-medium bg-red-700 hover:bg-red-600 duration-300`}
                       >
                         Recusar
                       </button>

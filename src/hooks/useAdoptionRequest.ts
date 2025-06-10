@@ -12,14 +12,16 @@ import {
   updateDoc,
   increment,
   deleteField,
+  arrayUnion,
 } from "firebase/firestore";
 import { useUserContext } from "../context/UserContext";
 import { IRequest } from "../interfaces/Request";
 
 export const useAdoptionRequest = () => {
   const [requestLoading, setRequestLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentRequestsReceived, setCurrentRequestsReceived] = useState<
     IRequest[]
   >([]);
@@ -36,6 +38,7 @@ export const useAdoptionRequest = () => {
     setLoadedRequests,
     showSuccessNotification,
     requestsReceived,
+    setAvailablePets,
   } = useUserContext();
 
   // pega os dados das solicitações de contato enviadas
@@ -248,16 +251,56 @@ export const useAdoptionRequest = () => {
     approved: boolean
   ) => {
     try {
+      setBtnLoading(true);
+
+      // decrementa o campo pendingRequests em -1
+      const petRef = doc(db, "pets", request.petId);
+      await updateDoc(petRef, {
+        pendingRequests: increment(-1),
+        allowedAdopters: arrayUnion(request.interested), // adiciona o adotante na lista de quem pode ver o contato do responsável
+      });
+
+      // monta o novo objeto de atualização
       const updatedRequest = {
-        owner: deleteField(),
+        petId: deleteField(), // limpa o campo que é usado para filtrar a solicitação pro dono
         status: approved ? "Aprovada" : "Recusada",
       };
 
       // atualiza os dados no firestore
       const requestRef = doc(db, "adoptionRequests", request.requestId);
       await updateDoc(requestRef, updatedRequest);
+
+      // atualiza o state local
+      setAvailablePets((prevPets) =>
+        prevPets.map((pet) =>
+          pet.id === request.petId
+            ? {
+                ...pet,
+                pendingRequests: pet.pendingRequests - 1,
+              }
+            : pet
+        )
+      );
+
+      // atualiza o state local de solicitações recebidas
+      setRequestsReceived((prevRequests) =>
+        prevRequests.filter((r) => r.requestId !== request.requestId)
+      );
+
+      setCurrentRequestsReceived((prevRequests) =>
+        prevRequests.filter((r) => r.requestId !== request.requestId)
+      );
+
+      // mensagem de sucesso
+      if (approved) {
+        showSuccessNotification("Solicitação aprovada com sucesso! 🐾");
+      } else {
+        showSuccessNotification("Solicitação recusada! 🐾");
+      }
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");
+    } finally {
+      setBtnLoading(false);
     }
   };
 
@@ -271,5 +314,6 @@ export const useAdoptionRequest = () => {
     loading,
     currentRequestsReceived,
     acceptOrRejectRequest,
+    btnLoading,
   };
 };
