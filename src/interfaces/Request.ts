@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface IRequest {
+  requestId: string;
   petId: string;
   date: Timestamp;
   text: string;
@@ -10,4 +11,5 @@ export interface IRequest {
   status: string;
   petImage: string;
   adoptionAnswers: string;
+  petName: string;
 }

@@ -11,6 +11,7 @@ import {
   Timestamp,
   updateDoc,
   increment,
+  deleteField,
 } from "firebase/firestore";
 import { useUserContext } from "../context/UserContext";
 import { IRequest } from "../interfaces/Request";
@@ -37,7 +38,7 @@ export const useAdoptionRequest = () => {
     requestsReceived,
   } = useUserContext();
 
-  // pega os dados das solicitações de adoção enviadas
+  // pega os dados das solicitações de contato enviadas
   const getRequestsSent = async () => {
     try {
       setRequestLoading(true);
@@ -71,7 +72,7 @@ export const useAdoptionRequest = () => {
     }
   };
 
-  // pega os dados das solicitações de adoção recebidas
+  // pega os dados das solicitações de contato recebidas
   const getRequestsReceived = async (
     petId: string,
     pendingRequests: number
@@ -86,7 +87,7 @@ export const useAdoptionRequest = () => {
       }
 
       if (hasLoadedReceived.includes(petId)) {
-        console.log("Os dados já foram buscados.")
+        console.log("Os dados já foram buscados.");
         const filterRequests = requestsReceived.filter(
           (request) => request.petId === petId
         );
@@ -141,15 +142,18 @@ export const useAdoptionRequest = () => {
     owner: string,
     species: string,
     petImage: string,
-    adoptionAnswers: string
+    adoptionAnswers: string,
+    petName: string
   ) => {
     try {
       setLoading(true);
+      const docId = `${username}-${petId}`;
 
       // imagem compactada
       const newImage = petImage.replace("w_600", "w_300");
 
       const newRequest: IRequest = {
+        requestId: docId,
         petId,
         petImage: newImage,
         date: Timestamp.now(),
@@ -159,10 +163,10 @@ export const useAdoptionRequest = () => {
         status: "Em análise",
         interested: username!,
         adoptionAnswers,
+        petName,
       };
 
       // cria um documento com id do username-petId
-      const docId = `${username}-${petId}`;
       const docRef = doc(db, "adoptionRequests", docId);
       await setDoc(docRef, newRequest);
 
@@ -239,6 +243,24 @@ export const useAdoptionRequest = () => {
     setRequestLoading(false);
   };
 
+  const acceptOrRejectRequest = async (
+    request: IRequest,
+    approved: boolean
+  ) => {
+    try {
+      const updatedRequest = {
+        owner: deleteField(),
+        status: approved ? "Aprovada" : "Recusada",
+      };
+
+      // atualiza os dados no firestore
+      const requestRef = doc(db, "adoptionRequests", request.requestId);
+      await updateDoc(requestRef, updatedRequest);
+    } catch {
+      setError("Algo deu errado, tente novamente mais tarde.");
+    }
+  };
+
   return {
     getRequestsReceived,
     getRequestsSent,
@@ -248,5 +270,6 @@ export const useAdoptionRequest = () => {
     error,
     loading,
     currentRequestsReceived,
+    acceptOrRejectRequest,
   };
 };

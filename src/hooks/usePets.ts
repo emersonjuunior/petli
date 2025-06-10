@@ -143,7 +143,7 @@ export const usePets = () => {
       // remove o pet
       await deleteDoc(doc(db, "pets", petId));
 
-      // remove as solicitações de adoção
+      // remove as solicitações de contato
       const q = query(
         collection(db, "adoptionRequests"),
         where("petId", "==", petId)

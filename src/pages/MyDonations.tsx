@@ -25,6 +25,9 @@ const MyDonations = () => {
   const [currentPendingRequests, setCurrentPendingRequests] = useState<
     number | null
   >(null);
+  const [adoptionQuestions, setAdoptionQuestions] = useState<string | null>(
+    null
+  );
   const [currentPetMoreImages, setCurrentPetMoreImages] = useState<
     string[] | undefined
   >([]);
@@ -48,7 +51,8 @@ const MyDonations = () => {
     petImage: string,
     petGender: string,
     petMoreImages: string[] | undefined,
-    pendingRequests: number
+    pendingRequests: number,
+    questions?: string
   ) => {
     setCurrentPetId(id);
     setCurrentPetName(name);
@@ -56,6 +60,9 @@ const MyDonations = () => {
     setCurrentPetGender(petGender);
     setCurrentPetMoreImages(petMoreImages);
     setCurrentPendingRequests(pendingRequests);
+    if (questions) {
+      setAdoptionQuestions(questions);
+    }
   };
 
   return (
@@ -64,7 +71,7 @@ const MyDonations = () => {
         <title>Minhas Doações | Petli</title>
         <meta
           name="description"
-          content="Acompanhe e gerencie os seus pets disponíveis para adoção. Edite informações, visualize solicitações de adoção, marque um pet como adotado ou remova-o da lista de disponíveis."
+          content="Acompanhe e gerencie os seus pets disponíveis para adoção. Edite informações, visualize solicitações de contato, marque um pet como adotado ou remova-o da lista de disponíveis."
         />
       </Helmet>
       <main className="pt-4 px-2 md:px-6">
@@ -132,13 +139,14 @@ const MyDonations = () => {
                                   pet.image,
                                   pet.gender,
                                   pet.moreImages,
-                                  pet.pendingRequests
+                                  pet.pendingRequests,
+                                  pet.adoptionQuestions
                                 );
                                 setManageRequestsModal(true);
                               }}
                               className="h-[35px] md:h-[40px] w-full  flex justify-center items-center gap-4 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
                             >
-                              Solicitações de adoção
+                              Solicitações de contato
                               <span className="min-w-[22px] h-[22px] flex items-center justify-center bg-[#f04747] text-white text-sm font-semibold rounded-full">
                                 {pet.pendingRequests}
                               </span>
@@ -278,6 +286,7 @@ const MyDonations = () => {
             setManageRequestsModal={setManageRequestsModal}
             petGender={currentPetGender!}
             petName={currentPetName!}
+            adoptionQuestions={adoptionQuestions!}
           />
         )}
       </main>

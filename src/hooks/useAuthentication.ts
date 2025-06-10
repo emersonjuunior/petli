@@ -155,7 +155,7 @@ export const useAuthentication = () => {
     setRequestsReceived([]);
     setRequestsSent([]);
     setHasLoadedAvailablePets(false);
-    setHasLoadedReceived(false);
+    setHasLoadedReceived([]);
     setHasLoadedSent(false);
     setDonatedPets([]);
     setAdoptedPets([]);

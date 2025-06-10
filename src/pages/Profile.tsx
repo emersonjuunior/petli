@@ -144,7 +144,7 @@ const Profile = () => {
                   ))}
                 </Swiper>
               ) : (
-                <NoPets text="Nada por enquanto" />
+                <NoPets text="Nada por enquanto." />
               )}
             </div>
             {userProfile.adoptedPets && userProfile.adoptedPets.length > 0 && (

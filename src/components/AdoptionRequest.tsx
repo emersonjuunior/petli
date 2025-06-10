@@ -114,7 +114,8 @@ const AdoptionRequest = ({
       owner,
       species,
       petImage,
-      adoptionAnswers
+      adoptionAnswers,
+      name
     );
 
     setAdoptModal(false);
@@ -134,12 +135,12 @@ const AdoptionRequest = ({
           className="flex flex-col gap-2 md:gap-5"
           onSubmit={handleAdoptionRequest}
         >
-          <h2 className="text-xl md:text-2xl font-medium max-w-8/10">
+          <h2 className="text-xl md:text-2xl font-medium max-w-7/10 md:max-w-8/10">
             Pronto pra dar um novo lar? 🐾
           </h2>
           <p className="text-[13px] md:text-base">
             Preencha o formulário abaixo para enviar sua{" "}
-            <span className="font-semibold">solicitação de adoção</span>. O
+            <span className="font-semibold">solicitação de contato</span>. O
             responsável vai analisar com carinho e, se aprovada, você receberá
             os <span className="font-semibold">dados de contato</span> para
             conversar diretamente com ele! {species === "Gato" ? "🐱" : "🐶"}
@@ -195,7 +196,7 @@ const AdoptionRequest = ({
                   : gender === "Fêmea"
                   ? "a"
                   : "o(a)"}{" "}
-                {name}
+                {name}:
               </span>
               <div className="relative px-2">
                 <textarea
@@ -239,7 +240,7 @@ const AdoptionRequest = ({
           </div>
           <hr className="text-[#404040]" />
           <span className="text-sm md:text-base">
-            Você poderá acompanhar suas solicitações de adoção em{" "}
+            Você poderá acompanhar suas solicitações de contato em{" "}
             <span className="font-semibold">"Minhas Adoções"</span>.
           </span>
           {error && <Error error={error} setError={setError} />}

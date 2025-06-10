@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { useAdoptionRequest } from "../hooks/useAdoptionRequest";
 import noAvailablePets from "../assets/no-available-pets.json";
 import Lottie from "lottie-react";
+import { Link } from "react-router-dom";
 
 interface Props {
   setManageRequestsModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +10,7 @@ interface Props {
   petId: string;
   petGender: string;
   petName: string;
+  adoptionQuestions: string;
 }
 
 const ManageRequests = ({
@@ -17,10 +19,15 @@ const ManageRequests = ({
   petId,
   petGender,
   petName,
+  adoptionQuestions,
 }: Props) => {
   const manageRequestsModalRef = useRef<HTMLDivElement>(null);
-  const { getRequestsReceived, requestLoading, currentRequestsReceived } =
-    useAdoptionRequest();
+  const {
+    getRequestsReceived,
+    requestLoading,
+    currentRequestsReceived,
+    acceptOrRejectRequest,
+  } = useAdoptionRequest();
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
@@ -49,7 +56,6 @@ const ManageRequests = ({
     };
   }, [setManageRequestsModal]);
 
-
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
       <div
@@ -61,10 +67,10 @@ const ManageRequests = ({
           onClick={() => setManageRequestsModal(false)}
         ></i>
         <h2 className="text-lg md:text-2xl font-medium max-w-8/10 mb-2">
-          Gerenciar solicitações de adoção ✍️
+          Gerenciar solicitações de contato ✍️
         </h2>
         <p className="mb-2 md:mb-4 text-sm md:text-[17px]">
-          Veja e gerencie as solicitações de adoção recebidas para{" "}
+          Veja e gerencie as solicitações de contato recebidas para{" "}
           <span className="font-semibold">
             {petGender === "Macho" ? "o" : petGender === "Fêmea" ? "a" : "o(a)"}{" "}
             {petName}
@@ -75,22 +81,22 @@ const ManageRequests = ({
           </span>
           .
         </p>
-        <hr className="text-[#505050] mb-1 md:mb-3" />
-        <section className="min-h-[330px] md:min-h-[500px] xl:min-h-[520px] max-h-[355px] md:max-h-[330px] xl:max-h-[520px] overflow-y-auto mb-1 md:mb-3">
-          {initialLoading ||
-            (requestLoading && (
-              <div className="min-h-[330px] md:min-h-[500px] xl:min-h-[520px] max-h-[355px] md:max-h-[330px] xl:max-h-[520px] bg-[#404040] rounded-xl animate-pulse"></div>
-            ))}
+        <hr className="text-[#505050] mb-2 md:mb-4" />
+        <section className="flex flex-col gap-3 md:gap-4 max-h-[320px] md:max-h-[330px] xl:max-h-[520px] overflow-y-auto mb-2 md:mb-4">
+          {(initialLoading || requestLoading) && (
+            <div className="min-h-[268px] md:min-h-[300px] bg-[#404040] border-1 border-bgGray rounded-xl animate-pulse"></div>
+          )}
+
           {!requestLoading &&
             !initialLoading &&
             currentRequestsReceived.length === 0 && (
               <div className="flex justify-center items-center flex-col relative">
                 <Lottie
                   animationData={noAvailablePets}
-                  className="w-[260px] md:w-[440px] md:min-w-[440px] xl:w-[460px] xl:min-w-[460px] flex"
+                  className="w-[150px] min-w-[150px] md:w-[290px] md:min-w-[290px] xl:w-[360px] xl:min-w-[360px] flex items-center justify-center"
                 />
-                <p className="absolute bottom-[-10px] md:bottom-5 text-base md:text-lg font-medium max-w-[200px] text-center">
-                  Nenhuma solicitação por enquanto
+                <p className="absolute bottom-0 md:bottom-3 xl:bottom-5 text-base md:text-xl font-medium max-w-[210px] text-center">
+                  Nada por enquanto.
                 </p>
               </div>
             )}
@@ -99,8 +105,57 @@ const ManageRequests = ({
             currentRequestsReceived.length > 0 && (
               <>
                 {currentRequestsReceived.map((request, index) => (
-                  <article key={index}>
-                    {request.adoptionAnswers}
+                  <article
+                    key={index}
+                    className="w-full bg-[#303030] rounded-xl shadow-md p-5"
+                  >
+                    <h3 className="text-xl md:text-2xl font-semibold underline mb-2">
+                      <Link to={`/${request.interested}`}>
+                        {request.interested}
+                      </Link>
+                    </h3>
+                    <address className="not-italic mb-3">
+                      {request.location} -{" "}
+                      {request.date.toDate().toLocaleDateString("pt-br")}
+                    </address>
+                    <div className="mb-4 md:mb-5">
+                      <p className="md:text-lg mb-1">
+                        Por que{" "}
+                        <span className="font-medium">
+                          {request.interested} deseja adotar {""}
+                          {petGender === "Macho"
+                            ? "o"
+                            : petGender === "Fêmea"
+                            ? "a"
+                            : "o(a)"}{" "}
+                          {petName}
+                        </span>
+                        ?
+                      </p>
+                      <p className="px-1 text-sm md:text-base italic">
+                        - {request.text}
+                      </p>
+                    </div>
+                    <div className="mb-3">
+                      <p className="md:text-lg mb-1">{adoptionQuestions}</p>
+                      <p className="px-1 text-sm md:text-base italic">
+                        - {request.adoptionAnswers}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 md:gap-4 w-full justify-end">
+                      <button
+                        onClick={() => acceptOrRejectRequest(request, true)}
+                        className="py-[6px] px-3 md:px-5 md:text-lg font-medium rounded-lg bg-green-700 hover:bg-green-600 duration-300 cursor-pointer"
+                      >
+                        Exibir Contato
+                      </button>
+                      <button
+                        onClick={() => acceptOrRejectRequest(request, false)}
+                        className="py-1 px-3 md:px-4 rounded-lg text-sm md:text-base font-medium bg-red-700 hover:bg-red-600 duration-300 cursor-pointer"
+                      >
+                        Recusar
+                      </button>
+                    </div>
                   </article>
                 ))}
               </>

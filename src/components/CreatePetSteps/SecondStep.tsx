@@ -263,7 +263,7 @@ const SecondStep = ({
             <Checkbox
               title="Manter contato visível?"
               text={
-                "Se ativado, seu contato ficará visível a todos os interessados, permitindo contato direto. Caso contrário, os adotantes enviarão solicitações de adoção pela plataforma, e você decidirá com quem compartilhar seu contato."
+                "Se ativado, seu contato ficará visível a todos os interessados, permitindo contato direto. Caso contrário, os adotantes enviarão solicitações de contato pela plataforma, e você decidirá com quem compartilhar seu contato."
               }
               checked={checked}
               setChecked={setChecked}
