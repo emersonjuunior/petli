@@ -15,7 +15,7 @@ import NoPets from "../components/NoPets";
 
 const Profile = () => {
   const { usernameId } = useParams();
-  const { username, about, city, state } = useUserContext();
+  const { username } = useUserContext();
 
   const { user: userProfile, loading } = useGetProfile(
     "usernames",
@@ -30,6 +30,8 @@ const Profile = () => {
   if (userProfile === null) {
     return <Navigate to="*" />;
   }
+
+  console.log(userProfile.about)
 
   return (
     <>
@@ -70,14 +72,17 @@ const Profile = () => {
                 <span className="font-medium"> {userProfile.memberSince}</span>
               </p>
             </div>
-            {city != "" && state != "" && (
-              <div>
-                <p className="text-lg">
-                  <i className="fa-solid fa-map-pin text-[#bebaba] mr-1" />{" "}
-                  {city}, {state}
-                </p>
-              </div>
-            )}
+            {userProfile.city != "" &&
+              userProfile.city &&
+              userProfile.state != "" &&
+              userProfile.state && (
+                <div>
+                  <p className="text-lg">
+                    <i className="fa-solid fa-map-pin text-[#bebaba] mr-1" />{" "}
+                    {userProfile.city}, {userProfile.state}
+                  </p>
+                </div>
+              )}
             <hr className="text-[#424242]" />
             <div className="flex flex-col gap-2">
               <p>
@@ -109,7 +114,11 @@ const Profile = () => {
               <h2 className="text-3xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
                 Sobre
               </h2>
-              <p>{about != "" ? about : "Nada informado."}</p>
+              <p>
+                {userProfile.about 
+                  ? userProfile.about
+                  : "Nada informado."}
+              </p>
             </div>
             <hr className="text-[#424242]" />
             <div className="flex flex-col gap-3 w-full">

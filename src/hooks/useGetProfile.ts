@@ -12,6 +12,9 @@ interface IUsername {
   memberSince: string | null;
   donatedPets: IDonatedPet[];
   adoptedPets: IDonatedPet[];
+  about?: string;
+  city?: string;
+  state?: string;
 }
 
 // pega o nome do usuário ou pet através dos parametros da url e busca no firestore
@@ -27,6 +30,9 @@ export const useGetProfile = (col: string, profileUsername: string) => {
     memberSince,
     adoptedPets,
     donatedPets,
+    about,
+    city,
+    state
   } = useUserContext();
 
   useEffect(() => {
@@ -41,6 +47,9 @@ export const useGetProfile = (col: string, profileUsername: string) => {
             memberSince,
             adoptedPets,
             donatedPets,
+            about,
+            city,
+            state
           });
           setLoading(false);
           return { user, loading };
@@ -51,6 +60,7 @@ export const useGetProfile = (col: string, profileUsername: string) => {
 
         if (snapshot.exists()) {
           const userData = snapshot.data();
+          console.log(userData);
           if (col === "usernames") {
             setUser(userData as IUsername);
           } else if (col === "pets") {
