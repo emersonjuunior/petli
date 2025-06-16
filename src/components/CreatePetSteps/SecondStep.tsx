@@ -282,7 +282,7 @@ const SecondStep = ({
               placeholder={
                 checked
                   ? "Como seu contato está visível, não é necessário criar perguntas."
-                  : "Adicione perguntas que os adotantes deverão responder na solicitação. Isso te ajuda a conhecer melhor quem deseja adotar."
+                  : "Adicione perguntas que os adotantes deverão responder na solicitação de contato. Isso te ajuda a conhecer melhor quem deseja adotar."
               }
               value={adoptionQuestions}
               onChange={(e) => setAdoptionQuestions(e.target.value)}

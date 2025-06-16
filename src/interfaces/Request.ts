@@ -8,8 +8,9 @@ export interface IRequest {
   location: string;
   interested: string;
   owner: string;
-  status: string;
+  status: "Em análise" | "Aprovada" | "Recusada";
   petImage: string;
   adoptionAnswers: string;
   petName: string;
+  petProfile?: string;
 }

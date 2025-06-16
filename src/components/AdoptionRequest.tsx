@@ -103,7 +103,7 @@ const AdoptionRequest = ({
     setLocation(`${value}, ${uf}`);
   };
 
-  // envia a solicitação de adoção
+  // envia a solicitação de contato
   const handleAdoptionRequest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

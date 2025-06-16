@@ -79,7 +79,7 @@ const MyDonations = () => {
           <h1 className="font-semibold text-3xl md:text-4xl mb-6 md:mb-10 after:content-[''] after:block after:h-[2px] after:w-20 after:bg-primaryRed">
             Minhas Doações
           </h1>
-          <div className="flex overflow-x-scroll md:overflow-x-visible whitespace-nowrap relative gap-14 md:gap-20 border-[#505050] w-full border-b-2 mb-10 md:mb-14 pb-4 text-lg font-medium">
+          <nav className="flex overflow-x-scroll md:overflow-x-visible whitespace-nowrap relative gap-14 md:gap-20 border-[#505050] w-full border-b-2 mb-10 md:mb-14 pb-4 text-lg font-medium">
             <h2
               onClick={() => setActive(1)}
               className={`${
@@ -100,7 +100,7 @@ const MyDonations = () => {
             >
               pets já doados
             </h2>
-          </div>
+          </nav>
           {active === 1 && (
             <>
               {availablePets && availablePets.length > 0 && (

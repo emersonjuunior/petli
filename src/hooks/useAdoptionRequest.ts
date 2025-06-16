@@ -67,6 +67,8 @@ export const useAdoptionRequest = () => {
         setRequestsSent(adoptionRequests);
       }
 
+      console.log("Busca feita");
+
       setHasLoadedSent(true);
     } catch {
       setError("Algo deu errado, tente novamente mais tarde.");
@@ -264,6 +266,7 @@ export const useAdoptionRequest = () => {
       const updatedRequest = {
         petId: deleteField(), // limpa o campo que é usado para filtrar a solicitação pro dono
         status: approved ? "Aprovada" : "Recusada",
+        petProfile: request.petId,
       };
 
       // atualiza os dados no firestore
