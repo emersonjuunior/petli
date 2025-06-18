@@ -1,3 +1,4 @@
+import DeleteRequestModal from "../components/DeleteRequestModal";
 import Loading from "../components/Loading";
 import NoPets from "../components/NoPets";
 import PetSummary from "../components/PetSummary";
@@ -6,6 +7,7 @@ import { useAdoptionRequest } from "../hooks/useAdoptionRequest";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import { IRequest } from "../interfaces/Request";
 
 const MyAdoptions = () => {
   const { requestsSent, adoptedPets } = useUserContext();
@@ -13,6 +15,8 @@ const MyAdoptions = () => {
   const [active, setActive] = useState(1);
   const [statusFilter, setStatusFilter] = useState("Todas");
   const [filteredRequests, setFilteredRequests] = useState(requestsSent);
+  const [deleteRequestModal, setDeleteRequestModal] = useState(false);
+  const [currentRequest, setCurrentRequest] = useState<IRequest | null>(null);
 
   useEffect(() => {
     getRequestsSent();
@@ -32,6 +36,11 @@ const MyAdoptions = () => {
   if (requestLoading) {
     return <Loading />;
   }
+
+  const handleDeleteRequest = (request: IRequest) => {
+    setDeleteRequestModal(true);
+    setCurrentRequest(request);
+  };
 
   return (
     <>
@@ -136,7 +145,10 @@ const MyAdoptions = () => {
                           <button className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
                             Ver detalhes <i className="fa-solid fa-paw"></i>
                           </button>
-                          <button className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
+                          <button
+                            onClick={() => handleDeleteRequest(request)}
+                            className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                          >
                             Remover solicitação
                             <i className="fa-solid fa-trash"></i>
                           </button>
@@ -177,6 +189,12 @@ const MyAdoptions = () => {
             </>
           )}
         </div>
+        {deleteRequestModal && (
+          <DeleteRequestModal
+            currentRequest={currentRequest!}
+            setDeleteRequestModal={setDeleteRequestModal}
+          />
+        )}
       </main>
     </>
   );

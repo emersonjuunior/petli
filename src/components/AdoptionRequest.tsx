@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, FormEvent } from "react";
 import Error from "./Error";
 import { useAdoptionRequest } from "../hooks/useAdoptionRequest";
+import { useUserContext } from "../context/UserContext";
 
 interface Props {
   setAdoptModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,10 +40,12 @@ const AdoptionRequest = ({
   petImage,
   adoptionQuestions,
 }: Props) => {
+  const { state, city: defaultCity } = useUserContext();
+  
   const { createAdoptionRequest } = useAdoptionRequest();
   const modalAdoptRef = useRef<HTMLDivElement>(null);
-  const [uf, setUf] = useState("");
-  const [city, setCity] = useState("");
+  const [uf, setUf] = useState(state ? state : "");
+  const [city, setCity] = useState(defaultCity ? defaultCity : "");
   const [states, setStates] = useState<IBGEUF[]>([]);
   const [cities, setCities] = useState<IBGECity[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -84,7 +87,7 @@ const AdoptionRequest = ({
 
   // busca as cidades do estado selecionado, quando ele é alterado
   useEffect(() => {
-    setCity("");
+ 
     fetch(
       `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
     )

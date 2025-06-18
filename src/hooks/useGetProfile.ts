@@ -32,7 +32,7 @@ export const useGetProfile = (col: string, profileUsername: string) => {
     donatedPets,
     about,
     city,
-    state
+    state,
   } = useUserContext();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const useGetProfile = (col: string, profileUsername: string) => {
             donatedPets,
             about,
             city,
-            state
+            state,
           });
           setLoading(false);
           return { user, loading };
@@ -60,7 +60,6 @@ export const useGetProfile = (col: string, profileUsername: string) => {
 
         if (snapshot.exists()) {
           const userData = snapshot.data();
-          console.log(userData);
           if (col === "usernames") {
             setUser(userData as IUsername);
           } else if (col === "pets") {

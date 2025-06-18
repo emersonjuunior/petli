@@ -13,6 +13,7 @@ import {
   increment,
   deleteField,
   arrayUnion,
+  deleteDoc,
 } from "firebase/firestore";
 import { useUserContext } from "../context/UserContext";
 import { IRequest } from "../interfaces/Request";
@@ -21,7 +22,7 @@ export const useAdoptionRequest = () => {
   const [requestLoading, setRequestLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [currentRequestsReceived, setCurrentRequestsReceived] = useState<
     IRequest[]
   >([]);
@@ -48,7 +49,6 @@ export const useAdoptionRequest = () => {
 
       // verifica se os dados já foram carregados antes
       if (hasLoadedSent) {
-        console.log("Dados já existem, requisição não foi feita.");
         setRequestLoading(false);
         return;
       }
@@ -66,8 +66,6 @@ export const useAdoptionRequest = () => {
         );
         setRequestsSent(adoptionRequests);
       }
-
-      console.log("Busca feita");
 
       setHasLoadedSent(true);
     } catch {
@@ -226,7 +224,6 @@ export const useAdoptionRequest = () => {
 
     // verifica se a requisição nesse pet já foi feita
     if (loadedRequests.includes(petId)) {
-      console.log("Requisição já foi feita");
       setRequestLoading(false);
       return;
     }
@@ -238,7 +235,6 @@ export const useAdoptionRequest = () => {
     // se já existir a requisição, salva na memória
     if (docSnap.exists()) {
       const data = docSnap.data();
-      console.log("Requisição feita e salva na memória.");
       setRequestsAlreadySent((prev: string[]) => [data.petId, ...prev]);
     }
 
@@ -307,6 +303,32 @@ export const useAdoptionRequest = () => {
     }
   };
 
+  const deleteRequest = async (request: IRequest) => {
+    try {
+      setLoading(true);
+      await deleteDoc(doc(db, "adoptionRequests", request.requestId));
+
+      // se a solicitação ainda estiver em análise, decrementa em 1 o campo pendingRequests do pet
+      if (request.status === "Em análise") {
+        const petRef = doc(db, "pets", request.petId);
+        await updateDoc(petRef, {
+          pendingRequests: increment(-1),
+        });
+      }
+
+      //limpa o state local
+      setRequestsSent((r) =>
+        r.filter((r) => r.requestId !== request.requestId)
+      );
+
+      showSuccessNotification("Solicitação removida com sucesso!");
+    } catch {
+      setError("Algo deu errado, tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     getRequestsReceived,
     getRequestsSent,
@@ -317,6 +339,7 @@ export const useAdoptionRequest = () => {
     loading,
     currentRequestsReceived,
     acceptOrRejectRequest,
+    deleteRequest,
     btnLoading,
   };
 };
