@@ -22,6 +22,9 @@ const MyDonations = () => {
   const [currentPetId, setCurrentPetId] = useState<string | null>(null);
   const [currentPetName, setCurrentPetName] = useState<string | null>(null);
   const [currentPetImage, setCurrentPetImage] = useState<string | null>(null);
+  const [currentPetContact, setCurrentPetContact] = useState<string | null>(
+    null
+  );
   const [currentPendingRequests, setCurrentPendingRequests] = useState<
     number | null
   >(null);
@@ -52,6 +55,7 @@ const MyDonations = () => {
     petGender: string,
     petMoreImages: string[] | undefined,
     pendingRequests: number,
+    petContact: string,
     questions?: string
   ) => {
     setCurrentPetId(id);
@@ -60,6 +64,7 @@ const MyDonations = () => {
     setCurrentPetGender(petGender);
     setCurrentPetMoreImages(petMoreImages);
     setCurrentPendingRequests(pendingRequests);
+    setCurrentPetContact(petContact);
     if (questions) {
       setAdoptionQuestions(questions);
     }
@@ -140,6 +145,7 @@ const MyDonations = () => {
                                   pet.gender,
                                   pet.moreImages,
                                   pet.pendingRequests,
+                                  pet.contact,
                                   pet.adoptionQuestions
                                 );
                                 setManageRequestsModal(true);
@@ -167,7 +173,8 @@ const MyDonations = () => {
                                 pet.image,
                                 pet.gender,
                                 pet.moreImages,
-                                pet.pendingRequests
+                                pet.pendingRequests,
+                                pet.contact
                               );
                               setAdoptedPetModal(true);
                             }}
@@ -184,7 +191,8 @@ const MyDonations = () => {
                                 pet.image,
                                 pet.gender,
                                 pet.moreImages,
-                                pet.pendingRequests
+                                pet.pendingRequests,
+                                pet.contact
                               );
                               setDeletePetModal(true);
                             }}
@@ -287,6 +295,7 @@ const MyDonations = () => {
             petGender={currentPetGender!}
             petName={currentPetName!}
             adoptionQuestions={adoptionQuestions!}
+            petContact={currentPetContact!}
           />
         )}
       </main>

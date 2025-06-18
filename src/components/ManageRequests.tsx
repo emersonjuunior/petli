@@ -11,6 +11,7 @@ interface Props {
   petGender: string;
   petName: string;
   adoptionQuestions: string;
+  petContact: string;
 }
 
 const ManageRequests = ({
@@ -20,6 +21,7 @@ const ManageRequests = ({
   petGender,
   petName,
   adoptionQuestions,
+  petContact,
 }: Props) => {
   const manageRequestsModalRef = useRef<HTMLDivElement>(null);
   const {
@@ -108,7 +110,7 @@ const ManageRequests = ({
                 {currentRequestsReceived.map((request, index) => (
                   <article
                     key={index}
-                    className="w-full bg-[#303030] rounded-xl shadow-md p-5"
+                    className="w-full border-1 border-[#444444] bg-linear-to-r from-[#383838] to-[#393939] rounded-xl shadow-lg p-5"
                   >
                     <h3 className="text-xl md:text-2xl font-semibold underline mb-2">
                       <Link to={`/${request.interested}`}>
@@ -146,7 +148,9 @@ const ManageRequests = ({
                     <div className="flex items-center gap-2 md:gap-4 w-full justify-end">
                       <button
                         disabled={btnLoading}
-                        onClick={() => acceptOrRejectRequest(request, true)}
+                        onClick={() =>
+                          acceptOrRejectRequest(request, true, petContact)
+                        }
                         className={`${
                           btnLoading
                             ? "cursor-progress opacity-80"
@@ -157,7 +161,9 @@ const ManageRequests = ({
                       </button>
                       <button
                         disabled={btnLoading}
-                        onClick={() => acceptOrRejectRequest(request, false)}
+                        onClick={() =>
+                          acceptOrRejectRequest(request, false, petContact)
+                        }
                         className={`${
                           btnLoading
                             ? "cursor-progress opacity-80"

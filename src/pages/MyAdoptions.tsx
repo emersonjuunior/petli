@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { IRequest } from "../interfaces/Request";
+import RequestDetailsModal from "../components/RequestDetailsModal";
 
 const MyAdoptions = () => {
   const { requestsSent, adoptedPets } = useUserContext();
@@ -16,6 +17,7 @@ const MyAdoptions = () => {
   const [statusFilter, setStatusFilter] = useState("Todas");
   const [filteredRequests, setFilteredRequests] = useState(requestsSent);
   const [deleteRequestModal, setDeleteRequestModal] = useState(false);
+  const [requestDetailsModal, setRequestDetailsModal] = useState(false);
   const [currentRequest, setCurrentRequest] = useState<IRequest | null>(null);
 
   useEffect(() => {
@@ -39,6 +41,11 @@ const MyAdoptions = () => {
 
   const handleDeleteRequest = (request: IRequest) => {
     setDeleteRequestModal(true);
+    setCurrentRequest(request);
+  };
+
+  const handleRequestDetails = (request: IRequest) => {
+    setRequestDetailsModal(true);
     setCurrentRequest(request);
   };
 
@@ -119,7 +126,10 @@ const MyAdoptions = () => {
                             {request.petName}
                           </h3>
 
-                          <button className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
+                          <button
+                            onClick={() => handleRequestDetails(request)}
+                            className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                          >
                             <p className="flex items-center gap-2">
                               Status:
                               {request.status === "Em análise" && (
@@ -142,7 +152,10 @@ const MyAdoptions = () => {
                               )}
                             </p>
                           </button>
-                          <button className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300">
+                          <button
+                            onClick={() => handleRequestDetails(request)}
+                            className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
+                          >
                             Ver detalhes <i className="fa-solid fa-paw"></i>
                           </button>
                           <button
@@ -193,6 +206,12 @@ const MyAdoptions = () => {
           <DeleteRequestModal
             currentRequest={currentRequest!}
             setDeleteRequestModal={setDeleteRequestModal}
+          />
+        )}
+        {requestDetailsModal && (
+          <RequestDetailsModal
+            setRequestDetailsModal={setRequestDetailsModal}
+            request={currentRequest!}
           />
         )}
       </main>

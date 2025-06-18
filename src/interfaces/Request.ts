@@ -13,4 +13,5 @@ export interface IRequest {
   adoptionAnswers: string;
   petName: string;
   petProfile?: string;
+  petContact?: string;
 }

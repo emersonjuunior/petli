@@ -246,7 +246,8 @@ export const useAdoptionRequest = () => {
 
   const acceptOrRejectRequest = async (
     request: IRequest,
-    approved: boolean
+    approved: boolean,
+    petContact: string
   ) => {
     try {
       setBtnLoading(true);
@@ -263,6 +264,7 @@ export const useAdoptionRequest = () => {
         petId: deleteField(), // limpa o campo que é usado para filtrar a solicitação pro dono
         status: approved ? "Aprovada" : "Recusada",
         petProfile: request.petId,
+        ...(approved && { petContact }), // adiciona o contato, caso a solicitação seja aceita
       };
 
       // atualiza os dados no firestore
