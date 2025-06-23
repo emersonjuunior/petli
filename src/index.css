@@ -20,10 +20,10 @@
     @apply bg-none px-2 py-1 outline-none border-b-2 transition-colors duration-100 focus:border-[#596A95] border-gray-400;
   }
   select {
-    @apply cursor-pointer;
+    @apply cursor-pointer outline-none;
   }
   option {
-    @apply bg-bgGray text-textWhite;
+    @apply bg-bgGray text-textWhite outline-none;
   }
 }
 

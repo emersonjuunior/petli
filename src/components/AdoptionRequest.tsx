@@ -41,7 +41,6 @@ const AdoptionRequest = ({
   adoptionQuestions,
 }: Props) => {
   const { state, city: defaultCity } = useUserContext();
-
   const { createAdoptionRequest } = useAdoptionRequest();
   const modalAdoptRef = useRef<HTMLDivElement>(null);
   const [uf, setUf] = useState(state ? state : "");

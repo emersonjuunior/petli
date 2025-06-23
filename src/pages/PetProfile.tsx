@@ -294,7 +294,8 @@ const PetProfile = () => {
           )}
         {adoptModal &&
           !pet.allowContact &&
-          !requestsAlreadySent.includes(pet.id) && (
+          !requestsAlreadySent.includes(pet.id) &&
+          !pet.allowedAdopters?.includes(username!) && (
             <AdoptionRequest
               petId={pet.id}
               setAdoptModal={setAdoptModal}
