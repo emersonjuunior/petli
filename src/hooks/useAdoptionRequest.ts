@@ -255,10 +255,18 @@ export const useAdoptionRequest = () => {
 
       // decrementa o campo pendingRequests em -1
       const petRef = doc(db, "pets", request.petId);
-      await updateDoc(petRef, {
+
+      // monta o objeto de atualização do pet
+      const petUpdateData: any = {
         pendingRequests: increment(-1),
-        allowedAdopters: arrayUnion(request.interested), // adiciona o adotante na lista de quem pode ver o contato do responsável
-      });
+      };
+
+      // se a solicitação for aceita, adiciona o adotante na lista de quem pode ver o contato do responsável
+      if (approved) {
+        petUpdateData.allowedAdopters = arrayUnion(request.interested);
+      }
+
+      await updateDoc(petRef, petUpdateData);
 
       // monta o novo objeto de atualização
       const updatedRequest = {
