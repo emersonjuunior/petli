@@ -20,12 +20,8 @@ const PetProfile = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [adoptModal, setAdoptModal] = useState(false);
   const location = useLocation();
-  const {
-    user,
-    showSuccessNotification,
-    requestsAlreadySent,
-    username,
-  } = useUserContext();
+  const { user, showSuccessNotification, requestsAlreadySent, username } =
+    useUserContext();
 
   useEffect(() => {
     if (pet) {
@@ -57,6 +53,11 @@ const PetProfile = () => {
   // lida com a logica de clicar no botao de adotar
   const handleAdopt = () => {
     setAdoptModal(true);
+
+    // verifica se o usuário logado pode ver o contato pra adoção
+    if (pet.allowedAdopters?.includes(username!)) {
+      return;
+    }
 
     if (requestsAlreadySent.includes(pet.id)) {
       navigate("/minhas-adocoes");
@@ -251,7 +252,8 @@ const PetProfile = () => {
                 className="w-[290px] text-[21px] font-bold py-3 bg-primaryRed rounded-lg cursor-pointer hover:bg-rose-700 duration-300"
                 onClick={handleAdopt}
               >
-                {requestsAlreadySent.includes(pet.id)
+                {requestsAlreadySent.includes(pet.id) &&
+                !pet.allowedAdopters?.includes(username!)
                   ? "Acompanhar adoção"
                   : "Quero adotar"}
                 <i className="fa-solid fa-paw ml-1"></i>
@@ -282,13 +284,14 @@ const PetProfile = () => {
             setViewImage={setViewImage}
           />
         )}
-        {adoptModal && pet.allowContact && (
-          <AdoptModal
-            contact={pet.contact}
-            setAdoptModal={setAdoptModal}
-            species={pet.species}
-          />
-        )}
+        {adoptModal &&
+          (pet.allowContact || pet.allowedAdopters?.includes(username!)) && (
+            <AdoptModal
+              contact={pet.contact}
+              setAdoptModal={setAdoptModal}
+              species={pet.species}
+            />
+          )}
         {adoptModal &&
           !pet.allowContact &&
           !requestsAlreadySent.includes(pet.id) && (

@@ -42,6 +42,7 @@ export interface IPet {
 
   pendingRequests: number;
   createdAt: Timestamp;
+  allowedAdopters?: string;
 }
 
 export interface IDonatedPet {
