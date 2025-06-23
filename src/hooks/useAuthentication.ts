@@ -84,7 +84,6 @@ export const useAuthentication = () => {
     } catch (error: any) {
       if (error.message.includes("email-already")) {
         setError("Esse usuário já existe.");
-        console.log(error);
       } else {
         setError("Algo deu errado, tente novamente mais tarde.");
       }
@@ -198,8 +197,8 @@ export const useAuthentication = () => {
       setDisplayName(data.displayName);
       setMemberSince(memberSinceDate);
       showSuccessNotification("Nome de usuário definido com sucesso. 🐶");
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setError("Algo deu errado, tente novamente mais tarde.");
     } finally {
       setLoading(false);
     }

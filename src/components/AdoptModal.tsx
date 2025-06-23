@@ -1,14 +1,15 @@
 import { useRef, useEffect } from "react";
+import { useUserContext } from "../context/UserContext";
 
 interface Props {
   setAdoptModal: React.Dispatch<React.SetStateAction<boolean>>;
   contact: string;
-  handleCopyUrl: (text: string) => void;
-  species: string
+  species: string;
 }
 
-const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl, species }: Props) => {
+const AdoptModal = ({ contact, setAdoptModal, species }: Props) => {
   const modalAdoptRef = useRef<HTMLDivElement>(null);
+  const { showSuccessNotification } = useUserContext();
 
   // permite fechar o modal se clicar em qualquer lugar fora da imagem
   useEffect(() => {
@@ -27,10 +28,16 @@ const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl, species }: Props) =
     };
   }, [setAdoptModal]);
 
+  const handleCopyUrl = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      showSuccessNotification("Email copiado com sucesso! ✉️");
+    });
+  };
+
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
       <div
-        className="bg-bgGray w-full max-w-[560px] mx-2 rounded-lg py-4 px-3 md:p-8 relative"
+        className="bg-bgGray w-full max-w-[610px] mx-2 rounded-lg py-4 px-3 md:p-8 relative"
         ref={modalAdoptRef}
       >
         <i
@@ -54,9 +61,9 @@ const AdoptModal = ({ contact, setAdoptModal, handleCopyUrl, species }: Props) =
           </button>
           {contact.includes("@") ? (
             <button
-              className="bg-[#4285F4] hover:bg-[#3367D6] px-4 py-2 rounded-xl font-semibod text-base md:text-lg cursor-pointer duration-300"
+              className="bg-[#4285F4] hover:bg-[#3367D6] px-4 py-2 rounded-xl font-semibold text-base md:text-lg cursor-pointer duration-300"
               onClick={() => {
-                handleCopyUrl("Email copiado com sucesso! ✉️");
+                handleCopyUrl(contact);
                 setAdoptModal(false);
               }}
             >

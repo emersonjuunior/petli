@@ -19,6 +19,7 @@ const MyAdoptions = () => {
   const [deleteRequestModal, setDeleteRequestModal] = useState(false);
   const [requestDetailsModal, setRequestDetailsModal] = useState(false);
   const [currentRequest, setCurrentRequest] = useState<IRequest | null>(null);
+  const [viewDetails, setViewDetails] = useState(false);
 
   useEffect(() => {
     getRequestsSent();
@@ -44,9 +45,16 @@ const MyAdoptions = () => {
     setCurrentRequest(request);
   };
 
-  const handleRequestDetails = (request: IRequest) => {
+  const handleRequestDetails = (request: IRequest, status?: boolean) => {
     setRequestDetailsModal(true);
     setCurrentRequest(request);
+
+    // mostra os detalhes da solicitação
+    if (status) {
+      setViewDetails(true);
+    } else {
+      setViewDetails(false);
+    }
   };
 
   return (
@@ -153,7 +161,7 @@ const MyAdoptions = () => {
                             </p>
                           </button>
                           <button
-                            onClick={() => handleRequestDetails(request)}
+                            onClick={() => handleRequestDetails(request, true)}
                             className="w-full h-[35px] md:h-[40px] flex justify-center items-center gap-2 bg-bgGray hover:bg-[#373737] cursor-pointer rounded-xl font-medium duration-300"
                           >
                             Ver detalhes <i className="fa-solid fa-paw"></i>
@@ -212,6 +220,7 @@ const MyAdoptions = () => {
           <RequestDetailsModal
             setRequestDetailsModal={setRequestDetailsModal}
             request={currentRequest!}
+            viewDetails={viewDetails}
           />
         )}
       </main>

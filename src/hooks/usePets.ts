@@ -253,8 +253,8 @@ export const usePets = () => {
           petGender === "Macho" ? "o" : petGender === "Fêmea" ? "a" : "o(a)"
         } ${petName} seja muito feliz! 🏠`
       );
-    } catch (error) {
-      console.log(error);
+    } catch {
+      
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {
       setLoading(false);

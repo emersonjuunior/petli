@@ -20,8 +20,12 @@ const PetProfile = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [adoptModal, setAdoptModal] = useState(false);
   const location = useLocation();
-  const { user, showSuccessNotification, requestsAlreadySent, username } =
-    useUserContext();
+  const {
+    user,
+    showSuccessNotification,
+    requestsAlreadySent,
+    username,
+  } = useUserContext();
 
   useEffect(() => {
     if (pet) {
@@ -282,7 +286,6 @@ const PetProfile = () => {
           <AdoptModal
             contact={pet.contact}
             setAdoptModal={setAdoptModal}
-            handleCopyUrl={handleCopyUrl}
             species={pet.species}
           />
         )}

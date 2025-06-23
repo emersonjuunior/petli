@@ -41,7 +41,7 @@ const AdoptionRequest = ({
   adoptionQuestions,
 }: Props) => {
   const { state, city: defaultCity } = useUserContext();
-  
+
   const { createAdoptionRequest } = useAdoptionRequest();
   const modalAdoptRef = useRef<HTMLDivElement>(null);
   const [uf, setUf] = useState(state ? state : "");
@@ -87,7 +87,6 @@ const AdoptionRequest = ({
 
   // busca as cidades do estado selecionado, quando ele é alterado
   useEffect(() => {
- 
     fetch(
       `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`
     )
@@ -118,7 +117,8 @@ const AdoptionRequest = ({
       species,
       petImage,
       adoptionAnswers,
-      name
+      name,
+      adoptionQuestions
     );
 
     setAdoptModal(false);

@@ -84,13 +84,11 @@ export const useAdoptionRequest = () => {
       setRequestLoading(true);
 
       if (pendingRequests === 0) {
-        console.log("Esse pet não tem nenhuma solicitação.");
         setRequestLoading(false);
         return;
       }
 
       if (hasLoadedReceived.includes(petId)) {
-        console.log("Os dados já foram buscados.");
         const filterRequests = requestsReceived.filter(
           (request) => request.petId === petId
         );
@@ -146,7 +144,8 @@ export const useAdoptionRequest = () => {
     species: string,
     petImage: string,
     adoptionAnswers: string,
-    petName: string
+    petName: string,
+    adoptionQuestions: string
   ) => {
     try {
       setLoading(true);
@@ -158,6 +157,7 @@ export const useAdoptionRequest = () => {
       const newRequest: IRequest = {
         requestId: docId,
         petId,
+        petProfile: petId,
         petImage: newImage,
         date: Timestamp.now(),
         text,
@@ -167,6 +167,7 @@ export const useAdoptionRequest = () => {
         interested: username!,
         adoptionAnswers,
         petName,
+        adoptionQuestions,
       };
 
       // cria um documento com id do username-petId
@@ -235,7 +236,7 @@ export const useAdoptionRequest = () => {
     // se já existir a requisição, salva na memória
     if (docSnap.exists()) {
       const data = docSnap.data();
-      setRequestsAlreadySent((prev: string[]) => [data.petId, ...prev]);
+      setRequestsAlreadySent((prev: string[]) => [data.petProfile, ...prev]);
     }
 
     // salva na memória as buscas já feitas

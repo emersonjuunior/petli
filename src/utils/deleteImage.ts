@@ -15,6 +15,4 @@ export async function deleteImage(url: string) {
 
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || "Erro ao deletar");
-
-  console.log(data.message, public_id);
 }

@@ -11,6 +11,7 @@ export interface IRequest {
   status: "Em análise" | "Aprovada" | "Recusada";
   petImage: string;
   adoptionAnswers: string;
+  adoptionQuestions: string;
   petName: string;
   petProfile?: string;
   petContact?: string;

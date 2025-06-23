@@ -132,8 +132,6 @@ export const useEditProfile = () => {
         }),
       };
 
-      console.log(userImage, data.userImage);
-
       // envia os dados ao firestore
       await setDoc(userRef, { ...data }, { merge: true });
 

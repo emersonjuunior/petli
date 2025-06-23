@@ -31,7 +31,6 @@ const Profile = () => {
     return <Navigate to="*" />;
   }
 
-  console.log(userProfile.about)
 
   return (
     <>
