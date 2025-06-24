@@ -50,3 +50,12 @@ export interface IDonatedPet {
   name: string;
   image: string;
 }
+
+export interface ISearchPet {
+  species: string;
+  gender: string;
+  state: string;
+  city: string;
+  size: string;
+  neutered: string;
+}

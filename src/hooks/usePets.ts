@@ -14,7 +14,7 @@ import {
   Timestamp,
   arrayUnion,
 } from "firebase/firestore";
-import { IPet } from "../interfaces/Pet";
+import { IPet, ISearchPet } from "../interfaces/Pet";
 import { useUserContext } from "../context/UserContext";
 import isEqual from "lodash.isequal";
 import { deleteImage } from "../utils/deleteImage";
@@ -254,7 +254,6 @@ export const usePets = () => {
         } ${petName} seja muito feliz! 🏠`
       );
     } catch {
-      
       setError("Algo deu errado, tente novamente mais tarde.");
     } finally {
       setLoading(false);
@@ -318,6 +317,54 @@ export const usePets = () => {
     return updatedFields;
   };
 
+  const searchPet = async (filters: ISearchPet) => {
+    try {
+      const petRef = collection(db, "pets");
+      let q: any = petRef;
+
+      // array que armazena os filtros
+      const conditions = [];
+
+      // condições
+      if (filters.species && filters.species !== "all") {
+        conditions.push(where("species", "==", filters.species));
+      }
+
+      if (filters.gender && filters.gender !== "all") {
+        conditions.push(where("gender", "==", filters.gender));
+      }
+
+      if (filters.state && filters.state !== "all") {
+        conditions.push(where("state", "==", filters.state));
+      }
+
+      if (filters.city && filters.city !== "all") {
+        conditions.push(where("city", "==", filters.city));
+      }
+
+      if (filters.size && filters.size !== "all") {
+        conditions.push(where("size", "==", filters.size));
+      }
+
+      if (filters.neutered && filters.neutered !== "all") {
+        conditions.push(where("neutered", "==", filters.neutered));
+      }
+
+      // monta a busca com todas as condições
+      q = query(petRef, ...conditions);
+
+      const snapshot = await getDocs(q);
+      const results = snapshot.docs.map((doc) => ({
+        ...(doc.data() as IPet),
+      }));
+
+      console.log(results);
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     createPet,
     adoptedPet,
@@ -326,5 +373,6 @@ export const usePets = () => {
     error,
     setError,
     loading,
+    searchPet,
   };
 };
