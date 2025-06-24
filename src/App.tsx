@@ -20,6 +20,7 @@ import EditProfile from "./pages/EditProfile";
 import EditPet from "./pages/EditPet";
 import MyAdoptions from "./pages/MyAdoptions";
 import MyDonations from "./pages/MyDonations";
+import WantAdopt from "./pages/WantAdopt";
 
 function App() {
   const { user, displayName, loading, successNotification, successMsg } =
@@ -42,6 +43,7 @@ function App() {
         <Route path="/:usernameId" element={<Profile />} />
         <Route path="/editar/:petId" element={user ? <EditPet /> : <Home />} />
         <Route path="/novo-pet" element={user ? <CreatePet /> : <Home />} />
+        <Route path="/quero-adotar" element={<WantAdopt />} />
         <Route path="/pet/:petId" element={<PetProfile />} />
         <Route
           path="/editar-perfil"

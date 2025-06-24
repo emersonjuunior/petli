@@ -1,6 +1,5 @@
 import { IPetCard } from "../interfaces/Pet";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 const PetCard = ({
   name,
@@ -13,12 +12,8 @@ const PetCard = ({
   preview,
   id,
 }: IPetCard) => {
-  const [imgLoad, setImgLoad] = useState(true);
   return (
     <article className="bg-[#292929] rounded-md shadow-lg w-[310px] md:w-[360px] h-[450px] md:h-[500px] border-1 border-bgGray border-b-primaryRed mx-auto relative flex flex-col group overflow-hidden">
-      {imgLoad && image != "" && (
-        <div className="w-full min-h-[188px] max-h-[188px] md:min-h-[220px] md:max-h-[220px] rounded-lg shadow-md bg-bgGray animate-pulse"></div>
-      )}
       <div className="rounded-lg flex justify-center">
         {image === "" ? (
           <div className="min-h-[220px] flex items-center bg-[#272727] w-full justify-center">
@@ -29,11 +24,9 @@ const PetCard = ({
         ) : (
           <img
             src={image}
-            onLoad={() => setImgLoad(false)}
+            loading="lazy"
             alt={`Foto do Pet ${name}`}
-            className={`${
-              imgLoad ? "hidden" : ""
-            } w-full min-h-[188px] max-h-[188px] md:min-h-[220px] md:max-h-[220px] rounded-lg shadow-md object-cover`}
+            className="w-full min-h-[188px] max-h-[188px] md:min-h-[220px] md:max-h-[220px] rounded-lg shadow-md object-cover"
           />
         )}
       </div>
