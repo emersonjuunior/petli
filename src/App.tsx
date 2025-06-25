@@ -25,6 +25,7 @@ import WantAdopt from "./pages/WantAdopt";
 function App() {
   const { user, displayName, loading, successNotification, successMsg } =
     useUserContext();
+
   if (loading) {
     return <Loading />;
   }

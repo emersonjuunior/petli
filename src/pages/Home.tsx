@@ -1,8 +1,22 @@
 import { Helmet } from "react-helmet";
 import Hero from "../components/Hero";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { usePets } from "../hooks/usePets";
+import Loading from "../components/Loading";
 
 const Home = () => {
+  const { fetchInitialPets, loading } = usePets();
+
+  // busca os pets mais recentes para exibir na home
+  useEffect(() => {
+    fetchInitialPets();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Helmet>

@@ -13,9 +13,12 @@ import {
   getDoc,
   Timestamp,
   arrayUnion,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { IPet, ISearchPet } from "../interfaces/Pet";
 import { useUserContext } from "../context/UserContext";
+import { usePetContext } from "../context/PetContext";
 import isEqual from "lodash.isequal";
 import { deleteImage } from "../utils/deleteImage";
 import { useImages } from "./useImages";
@@ -26,6 +29,7 @@ export const usePets = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [searchPetsLoad, setSearchPetsLoad] = useState(false);
   const {
     username,
     availablePets,
@@ -33,7 +37,53 @@ export const usePets = () => {
     showSuccessNotification,
     setDonatedPets,
   } = useUserContext();
+  const { setPets, setDisplayPets, initialPetLoad, setInitialPetLoad } =
+    usePetContext();
   const { uploadImages } = useImages();
+
+  // busca os pets iniciais exibidos na home
+  const fetchInitialPets = async () => {
+    setLoading(true);
+
+    // a busca só é feita, se o usuário estiver abrindo a aplicação através de uma nova guia, e entao os pets são mantidos em cache através de sessionStorage
+    const cache = sessionStorage.getItem("pets");
+
+    // se a busca já tiver sido feita, retorna
+    if (initialPetLoad) {
+      console.log("Busca já foi feita anteriormente.");
+      setLoading(false);
+      return;
+    }
+
+    // se o cache existir, atuaiza o state global pets com os dados do cache
+    if (cache) {
+      const cachedPets: IPet[] = JSON.parse(cache);
+      setPets(cachedPets);
+      setDisplayPets(cachedPets);
+      setInitialPetLoad(true);
+      console.log("Tinha os dados em cache e foram utilizados.");
+    } else {
+      // busca no firestore os 6 pets mais recentes
+      const q = query(
+        collection(db, "pets"),
+        orderBy("createdAt", "desc"),
+        limit(6)
+      );
+      const snapshot = await getDocs(q);
+
+      const petsData = snapshot.docs.map((doc) => ({
+        ...(doc.data() as IPet),
+      }));
+
+      // atualiza o state global pets com os dados do firestore e armazena em cache no sessionStorage
+      sessionStorage.setItem("pets", JSON.stringify(petsData));
+      setPets(petsData);
+      setDisplayPets(petsData);
+      setInitialPetLoad(true);
+      console.log("Não tinha os dados em cache e foram buscados no firestore");
+    }
+    setLoading(false);
+  };
 
   // salva o novo pet no banco de dados
   const createPet = async (data: IPet) => {
@@ -317,8 +367,10 @@ export const usePets = () => {
     return updatedFields;
   };
 
-  const searchPet = async (filters: ISearchPet) => {
+  // busca os pets com base nos filtros
+  const searchPets = async (filters: ISearchPet) => {
     try {
+      setSearchPetsLoad(true);
       const petRef = collection(db, "pets");
       let q: any = petRef;
 
@@ -358,14 +410,16 @@ export const usePets = () => {
         ...(doc.data() as IPet),
       }));
 
-      console.log(results);
-      return results;
+      setDisplayPets(results);
     } catch (error) {
       console.log(error);
+    } finally {
+      setSearchPetsLoad(false);
     }
   };
 
   return {
+    fetchInitialPets,
     createPet,
     adoptedPet,
     editPet,
@@ -373,6 +427,7 @@ export const usePets = () => {
     error,
     setError,
     loading,
-    searchPet,
+    searchPets,
+    searchPetsLoad,
   };
 };

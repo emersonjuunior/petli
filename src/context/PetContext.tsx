@@ -4,6 +4,10 @@ import { IPet } from "../interfaces/Pet";
 interface IPetContext {
   pets: IPet[];
   setPets: React.Dispatch<React.SetStateAction<IPet[]>>;
+  displayPets: IPet[];
+  setDisplayPets: React.Dispatch<React.SetStateAction<IPet[]>>;
+  initialPetLoad: boolean;
+  setInitialPetLoad: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PetContext = createContext<IPetContext | null>(null);
@@ -12,9 +16,21 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [pets, setPets] = useState<IPet[]>([]);
+  // state que exibe os pets na página de filtros
+  const [displayPets, setDisplayPets] = useState<IPet[]>([]);
+  const [initialPetLoad, setInitialPetLoad] = useState(false);
 
   return (
-    <PetContext.Provider value={{ pets, setPets }}>
+    <PetContext.Provider
+      value={{
+        pets,
+        setPets,
+        displayPets,
+        setDisplayPets,
+        initialPetLoad,
+        setInitialPetLoad,
+      }}
+    >
       {children}
     </PetContext.Provider>
   );

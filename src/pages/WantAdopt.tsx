@@ -2,6 +2,11 @@ import { useState, useEffect, FormEvent } from "react";
 import { Helmet } from "react-helmet";
 import { ISearchPet } from "../interfaces/Pet";
 import { usePets } from "../hooks/usePets";
+import { usePetContext } from "../context/PetContext";
+import Loading from "../components/Loading";
+import PetCard from "../components/PetCard";
+import searchLoading from "../assets/search-loading.json";
+import Lottie from "lottie-react";
 
 interface IBGEUF {
   id: number;
@@ -29,7 +34,13 @@ const WantAdopt = () => {
   const [size, setSize] = useState("all");
   const [neutered, setNeutered] = useState("all");
   const [currentPage, _] = useState(1);
-  const { searchPet } = usePets();
+  const { searchPets, fetchInitialPets, loading, searchPetsLoad } = usePets();
+  const { displayPets } = usePetContext();
+
+  // busca os pets mais recentes para exibir na home
+  useEffect(() => {
+    fetchInitialPets();
+  }, []);
 
   // busca os estados do brasil com a api do ibge
   useEffect(() => {
@@ -54,6 +65,10 @@ const WantAdopt = () => {
       });
   }, [uf]);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   // busca os pets no firestore
   const handleSearchPet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +82,7 @@ const WantAdopt = () => {
       neutered,
     };
 
-    await searchPet(filters);
+    await searchPets(filters);
   };
 
   return (
@@ -80,7 +95,7 @@ const WantAdopt = () => {
         />
       </Helmet>
       <main className="w-full mx-auto pt-5">
-        <section className="w-full border-b-[#404040] border-b-2">
+        <section className="w-full border-b-[#404040] border-b-3 shadow-xl">
           <div className="flex items-center gap-22 w-full max-w-7xl mx-auto">
             <div className="flex-1">
               <h1 className="text-[32px] font-semibold mb-8">
@@ -179,9 +194,14 @@ const WantAdopt = () => {
                 </fieldset>
                 <button
                   type="submit"
-                  className="text-lg font-medium py-3 rounded-lg duration-200 cursor-pointer bg-primaryRed hover:bg-rose-700 shadow-md mb-3"
+                  disabled={searchPetsLoad}
+                  className={`${
+                    searchPetsLoad
+                      ? "cursor-progress bg-rose-700"
+                      : "cursor-pointer bg-primaryRed"
+                  } text-lg font-medium py-3 rounded-lg duration-20 hover:bg-rose-700 shadow-md mb-3`}
                 >
-                  Buscar
+                  {searchPetsLoad ? "Buscando..." : "Buscar"}
                 </button>
               </form>
             </div>
@@ -196,12 +216,33 @@ const WantAdopt = () => {
             </div>
           </div>
         </section>
-        <section className="bg-[#292929] pb-40">
+        <section className="bg-[#282828] pb-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)]">
           <div className="w-full max-w-7xl mx-auto pt-12">
             <h2 className="text-[42px] font-semibold tracking-widest after:content-[''] after:block after:h-[2px] after:w-40 after:bg-accentBlue mb-8">
               Pets disponíveis
             </h2>
-            <div className="grid grid-cols-3 gap-20 mb-11"></div>
+            {searchPetsLoad ? (
+              <Lottie
+                animationData={searchLoading}
+                className="w-md min-w-md mx-auto"
+              />
+            ) : (
+              <div className="grid grid-cols-3 gap-18 mb-11">
+                {displayPets.map((pet) => (
+                  <PetCard
+                    key={pet.id}
+                    id={pet.id}
+                    name={pet.name}
+                    species={pet.species}
+                    image={pet.image}
+                    location={`${pet.city}, ${pet.state}`}
+                    age={pet.age}
+                    size={pet.age}
+                    gender={pet.gender}
+                  />
+                ))}
+              </div>
+            )}
             <div className="w-full flex justify-center items-center gap-20">
               <button
                 className={`${
