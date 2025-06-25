@@ -98,7 +98,7 @@ const EditPet = () => {
       ...(!checked && { adoptionQuestions }),
 
       ...(vaccinated !== "Nenhuma por enquanto." && { vaccinated }),
-      ...(neutered === true && { neutered }),
+      neutered: neutered ? true : false,
       ...(dewormed === true && { dewormed }),
       ...(specialCare !== "Não necessita." && { specialCare }),
 

@@ -37,8 +37,14 @@ export const usePets = () => {
     showSuccessNotification,
     setDonatedPets,
   } = useUserContext();
-  const { setPets, setDisplayPets, initialPetLoad, setInitialPetLoad } =
-    usePetContext();
+  const {
+    setPets,
+    setDisplayPets,
+    initialPetLoad,
+    setInitialPetLoad,
+    lastFilters,
+    setLastFilters,
+  } = usePetContext();
   const { uploadImages } = useImages();
 
   // busca os pets iniciais exibidos na home
@@ -66,6 +72,7 @@ export const usePets = () => {
       // busca no firestore os 6 pets mais recentes
       const q = query(
         collection(db, "pets"),
+        where("owner", "!=", username),
         orderBy("createdAt", "desc"),
         limit(6)
       );
@@ -371,6 +378,17 @@ export const usePets = () => {
   const searchPets = async (filters: ISearchPet) => {
     try {
       setSearchPetsLoad(true);
+
+      if (!username) {
+        return;
+      }
+
+      // verifica se os filtros mudaram desde a última pesquisa
+      if (isEqual(lastFilters, filters)) {
+        console.log("Não mudou os filtros, busca nao realizada");
+        return;
+      }
+
       const petRef = collection(db, "pets");
       let q: any = petRef;
 
@@ -398,8 +416,10 @@ export const usePets = () => {
         conditions.push(where("size", "==", filters.size));
       }
 
-      if (filters.neutered && filters.neutered !== "all") {
-        conditions.push(where("neutered", "==", filters.neutered));
+      if (filters.neutered === "Sim") {
+        conditions.push(where("neutered", "==", true));
+      } else if (filters.neutered === "Não") {
+        conditions.push(where("neutered", "==", false));
       }
 
       // monta a busca com todas as condições
@@ -409,8 +429,13 @@ export const usePets = () => {
       const results = snapshot.docs.map((doc) => ({
         ...(doc.data() as IPet),
       }));
+      console.log("Buscou com sucesso");
+      setLastFilters(filters);
+
+      // retira da busca
 
       setDisplayPets(results);
+      console.log(conditions);
     } catch (error) {
       console.log(error);
     } finally {

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { IPet } from "../interfaces/Pet";
+import { IPet, ISearchPet } from "../interfaces/Pet";
 
 interface IPetContext {
   pets: IPet[];
@@ -8,6 +8,8 @@ interface IPetContext {
   setDisplayPets: React.Dispatch<React.SetStateAction<IPet[]>>;
   initialPetLoad: boolean;
   setInitialPetLoad: React.Dispatch<React.SetStateAction<boolean>>;
+  lastFilters: ISearchPet | null;
+  setLastFilters: React.Dispatch<React.SetStateAction<ISearchPet | null>>;
 }
 
 const PetContext = createContext<IPetContext | null>(null);
@@ -19,6 +21,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({
   // state que exibe os pets na página de filtros
   const [displayPets, setDisplayPets] = useState<IPet[]>([]);
   const [initialPetLoad, setInitialPetLoad] = useState(false);
+  const [lastFilters, setLastFilters] = useState<ISearchPet | null>(null);
 
   return (
     <PetContext.Provider
@@ -29,6 +32,8 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({
         setDisplayPets,
         initialPetLoad,
         setInitialPetLoad,
+        lastFilters,
+        setLastFilters,
       }}
     >
       {children}

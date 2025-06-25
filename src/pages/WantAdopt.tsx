@@ -5,7 +5,7 @@ import { usePets } from "../hooks/usePets";
 import { usePetContext } from "../context/PetContext";
 import Loading from "../components/Loading";
 import PetCard from "../components/PetCard";
-import searchLoading from "../assets/search-loading.json";
+import loadingGif from "../assets/search-loading.json";
 import Lottie from "lottie-react";
 
 interface IBGEUF {
@@ -223,7 +223,7 @@ const WantAdopt = () => {
             </h2>
             {searchPetsLoad ? (
               <Lottie
-                animationData={searchLoading}
+                animationData={loadingGif}
                 className="w-md min-w-md mx-auto"
               />
             ) : (
@@ -237,7 +237,7 @@ const WantAdopt = () => {
                     image={pet.image}
                     location={`${pet.city}, ${pet.state}`}
                     age={pet.age}
-                    size={pet.age}
+                    size={pet.size}
                     gender={pet.gender}
                   />
                 ))}

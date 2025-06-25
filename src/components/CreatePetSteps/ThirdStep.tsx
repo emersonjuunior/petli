@@ -184,7 +184,7 @@ const ThirdStep = ({
                   value={specialCare}
                   onChange={(e) => setSpecialCare(e.target.value)}
                 ></textarea>
-                  <p className="absolute bottom-1 right-1 font-medium bg-bgBlack/20 rounded-lg p-[1px] ">
+                <p className="absolute bottom-1 right-1 font-medium bg-bgBlack/20 rounded-lg p-[1px] ">
                   {specialCare.length}/300
                 </p>
               </div>
