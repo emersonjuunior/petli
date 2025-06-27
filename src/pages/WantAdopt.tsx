@@ -111,10 +111,10 @@ const WantAdopt = () => {
         />
       </Helmet>
       <main className="w-full mx-auto pt-2 md:pt-5">
-        <section className="w-full border-b-[#404040] border-b-3 shadow-xl md:px-3 xl:px-0">
+        <section className="w-full border-b-[#404040] border-b-3 shadow-xl md:px-4 xl:px-0">
           <div className="flex items-center md:gap-8 lg:gap-16 xl:gap-20 w-full max-w-7xl mx-auto">
             <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl xl:text-[32px] font-semibold mb-4 md:mb-6 xl:mb-8 px-3 md:px-0">
+              <h1 className="text-[26px] md:text-3xl xl:text-[32px] font-semibold mb-4 md:mb-6 xl:mb-8 px-4 md:px-0">
                 Encontre o{" "}
                 <span className="text-accentBlue font-bold">melhor amigo</span>{" "}
                 perfeito para você!
@@ -123,12 +123,21 @@ const WantAdopt = () => {
                 onSubmit={handleSearchPet}
                 className="flex flex-col md:gap-9 mb-10"
               >
-                <div className={`${filtersActive ? "max-h-[528px]" : "max-h-[45px] overflow-y-hidden"} overflow-hidden duration-500 ease-in-out transition-[max-height] flex flex-col md:gap-9 bg-bgGray md:bg-[#262626] px-3 md:p-0 border-[#404040] border-t-1 border-b-2 shadow-md md:border-0 md:shadow-none`}>
+                <div
+                  className={`${
+                    filtersActive
+                      ? "max-h-[528px]"
+                      : "max-h-[45px] overflow-y-hidden"
+                  } overflow-hidden duration-500 ease-in-out transition-[max-height] flex flex-col md:gap-9 bg-bgGray md:bg-[#262626] px-3 md:p-0 border-[#404040] border-t-1 border-b-2 shadow-md md:border-0 md:shadow-none`}
+                >
                   <div
                     onClick={() => setFiltersActive((prev) => !prev)}
                     className={`md:hidden min-h-[45px] flex items-center justify-between cursor-pointer`}
                   >
-                    <h2 className="text-xl font-semibold">Filtros</h2>
+                    <h2 className="text-xl font-semibold">
+                      <span className="h-[16px] w-[6px] bg-rose-700 inline-block mr-2"></span>
+                      Filtros
+                    </h2>
                     <i className={`fa-solid fa-caret-down`}></i>
                   </div>
                   <fieldset className="w-full flex flex-col md:flex-row gap-5 md:gap-10 mb-5 md:mb-0">
@@ -217,18 +226,22 @@ const WantAdopt = () => {
                     </label>
                   </fieldset>
                 </div>
-                <button
-                  type="submit"
-                  disabled={searchPetsLoad}
-                  className={`${
-                    searchPetsLoad
-                      ? "cursor-progress bg-rose-700"
-                      : "cursor-pointer bg-primaryRed"
-                  } text-lg font-medium py-3 rounded-lg duration-20 hover:bg-rose-700 shadow-md mt-3`}
-                >
-                  {searchPetsLoad ? "Buscando..." : "Buscar"}
-                </button>
-                <Error error={error} setError={setError} />
+                <div className="px-4 md:px-0">
+                  <button
+                    type="submit"
+                    disabled={searchPetsLoad}
+                    className={`${
+                      searchPetsLoad
+                        ? "cursor-progress bg-rose-700"
+                        : "cursor-pointer bg-primaryRed"
+                    } w-full text-lg font-medium py-3 rounded-lg duration-20 hover:bg-rose-700 shadow-md my-3 md:mt-0`}
+                  >
+                    {searchPetsLoad ? "Buscando..." : "Buscar"}
+                  </button>
+                </div>
+                <div className="px-4 md:px-0">
+                  <Error error={error} setError={setError} />
+                </div>
               </form>
             </div>
             <div>
@@ -242,7 +255,7 @@ const WantAdopt = () => {
             </div>
           </div>
         </section>
-        <section className="bg-[#282828] pb-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)] px-3 xl:px-0">
+        <section className="bg-[#282828] pb-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)] px-4 xl:px-0">
           <div className="w-full max-w-7xl mx-auto pt-12">
             <h2 className="text-[42px] font-semibold tracking-widest after:content-[''] after:block after:h-[3px] after:w-40 after:bg-accentBlue mb-8">
               Pets disponíveis
