@@ -33,9 +33,20 @@ const WantAdopt = () => {
   const [gender, setGender] = useState("all");
   const [size, setSize] = useState("all");
   const [neutered, setNeutered] = useState("all");
-  const [currentPage, _] = useState(1);
-  const { searchPets, fetchInitialPets, loading, searchPetsLoad } = usePets();
+  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    searchPets,
+    fetchInitialPets,
+    loading,
+    searchPetsLoad,
+    loadNextPage,
+    loadPrevPage,
+  } = usePets();
   const { displayPets } = usePetContext();
+
+  // verifica se o botão das paginas ficarão ativos
+  const nextPageActive = displayPets.length === 6;
+  const prevPageActive = currentPage === 1;
 
   // busca os pets mais recentes para exibir na home
   useEffect(() => {
@@ -245,15 +256,31 @@ const WantAdopt = () => {
             )}
             <div className="w-full flex justify-center items-center gap-20">
               <button
+                disabled={prevPageActive}
+                onClick={() => {
+                  loadPrevPage(currentPage - 1);
+                  setCurrentPage(currentPage - 1);
+                }}
                 className={`${
-                  currentPage === 1
-                    ? "opacity-70 text-gray-200 cursor-not-allowed"
+                  prevPageActive
+                    ? "opacity-60 bg-[#363636] text-gray-400 cursor-not-allowed"
                     : "cursor-pointer hover:bg-[#414141] duration-300"
                 } w-[240px] py-[10px] text-lg rounded-lg font-medium bg-[#393939] shadow-md`}
               >
                 <i className="fa-solid fa-arrow-left mr-1"></i> Página anterior
               </button>
-              <button className="w-[240px] py-[10px] text-lg rounded-lg font-medium cursor-pointer bg-[#393939] hover:bg-[#414141] duration-300 shadow-md">
+              <button
+                disabled={!nextPageActive}
+                onClick={() => {
+                  loadNextPage(currentPage + 1);
+                  setCurrentPage(currentPage + 1);
+                }}
+                className={`${
+                  !nextPageActive
+                    ? "opacity-60 bg-[#363636] text-gray-400 cursor-not-allowed"
+                    : "cursor-pointer hover:bg-[#414141] duration-300"
+                } w-[240px] py-[10px] text-lg rounded-lg font-medium bg-[#393939] shadow-md`}
+              >
                 Próxima página <i className="fa-solid fa-arrow-right ml-1"></i>
               </button>
             </div>

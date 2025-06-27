@@ -15,6 +15,8 @@ import {
   arrayUnion,
   orderBy,
   limit,
+  DocumentData,
+  startAfter,
 } from "firebase/firestore";
 import { IPet, ISearchPet } from "../interfaces/Pet";
 import { useUserContext } from "../context/UserContext";
@@ -44,8 +46,12 @@ export const usePets = () => {
     setInitialPetLoad,
     lastFilters,
     setLastFilters,
+    setAllPets,
+    allPets,
   } = usePetContext();
   const { uploadImages } = useImages();
+  const [lastVisible, setLastVisible] = useState<DocumentData | null>(null);
+  const limitPerPage = 6;
 
   // busca os pets iniciais exibidos na home
   const fetchInitialPets = async () => {
@@ -61,13 +67,12 @@ export const usePets = () => {
       return;
     }
 
-    // se o cache existir, atuaiza o state global pets com os dados do cache
+    // se o cache existir, atualiza o state global pets com os dados do cache
     if (cache) {
       const cachedPets: IPet[] = JSON.parse(cache);
       setPets(cachedPets);
       setDisplayPets(cachedPets);
       setInitialPetLoad(true);
-      console.log("Tinha os dados em cache e foram utilizados.");
     } else {
       // busca no firestore os 6 pets mais recentes
       const q = query(
@@ -87,7 +92,6 @@ export const usePets = () => {
       setPets(petsData);
       setDisplayPets(petsData);
       setInitialPetLoad(true);
-      console.log("Não tinha os dados em cache e foram buscados no firestore");
     }
     setLoading(false);
   };
@@ -423,24 +427,124 @@ export const usePets = () => {
       }
 
       // monta a busca com todas as condições
-      q = query(petRef, ...conditions);
+      q = query(
+        petRef,
+        ...conditions,
+        orderBy("createdAt", "desc"),
+        limit(limitPerPage)
+      );
 
       const snapshot = await getDocs(q);
+      const docs = snapshot.docs;
       const results = snapshot.docs.map((doc) => ({
         ...(doc.data() as IPet),
       }));
-      console.log("Buscou com sucesso");
+
       setLastFilters(filters);
 
-      // retira da busca
+      // salva o último documento visivel
+      setLastVisible(docs[docs.length - 1]);
 
+      // atualiza os states
+      setAllPets(results);
       setDisplayPets(results);
-      console.log(conditions);
     } catch (error) {
       console.log(error);
     } finally {
       setSearchPetsLoad(false);
     }
+  };
+
+  // carrega a próxima página
+  const loadNextPage = async (currentPage: number) => {
+    // indices
+    const startIndex = (currentPage - 1) * limitPerPage;
+    const endIndex = startIndex + limitPerPage;
+
+    // verifica se a próxima página já foi carregada localmente
+    if (allPets.length > startIndex) {
+      console.log("Já carregou a próxima página (local)");
+
+      const currentPets = allPets.slice(startIndex, endIndex);
+      setDisplayPets(currentPets);
+      return;
+    }
+
+    // se não tiver como buscar mais, interrompe
+    if (!lastVisible || !lastFilters) {
+      console.log("lastVisible ou lastFilters ausentes");
+      setSearchPetsLoad(false);
+      return;
+    }
+
+    try {
+      setSearchPetsLoad(true);
+
+      const petRef = collection(db, "pets");
+      const conditions = [];
+
+      if (lastFilters.species && lastFilters.species !== "all") {
+        conditions.push(where("species", "==", lastFilters.species));
+      }
+      if (lastFilters.gender && lastFilters.gender !== "all") {
+        conditions.push(where("gender", "==", lastFilters.gender));
+      }
+      if (lastFilters.state && lastFilters.state !== "all") {
+        conditions.push(where("state", "==", lastFilters.state));
+      }
+      if (lastFilters.city && lastFilters.city !== "all") {
+        conditions.push(where("city", "==", lastFilters.city));
+      }
+      if (lastFilters.size && lastFilters.size !== "all") {
+        conditions.push(where("size", "==", lastFilters.size));
+      }
+      if (lastFilters.neutered === "Sim") {
+        conditions.push(where("neutered", "==", true));
+      } else if (lastFilters.neutered === "Não") {
+        conditions.push(where("neutered", "==", false));
+      }
+
+      const q = query(
+        petRef,
+        ...conditions,
+        orderBy("createdAt", "desc"),
+        startAfter(lastVisible),
+        limit(limitPerPage)
+      );
+
+      const snapshot = await getDocs(q);
+      const results = snapshot.docs.map((doc) => ({
+        ...(doc.data() as IPet),
+      }));
+
+      // se trouxe resultados novos
+      if (snapshot.docs.length > 0) {
+        const updatedPets = [...allPets, ...results];
+        setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+        setAllPets(updatedPets);
+
+        const newCurrentPets = updatedPets.slice(startIndex, endIndex);
+        setDisplayPets(newCurrentPets);
+      } else {
+        console.log("Não há mais pets para carregar.");
+      }
+    } catch (error) {
+      console.error("Erro ao carregar próxima página:", error);
+    } finally {
+      setSearchPetsLoad(false);
+    }
+  };
+
+  // volta uma página
+  const loadPrevPage = (currentPage: number) => {
+    // indices para montar o novo array
+    const startIndex = (currentPage - 1) * limitPerPage;
+    const endIndex = startIndex + limitPerPage;
+    console.log(startIndex, endIndex);
+    const currentPets = allPets.slice(startIndex, endIndex);
+
+    // atualiza o array para voltar 6 documentos
+    setDisplayPets(currentPets);
   };
 
   return {
@@ -454,5 +558,7 @@ export const usePets = () => {
     loading,
     searchPets,
     searchPetsLoad,
+    loadNextPage,
+    loadPrevPage,
   };
 };
