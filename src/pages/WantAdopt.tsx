@@ -121,18 +121,18 @@ const WantAdopt = () => {
               </h1>
               <form
                 onSubmit={handleSearchPet}
-                className="flex flex-col md:gap-9 mb-10"
+                className="flex flex-col md:gap-9 mb-4 md:mb-10"
               >
                 <div
                   className={`${
                     filtersActive
                       ? "max-h-[528px]"
-                      : "max-h-[45px] overflow-y-hidden"
+                      : "max-h-[45px] md:max-h-fit overflow-y-hidden"
                   } overflow-hidden duration-500 ease-in-out transition-[max-height] flex flex-col md:gap-9 bg-bgGray md:bg-[#262626] px-3 md:p-0 border-[#404040] border-t-1 border-b-2 shadow-md md:border-0 md:shadow-none`}
                 >
                   <div
                     onClick={() => setFiltersActive((prev) => !prev)}
-                    className={`md:hidden min-h-[45px] flex items-center justify-between cursor-pointer`}
+                    className="md:hidden min-h-[45px] flex items-center justify-between cursor-pointer"
                   >
                     <h2 className="text-xl font-semibold">
                       <span className="h-[16px] w-[6px] bg-rose-700 inline-block mr-2"></span>
@@ -255,9 +255,9 @@ const WantAdopt = () => {
             </div>
           </div>
         </section>
-        <section className="bg-[#282828] pb-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)] px-4 xl:px-0">
-          <div className="w-full max-w-7xl mx-auto pt-12">
-            <h2 className="text-[42px] font-semibold tracking-widest after:content-[''] after:block after:h-[3px] after:w-40 after:bg-accentBlue mb-8">
+        <section className="bg-[#282828] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)] px-4 xl:px-0">
+          <div className="w-full max-w-7xl mx-auto pt-8 md:pt-12">
+            <h2 className="text-3xl md:text-[42px] font-semibold tracking-widest after:content-[''] after:block after:h-[3px] after:w-10 md:after:w-40 after:bg-accentBlue mb-4 md:mb-8">
               Pets disponíveis
             </h2>
             {searchPetsLoad ? (
@@ -266,7 +266,7 @@ const WantAdopt = () => {
                 className="w-md min-w-md mx-auto"
               />
             ) : (
-              <div className="grid grid-cols-3 gap-18 mb-11">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-18 mb-11">
                 {displayPets.map((pet) => (
                   <PetCard
                     key={pet.id}
@@ -290,7 +290,7 @@ const WantAdopt = () => {
                 />
               </div>
             )}
-            <div className="w-full flex justify-center items-center gap-20">
+            <div className="w-full flex justify-center items-center gap-6 md:gap-20">
               <button
                 disabled={prevPageActive}
                 onClick={() => {
@@ -303,7 +303,9 @@ const WantAdopt = () => {
                     : "cursor-pointer hover:bg-[#414141] duration-300"
                 } w-[240px] py-[10px] text-lg rounded-lg font-medium bg-[#393939] shadow-md`}
               >
-                <i className="fa-solid fa-arrow-left mr-1"></i> Página anterior
+                <i className="fa-solid fa-arrow-left mr-1"></i>{" "}
+                <span className="md:hidden">anterior</span>
+                <span className="hidden md:inline">Página anterior</span>
               </button>
               <button
                 disabled={!nextPageActive}
@@ -317,7 +319,9 @@ const WantAdopt = () => {
                     : "cursor-pointer hover:bg-[#414141] duration-300"
                 } w-[240px] py-[10px] text-lg rounded-lg font-medium bg-[#393939] shadow-md`}
               >
-                Próxima página <i className="fa-solid fa-arrow-right ml-1"></i>
+                <span className="md:hidden">próxima</span>
+                <span className="hidden md:inline">Próxima página</span>{" "}
+                <i className="fa-solid fa-arrow-right ml-1"></i>
               </button>
             </div>
           </div>
