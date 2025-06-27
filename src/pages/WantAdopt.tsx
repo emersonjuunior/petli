@@ -7,6 +7,7 @@ import Loading from "../components/Loading";
 import PetCard from "../components/PetCard";
 import loadingGif from "../assets/search-loading.json";
 import Lottie from "lottie-react";
+import NoPets from "../components/NoPets";
 
 interface IBGEUF {
   id: number;
@@ -252,6 +253,11 @@ const WantAdopt = () => {
                     gender={pet.gender}
                   />
                 ))}
+              </div>
+            )}
+            {!searchPetsLoad && displayPets.length === 0 && (
+              <div className="mb-3">
+                <NoPets small="true" text="Nenhum pet disponível com os filtros aplicados. Tente alterar os filtros para ampliar a busca!" />
               </div>
             )}
             <div className="w-full flex justify-center items-center gap-20">

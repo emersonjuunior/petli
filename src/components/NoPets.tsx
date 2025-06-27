@@ -3,9 +3,10 @@ import Lottie from "lottie-react";
 
 interface Props {
   text: string;
+  small?: string;
 }
 
-const NoPets = ({ text }: Props) => {
+const NoPets = ({ text, small }: Props) => {
   return (
     <div>
       <div className="flex items-center justify-center relative">
@@ -13,7 +14,7 @@ const NoPets = ({ text }: Props) => {
           animationData={noAvailablePets}
           className="w-[420px] min-w-[420px]"
         />
-        <p className="font-[400] text-3xl text-center absolute bottom-8">
+        <p className={`${small === "true" ? "text-lg md:text-2xl max-w-xl bottom-0 md:bottom-2" : "text-3xl bottom-8"} font-[400] text-center absolute`}>
           {text}
         </p>
       </div>
