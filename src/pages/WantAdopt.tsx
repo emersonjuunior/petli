@@ -8,6 +8,7 @@ import PetCard from "../components/PetCard";
 import loadingGif from "../assets/search-loading.json";
 import Lottie from "lottie-react";
 import NoPets from "../components/NoPets";
+import Error from "../components/Error";
 
 interface IBGEUF {
   id: number;
@@ -35,6 +36,7 @@ const WantAdopt = () => {
   const [size, setSize] = useState("all");
   const [neutered, setNeutered] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [filtersActive, setFiltersActive] = useState(false);
   const {
     searchPets,
     fetchInitialPets,
@@ -42,6 +44,8 @@ const WantAdopt = () => {
     searchPetsLoad,
     loadNextPage,
     loadPrevPage,
+    error,
+    setError,
   } = usePets();
   const { displayPets } = usePetContext();
 
@@ -106,104 +110,113 @@ const WantAdopt = () => {
           content="Encontre amigos disponíveis para adoção perto de você! Filtre por espécie, porte, gênero e mais. Adote com responsabilidade e transforme uma vida!"
         />
       </Helmet>
-      <main className="w-full mx-auto pt-5">
-        <section className="w-full border-b-[#404040] border-b-3 shadow-xl">
-          <div className="flex items-center gap-22 w-full max-w-7xl mx-auto">
+      <main className="w-full mx-auto pt-2 md:pt-5">
+        <section className="w-full border-b-[#404040] border-b-3 shadow-xl md:px-3 xl:px-0">
+          <div className="flex items-center md:gap-8 lg:gap-16 xl:gap-20 w-full max-w-7xl mx-auto">
             <div className="flex-1">
-              <h1 className="text-[32px] font-semibold mb-8">
+              <h1 className="text-2xl md:text-3xl xl:text-[32px] font-semibold mb-4 md:mb-6 xl:mb-8 px-3 md:px-0">
                 Encontre o{" "}
                 <span className="text-accentBlue font-bold">melhor amigo</span>{" "}
                 perfeito para você!
               </h1>
               <form
                 onSubmit={handleSearchPet}
-                className="flex flex-col gap-9 mb-10"
+                className="flex flex-col md:gap-9 mb-10"
               >
-                <fieldset className="w-full flex gap-10">
-                  <label className="flex-1 flex flex-col gap-3">
-                    <span className="text-lg">Espécie</span>
-                    <select
-                      value={species}
-                      onChange={(e) => setSpecies(e.target.value)}
-                      className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1"
-                    >
-                      <option value="all">Todas as espécies</option>
-                      <option value="Cachorro">Cachorro</option>
-                      <option value="Gato">Gato</option>
-                    </select>
-                  </label>
-                  <label className="flex-1 flex flex-col gap-3">
-                    <span className="text-lg">Gênero</span>
-                    <select
-                      value={gender}
-                      onChange={(e) => setGender(e.target.value)}
-                      className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1"
-                    >
-                      <option value="all">Todos os gêneros</option>
-                      <option value="Macho">Macho</option>
-                      <option value="Fêmea">Fêmea</option>
-                    </select>
-                  </label>
-                </fieldset>
-                <fieldset className="w-full flex gap-10">
-                  <label className="flex-1 flex flex-col gap-3">
-                    <span className="text-lg">Estado</span>
-                    <select
-                      value={uf}
-                      onChange={(e) => setUf(e.target.value)}
-                      className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1"
-                    >
-                      <option value="all">Todos os estados</option>
-                      {states.map((state) => (
-                        <option value={state.sigla} key={state.sigla}>
-                          {state.nome}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="flex-1 flex flex-col gap-3">
-                    <span className="text-lg">Cidade</span>
-                    <select
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1"
-                    >
-                      <option value="all">Todas as cidades</option>
-                      {cities.map((city) => (
-                        <option value={city.nome} key={city.nome}>
-                          {city.nome}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </fieldset>
-                <fieldset className="w-full flex gap-10">
-                  <label className="flex-1 flex flex-col gap-3">
-                    <span className="text-lg">Porte</span>
-                    <select
-                      value={size}
-                      onChange={(e) => setSize(e.target.value)}
-                      className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1"
-                    >
-                      <option value="all">Todos os portes</option>
-                      <option value="Pequeno">Pequeno</option>
-                      <option value="Médio">Médio</option>
-                      <option value="Grande">Grande</option>
-                    </select>
-                  </label>
-                  <label className="flex-1 flex flex-col gap-3">
-                    <span className="text-lg">Castrado</span>
-                    <select
-                      value={neutered}
-                      onChange={(e) => setNeutered(e.target.value)}
-                      className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1"
-                    >
-                      <option value="all">Todos</option>
-                      <option value="Sim">Sim</option>
-                      <option value="Não">Não</option>
-                    </select>
-                  </label>
-                </fieldset>
+                <div className={`${filtersActive ? "max-h-[528px]" : "max-h-[45px] overflow-y-hidden"} overflow-hidden duration-500 ease-in-out transition-[max-height] flex flex-col md:gap-9 bg-bgGray md:bg-[#262626] px-3 md:p-0 border-[#404040] border-t-1 border-b-2 shadow-md md:border-0 md:shadow-none`}>
+                  <div
+                    onClick={() => setFiltersActive((prev) => !prev)}
+                    className={`md:hidden min-h-[45px] flex items-center justify-between cursor-pointer`}
+                  >
+                    <h2 className="text-xl font-semibold">Filtros</h2>
+                    <i className={`fa-solid fa-caret-down`}></i>
+                  </div>
+                  <fieldset className="w-full flex flex-col md:flex-row gap-5 md:gap-10 mb-5 md:mb-0">
+                    <label className="flex-1 flex flex-col gap-2 md:gap-3">
+                      <span className="md:text-lg">Espécie</span>
+                      <select
+                        value={species}
+                        onChange={(e) => setSpecies(e.target.value)}
+                        className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1 text-sm md:text-base"
+                      >
+                        <option value="all">Todas as espécies</option>
+                        <option value="Cachorro">Cachorro</option>
+                        <option value="Gato">Gato</option>
+                      </select>
+                    </label>
+                    <label className="flex-1 flex flex-col gap-2 md:gap-3">
+                      <span className="md:text-lg">Gênero</span>
+                      <select
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1 text-sm md:text-base"
+                      >
+                        <option value="all">Todos os gêneros</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Fêmea">Fêmea</option>
+                      </select>
+                    </label>
+                  </fieldset>
+                  <fieldset className="w-full flex flex-col md:flex-row gap-5 md:gap-10 mb-5 md:mb-0">
+                    <label className="flex-1 flex flex-col gap-2 md:gap-3">
+                      <span className="md:text-lg">Estado</span>
+                      <select
+                        value={uf}
+                        onChange={(e) => setUf(e.target.value)}
+                        className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1 text-sm md:text-base"
+                      >
+                        <option value="all">Todos os estados</option>
+                        {states.map((state) => (
+                          <option value={state.sigla} key={state.sigla}>
+                            {state.nome}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="flex-1 flex flex-col gap-2 md:gap-3">
+                      <span className="md:text-lg">Cidade</span>
+                      <select
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1 text-sm md:text-base"
+                      >
+                        <option value="all">Todas as cidades</option>
+                        {cities.map((city) => (
+                          <option value={city.nome} key={city.nome}>
+                            {city.nome}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </fieldset>
+                  <fieldset className="w-full flex flex-col md:flex-row gap-5 md:gap-10 mb-5 md:mb-0">
+                    <label className="flex-1 flex flex-col gap-2 md:gap-3">
+                      <span className="md:text-lg">Porte</span>
+                      <select
+                        value={size}
+                        onChange={(e) => setSize(e.target.value)}
+                        className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1 text-sm md:text-base"
+                      >
+                        <option value="all">Todos os portes</option>
+                        <option value="Pequeno">Pequeno</option>
+                        <option value="Médio">Médio</option>
+                        <option value="Grande">Grande</option>
+                      </select>
+                    </label>
+                    <label className="flex-1 flex flex-col gap-2 md:gap-3">
+                      <span className="md:text-lg">Castrado</span>
+                      <select
+                        value={neutered}
+                        onChange={(e) => setNeutered(e.target.value)}
+                        className="border-b-2 border-gray-400 focus:border-[#596A95] pb-1 text-sm md:text-base"
+                      >
+                        <option value="all">Todos</option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                      </select>
+                    </label>
+                  </fieldset>
+                </div>
                 <button
                   type="submit"
                   disabled={searchPetsLoad}
@@ -211,10 +224,11 @@ const WantAdopt = () => {
                     searchPetsLoad
                       ? "cursor-progress bg-rose-700"
                       : "cursor-pointer bg-primaryRed"
-                  } text-lg font-medium py-3 rounded-lg duration-20 hover:bg-rose-700 shadow-md mb-3`}
+                  } text-lg font-medium py-3 rounded-lg duration-20 hover:bg-rose-700 shadow-md mt-3`}
                 >
                   {searchPetsLoad ? "Buscando..." : "Buscar"}
                 </button>
+                <Error error={error} setError={setError} />
               </form>
             </div>
             <div>
@@ -222,15 +236,15 @@ const WantAdopt = () => {
                 <img
                   src="/adopt-illustration.svg"
                   alt="Ilustração de pets"
-                  className="w-[360px] min-w-[360px]"
+                  className="hidden md:block md:w-[324px] md:min-w-[324px] xl:w-[360px] xl:min-w-[360px]"
                 />
               </figure>
             </div>
           </div>
         </section>
-        <section className="bg-[#282828] pb-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)]">
+        <section className="bg-[#282828] pb-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)] px-3 xl:px-0">
           <div className="w-full max-w-7xl mx-auto pt-12">
-            <h2 className="text-[42px] font-semibold tracking-widest after:content-[''] after:block after:h-[2px] after:w-40 after:bg-accentBlue mb-8">
+            <h2 className="text-[42px] font-semibold tracking-widest after:content-[''] after:block after:h-[3px] after:w-40 after:bg-accentBlue mb-8">
               Pets disponíveis
             </h2>
             {searchPetsLoad ? (
@@ -257,7 +271,10 @@ const WantAdopt = () => {
             )}
             {!searchPetsLoad && displayPets.length === 0 && (
               <div className="mb-3">
-                <NoPets small="true" text="Nenhum pet disponível com os filtros aplicados. Tente alterar os filtros para ampliar a busca!" />
+                <NoPets
+                  small="true"
+                  text="Nenhum pet disponível com os filtros aplicados. Tente alterar os filtros para ampliar a busca!"
+                />
               </div>
             )}
             <div className="w-full flex justify-center items-center gap-20">

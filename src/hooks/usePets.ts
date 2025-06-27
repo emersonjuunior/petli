@@ -449,7 +449,7 @@ export const usePets = () => {
       setAllPets(results);
       setDisplayPets(results);
     } catch (error) {
-      console.log(error);
+      setError("Algo deu errado com a busca, tente alterar os filtros!");
     } finally {
       setSearchPetsLoad(false);
     }
@@ -529,7 +529,7 @@ export const usePets = () => {
         console.log("Não há mais pets para carregar.");
       }
     } catch (error) {
-      console.error("Erro ao carregar próxima página:", error);
+      setError("Algo deu errado com a busca, tente alterar os filtros!");
     } finally {
       setSearchPetsLoad(false);
     }
