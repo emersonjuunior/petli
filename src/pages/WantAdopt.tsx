@@ -310,7 +310,14 @@ const WantAdopt = () => {
               <button
                 disabled={!nextPageActive}
                 onClick={() => {
-                  loadNextPage(currentPage + 1);
+                  loadNextPage(currentPage + 1, {
+                    species,
+                    gender,
+                    state: uf,
+                    city,
+                    size,
+                    neutered,
+                  });
                   setCurrentPage(currentPage + 1);
                 }}
                 className={`${

@@ -40,14 +40,15 @@ export const usePets = () => {
     setDonatedPets,
   } = useUserContext();
   const {
-    setPets,
+    setAllPets,
     setDisplayPets,
     initialPetLoad,
     setInitialPetLoad,
     lastFilters,
     setLastFilters,
-    setAllPets,
     allPets,
+    currentPets,
+    setCurrentPets,
   } = usePetContext();
   const { uploadImages } = useImages();
   const [lastVisible, setLastVisible] = useState<DocumentData | null>(null);
@@ -69,15 +70,28 @@ export const usePets = () => {
 
     // se o cache existir, atualiza o state global pets com os dados do cache
     if (cache) {
+      console.log("cachezada");
       const cachedPets: IPet[] = JSON.parse(cache);
-      setPets(cachedPets);
+
+      // busca no firebase o último documento de pet, pra salvar o DocumentData como lastVisible para paginação
+      const lastPet = cachedPets[cachedPets.length - 1].id;
+      const lastVisibleRef = doc(db, "pets", lastPet);
+      const snapshot = await getDoc(lastVisibleRef);
+
+      if (snapshot.exists()) {
+        setLastVisible(snapshot);
+      }
+
+      // atualiza os states locais
+      setAllPets(cachedPets);
+      setCurrentPets(cachedPets);
       setDisplayPets(cachedPets);
       setInitialPetLoad(true);
     } else {
+      console.log("não caiu no cache");
       // busca no firestore os 6 pets mais recentes
       const q = query(
         collection(db, "pets"),
-        where("owner", "!=", username),
         orderBy("createdAt", "desc"),
         limit(6)
       );
@@ -89,9 +103,14 @@ export const usePets = () => {
 
       // atualiza o state global pets com os dados do firestore e armazena em cache no sessionStorage
       sessionStorage.setItem("pets", JSON.stringify(petsData));
-      setPets(petsData);
+      setAllPets(petsData);
+      setCurrentPets(petsData);
       setDisplayPets(petsData);
       setInitialPetLoad(true);
+
+      if (snapshot.docs.length > 0) {
+        setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+      }
     }
     setLoading(false);
   };
@@ -383,10 +402,6 @@ export const usePets = () => {
     try {
       setSearchPetsLoad(true);
 
-      if (!username) {
-        return;
-      }
-
       // verifica se os filtros mudaram desde a última pesquisa
       if (isEqual(lastFilters, filters)) {
         console.log("Não mudou os filtros, busca nao realizada");
@@ -426,6 +441,8 @@ export const usePets = () => {
         conditions.push(where("neutered", "==", false));
       }
 
+      console.log("chegou aqui");
+
       // monta a busca com todas as condições
       q = query(
         petRef,
@@ -446,33 +463,36 @@ export const usePets = () => {
       setLastVisible(docs[docs.length - 1]);
 
       // atualiza os states
-      setAllPets(results);
+      setAllPets((prev) => [...prev, ...results]);
+      setCurrentPets(results);
       setDisplayPets(results);
     } catch (error) {
       setError("Algo deu errado com a busca, tente alterar os filtros!");
+      console.log(error);
     } finally {
       setSearchPetsLoad(false);
     }
   };
 
   // carrega a próxima página
-  const loadNextPage = async (currentPage: number) => {
+  const loadNextPage = async (currentPage: number, filters: ISearchPet) => {
     // indices
+    console.log("executando");
     const startIndex = (currentPage - 1) * limitPerPage;
     const endIndex = startIndex + limitPerPage;
 
     // verifica se a próxima página já foi carregada localmente
-    if (allPets.length > startIndex) {
+    if (currentPets.length > startIndex) {
       console.log("Já carregou a próxima página (local)");
 
-      const currentPets = allPets.slice(startIndex, endIndex);
-      setDisplayPets(currentPets);
+      const actualPets = currentPets.slice(startIndex, endIndex);
+      setDisplayPets(actualPets);
       return;
     }
 
     // se não tiver como buscar mais, interrompe
-    if (!lastVisible || !lastFilters) {
-      console.log("lastVisible ou lastFilters ausentes");
+    if (!lastVisible || !filters) {
+      console.log(lastVisible);
       setSearchPetsLoad(false);
       return;
     }
@@ -483,24 +503,24 @@ export const usePets = () => {
       const petRef = collection(db, "pets");
       const conditions = [];
 
-      if (lastFilters.species && lastFilters.species !== "all") {
-        conditions.push(where("species", "==", lastFilters.species));
+      if (filters.species && filters.species !== "all") {
+        conditions.push(where("species", "==", filters.species));
       }
-      if (lastFilters.gender && lastFilters.gender !== "all") {
-        conditions.push(where("gender", "==", lastFilters.gender));
+      if (filters.gender && filters.gender !== "all") {
+        conditions.push(where("gender", "==", filters.gender));
       }
-      if (lastFilters.state && lastFilters.state !== "all") {
-        conditions.push(where("state", "==", lastFilters.state));
+      if (filters.state && filters.state !== "all") {
+        conditions.push(where("state", "==", filters.state));
       }
-      if (lastFilters.city && lastFilters.city !== "all") {
-        conditions.push(where("city", "==", lastFilters.city));
+      if (filters.city && filters.city !== "all") {
+        conditions.push(where("city", "==", filters.city));
       }
-      if (lastFilters.size && lastFilters.size !== "all") {
-        conditions.push(where("size", "==", lastFilters.size));
+      if (filters.size && filters.size !== "all") {
+        conditions.push(where("size", "==", filters.size));
       }
-      if (lastFilters.neutered === "Sim") {
+      if (filters.neutered === "Sim") {
         conditions.push(where("neutered", "==", true));
-      } else if (lastFilters.neutered === "Não") {
+      } else if (filters.neutered === "Não") {
         conditions.push(where("neutered", "==", false));
       }
 
@@ -519,11 +539,13 @@ export const usePets = () => {
 
       // se trouxe resultados novos
       if (snapshot.docs.length > 0) {
-        const updatedPets = [...allPets, ...results];
+        const updatedPets = [...currentPets, ...results];
         setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
-        setAllPets(updatedPets);
+        setCurrentPets(updatedPets);
+        setAllPets((prev) => [...prev, ...results]);
 
         const newCurrentPets = updatedPets.slice(startIndex, endIndex);
+        console.log(updatedPets);
         setDisplayPets(newCurrentPets);
       } else {
         console.log("Não há mais pets para carregar.");
@@ -540,11 +562,10 @@ export const usePets = () => {
     // indices para montar o novo array
     const startIndex = (currentPage - 1) * limitPerPage;
     const endIndex = startIndex + limitPerPage;
-    console.log(startIndex, endIndex);
-    const currentPets = allPets.slice(startIndex, endIndex);
+    const actualPets = currentPets.slice(startIndex, endIndex);
 
     // atualiza o array para voltar 6 documentos
-    setDisplayPets(currentPets);
+    setDisplayPets(actualPets);
   };
 
   return {
