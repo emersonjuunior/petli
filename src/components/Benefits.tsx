@@ -26,7 +26,7 @@ const Benefits = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#282828] py-30 border-b-[#363636] border-b-2"
+      className="w-full bg-[#292929] pt-20 pb-30 border-b-[#363636] border-b-2"
     >
       <div className="w-full max-w-7xl mx-auto">
         <div className="w-fit mx-auto mb-9 min-w-[470px] mih-h-[48px]">
@@ -36,8 +36,7 @@ const Benefits = () => {
               <Typewriter
                 words={["ue adotar?"]}
                 loop={1}
-                typeSpeed={150}
-                delaySpeed={1000}
+                typeSpeed={100}
               />
             )}
             {!startTyping && <span className="opacity-0">adotar?</span>}

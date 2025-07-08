@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { usePets } from "../hooks/usePets";
 import Loading from "../components/Loading";
 import Benefits from "../components/Benefits";
+import PetsSlide from "../components/PetsSlide";
+import Faq from "../components/Faq";
 
 const Home = () => {
   const { fetchInitialPets, loading } = usePets();
@@ -29,6 +31,8 @@ const Home = () => {
       <main className="min-h-[3000px]">
         <Hero />
         <Benefits />
+        <PetsSlide />
+        <Faq />
       </main>
     </>
   );

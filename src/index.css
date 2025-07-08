@@ -90,6 +90,11 @@ body {
   content: "";
 }
 
+#available-pets .swiper {
+  width: 100%;
+  max-width: 1280px;
+}
+
 .swiper-min > .swiper {
   height: 390px;
 }

@@ -17,7 +17,7 @@ const Hero = () => {
             delaySpeed={1500}
           />
         </h1>
-        <p className="text-2xl max-w-[700px] mb-8">
+        <p className="text-2xl max-w-[700px] mb-8 font-[250]">
           Encontre seu novo melhor amigo ou ajude um bichinho a encontrar um lar. Dê um final feliz para quem só
           precisa de amor.
         </p>
