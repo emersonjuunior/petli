@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
 import Hero from "../components/Hero";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { usePets } from "../hooks/usePets";
 import Loading from "../components/Loading";
+import Benefits from "../components/Benefits";
 
 const Home = () => {
   const { fetchInitialPets, loading } = usePets();
@@ -27,9 +27,8 @@ const Home = () => {
         />
       </Helmet>
       <main className="min-h-[3000px]">
-        <Link to="/emersonjr">Clique aqui</Link>
-
         <Hero />
+        <Benefits />
       </main>
     </>
   );

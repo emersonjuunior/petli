@@ -46,7 +46,6 @@ export const usePets = () => {
     setInitialPetLoad,
     lastFilters,
     setLastFilters,
-    allPets,
     currentPets,
     setCurrentPets,
   } = usePetContext();
