@@ -41,11 +41,11 @@ const PetsSlide = () => {
       id="available-pets"
       ref={sectionRef}
     >
-      <div className="w-fit mx-auto mb-10 min-w-[600px] mih-h-[48px]">
+      <div className="w-fit mx-auto mb-10 min-w-[514px] mih-h-[48px]">
         <h2 className="text-5xl tracking-widest font-mont font-semibold mb-2">
-          Prontos par
+          Esperando u
           {startTyping && (
-            <Typewriter words={["a adoção"]} loop={1} typeSpeed={100} />
+            <Typewriter words={["m lar"]} loop={1} typeSpeed={100} />
           )}
           {!startTyping && <span className="opacity-0">adotar?</span>}
         </h2>
