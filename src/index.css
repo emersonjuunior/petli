@@ -81,7 +81,6 @@ body {
   min-height: 100vh;
   color: #fbf9ff;
   background-color: #262626;
-
 }
 
 .active::after {
@@ -144,6 +143,13 @@ body {
 
 .header-ul li:nth-child(5) {
   animation-delay: 0.8s;
+}
+
+@media screen and (max-width: 1200px) {
+  #available-pets .swiper {
+    width: 100%;
+    max-width: 950px;
+  }
 }
 
 @media screen and (max-width: 1320px) {

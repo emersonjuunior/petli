@@ -13,7 +13,7 @@ const Benefits = () => {
   console.log(benefits);
 
   return (
-    <section className="w-full bg-[#292929] pt-20 pb-30 border-b-[#363636] border-b-2">
+    <section className="w-full bg-[#292929] pt-10 md:pt-15 lg:pt-20 pb-15 md:pb-25 lg:pb-30 border-b-[#363636] border-b-2 px-4 xl:px-0">
       <motion.div
         ref={motionRef}
         initial={{ opacity: 0, y: 50 }}
@@ -25,9 +25,9 @@ const Benefits = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="w-fit mx-auto mb-9 min-w-[470px]"
+          className="w-fit mx-auto mb-6 md:mb-9 min-w-[294px] md:min-w-[470px]"
         >
-          <h2 className="text-5xl tracking-widest font-mont font-semibold mb-2">
+          <h2 className="text-3xl md:text-5xl tracking-widest font-mont font-semibold mb-2">
             Por q
             {isInView && (
               <Typewriter words={["ue adotar?"]} loop={1} typeSpeed={100} />
@@ -36,7 +36,7 @@ const Benefits = () => {
           </h2>
           <div className="h-[3px] w-[27%] bg-primaryRed"></div>
         </motion.div>
-        <div className="grid grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:px-10 lg:px-0 gap-5 md:gap-12 lg:gap-6 xl:gap-10">
           {benefits.map((card, index) => (
             <motion.div
               key={card.title}
@@ -47,7 +47,7 @@ const Benefits = () => {
                 delay: 0.2 + index * 0.1, // atraso escalonado
                 ease: "easeOut",
               }}
-              className="flex flex-col gap-2 bg-bgBlack border-[#353535] border-1 rounded-xl py-7 px-8 cursor-pointer duration-300 hover:scale-105 shadow-lg bg-linear-to-r from-[#272727] to-[#292929]"
+              className="flex flex-col gap-1 md:gap-2 bg-bgBlack border-[#353535] border-1 rounded-xl py-7 px-8 cursor-pointer duration-300 hover:scale-105 shadow-lg bg-linear-to-r from-[#272727] to-[#292929]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ const Benefits = () => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-12"
+                className="size-11 md:size-12"
               >
                 <path
                   strokeLinecap="round"

@@ -44,7 +44,7 @@ const PetsSlide = () => {
 
   return (
     <section
-      className="border-b-[#363636] border-b-2 py-25"
+      className="border-b-[#363636] border-b-2 py-15 md:py-20 lg:py-25 px-4 xl:px-0"
       id="available-pets"
       ref={sectionRef}
     >
@@ -59,16 +59,16 @@ const PetsSlide = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="mx-auto mb-10 min-w-[520px] max-w-[520px] mih-h-[48px]"
+          className="mx-auto mb-6 md:mb-10 max-w-[325px] md:min-w-[520px] md:max-w-[520px] mih-h-[48px]"
         >
-          <h2 className="text-5xl tracking-widest font-mont font-semibold mb-2">
+          <h2 className="text-3xl md:text-5xl tracking-widest font-mont font-semibold mb-2">
             Esperando u
             {startTyping && (
               <Typewriter words={["m lar"]} loop={1} typeSpeed={100} />
             )}
             {!startTyping && <span className="opacity-0">adotar?</span>}
           </h2>
-          <div className="h-[3px] w-[27%] bg-primaryRed"></div>
+          <div className="h-[3px] w-[23%] md:w-[27%] bg-primaryRed"></div>
         </motion.div>
         <Swiper
           modules={[Navigation, Pagination]}
@@ -79,11 +79,17 @@ const PetsSlide = () => {
           centeredSlides={true}
           grabCursor={true}
           breakpoints={{
-            300: {
-              spaceBetween: 100,
-            },
-            767: {
+            0: {
+              slidesPerView: 1,
               spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            1200: {
+              slidesPerView: homePets.length < 3 ? homePets.length : 3,
+              spaceBetween: 40,
             },
           }}
         >
