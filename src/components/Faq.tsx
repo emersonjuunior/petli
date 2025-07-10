@@ -1,10 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { Typewriter } from "react-simple-typewriter";
+import { motion, useInView } from "framer-motion";
 
 const Faq = () => {
   const [startTyping, setStartTyping] = useState(false);
   const [question, setQuestion] = useState(0);
   const sectionRef = useRef(null);
+  const motionRef = useRef(null);
+  const isInView = useInView(motionRef, {
+    once: true,
+    margin: "-130px 0px", // ativa a animação só depois de o conteúdo entrar mais
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,12 +39,15 @@ const Faq = () => {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="w-full bg-[#292929] pt-12 pb-20"
-    >
+    <section ref={sectionRef} className="w-full bg-[#292929] pt-12 pb-20">
       <div className="w-full max-w-7xl mx-auto">
-        <div className="w-fit mx-auto mb-5 min-w-[635px] mih-h-[48px]">
+        <motion.div
+          ref={motionRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="w-fit mx-auto mb-5 min-w-[635px] mih-h-[48px]"
+        >
           <h2 className="text-5xl tracking-widest font-mont font-semibold mb-2">
             Perguntas f
             {startTyping && (
@@ -47,8 +56,12 @@ const Faq = () => {
             {!startTyping && <span className="opacity-0">adotar?</span>}
           </h2>
           <div className="h-[3px] w-[27%] bg-primaryRed"></div>
-        </div>
-        <article>
+        </motion.div>
+        <motion.article
+          initial={{ opacity: 0, x: -50 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+        >
           <h3 className="text-2xl mb-4">Adoção </h3>
           <ul className="flex flex-col gap-2 mb-5">
             <li
@@ -148,8 +161,12 @@ const Faq = () => {
               </div>
             </li>
           </ul>
-        </article>
-        <article>
+        </motion.article>
+        <motion.article
+          initial={{ opacity: 0, x: -50 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+        >
           <h3 className="text-2xl mb-4">Doação</h3>
           <ul className="flex flex-col gap-2 mb-5">
             <li
@@ -246,8 +263,12 @@ const Faq = () => {
               </div>
             </li>
           </ul>
-        </article>
-        <article>
+        </motion.article>
+        <motion.article
+          initial={{ opacity: 0, x: -50 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+        >
           <h3 className="text-2xl mb-4">Plataforma</h3>
           <ul className="flex flex-col gap-2">
             <li
@@ -311,7 +332,7 @@ const Faq = () => {
               </div>
             </li>
           </ul>
-        </article>
+        </motion.article>
       </div>
     </section>
   );

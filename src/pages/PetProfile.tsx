@@ -155,7 +155,7 @@ const PetProfile = () => {
               <div className="flex flex-col md:flex-row gap-5 md:gap-2">
                 <div className="w-full md:w-1/2 flex flex-col gap-1 mt-2 md:mt-0">
                   <h3 className="text-lg font-medium">
-                    O bichinho já tomou alguma vacina?
+                    O pet já tomou alguma vacina?
                   </h3>
                   <p className="break-words font-light">
                     {pet.vaccinated ? pet.vaccinated : "Nenhuma por enquanto."}

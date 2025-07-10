@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -10,6 +11,12 @@ import { Typewriter } from "react-simple-typewriter";
 
 const PetsSlide = () => {
   const { allPets } = usePetContext();
+
+  const motionRef = useRef(null);
+  const isInView = useInView(motionRef, {
+    once: true,
+    margin: "-130px 0px", // ativa a animação só depois de o conteúdo entrar mais
+  });
 
   // seleciona os 6 primeiros pets (mais recentes)
   const homePets = allPets.filter((_, index) => index < 6);
@@ -41,49 +48,61 @@ const PetsSlide = () => {
       id="available-pets"
       ref={sectionRef}
     >
-      <div className="w-fit mx-auto mb-10 min-w-[514px] mih-h-[48px]">
-        <h2 className="text-5xl tracking-widest font-mont font-semibold mb-2">
-          Esperando u
-          {startTyping && (
-            <Typewriter words={["m lar"]} loop={1} typeSpeed={100} />
-          )}
-          {!startTyping && <span className="opacity-0">adotar?</span>}
-        </h2>
-        <div className="h-[3px] w-[27%] bg-primaryRed"></div>
-      </div>
-      <Swiper
-        modules={[Navigation, Pagination]}
-        navigation
-        pagination={{ clickable: true }}
-        slidesPerView={3}
-        centeredSlides={true}
-        loop={true}
-        grabCursor={true}
-        breakpoints={{
-          300: {
-            spaceBetween: 100,
-          },
-          767: {
-            spaceBetween: 20,
-          },
-        }}
+      <motion.div
+        ref={motionRef}
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="w-full max-w-7xl mx-auto"
       >
-        {homePets.map((pet) => (
-          <SwiperSlide>
-            <PetCard
-              key={pet.id}
-              id={pet.id}
-              name={pet.name}
-              species={pet.species}
-              image={pet.image}
-              location={`${pet.city}, ${pet.state}`}
-              age={pet.age}
-              size={pet.size}
-              gender={pet.gender}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="mx-auto mb-10 min-w-[520px] max-w-[520px] mih-h-[48px]"
+        >
+          <h2 className="text-5xl tracking-widest font-mont font-semibold mb-2">
+            Esperando u
+            {startTyping && (
+              <Typewriter words={["m lar"]} loop={1} typeSpeed={100} />
+            )}
+            {!startTyping && <span className="opacity-0">adotar?</span>}
+          </h2>
+          <div className="h-[3px] w-[27%] bg-primaryRed"></div>
+        </motion.div>
+        <Swiper
+          modules={[Navigation, Pagination]}
+          navigation
+          pagination={{ clickable: true }}
+          slidesPerView={homePets.length < 3 ? homePets.length : 3}
+          loop={homePets.length > 3}
+          centeredSlides={true}
+          grabCursor={true}
+          breakpoints={{
+            300: {
+              spaceBetween: 100,
+            },
+            767: {
+              spaceBetween: 20,
+            },
+          }}
+        >
+          {homePets.map((pet) => (
+            <SwiperSlide key={pet.id}>
+              <PetCard
+                id={pet.id}
+                name={pet.name}
+                species={pet.species}
+                image={pet.image}
+                location={`${pet.city}, ${pet.state}`}
+                age={pet.age}
+                size={pet.size}
+                gender={pet.gender}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </motion.div>
     </section>
   );
 };
