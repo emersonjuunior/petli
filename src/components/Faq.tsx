@@ -35,7 +35,7 @@ const Faq = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#292929] pt-12 pb-15 border-b-[#363636] border-b-2"
+      className="w-full bg-[#292929] pt-12 pb-20"
     >
       <div className="w-full max-w-7xl mx-auto">
         <div className="w-fit mx-auto mb-5 min-w-[635px] mih-h-[48px]">

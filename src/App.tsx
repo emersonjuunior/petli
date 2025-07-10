@@ -3,6 +3,7 @@ import { useUserContext } from "./context/UserContext";
 
 // components
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Loading from "./components/Loading";
 import CreateUsernameModal from "./components/CreateUsernameModal";
 import Scroll from "./components/Scroll";
@@ -59,6 +60,7 @@ function App() {
           element={user ? <MyDonations /> : <Home />}
         />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
