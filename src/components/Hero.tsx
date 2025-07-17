@@ -3,15 +3,15 @@ import { Typewriter } from "react-simple-typewriter";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[92vh] w-screen bg-[url('/dogs.jpg')] bg-cover bg-no-repeat bg-[position:79%_32%] md:bg-center px-4 xl:px-0 pb-4">
+    <section className="relative min-h-fit md:min-h-[92vh] w-screen bg-[url('/dogs.jpg')] bg-cover bg-size bg-no-repeat bg-[position:79%_0%] md:bg-[position:75%_0%] lg:bg-center px-4 md:px-5 pb-4">
       <div className="absolute inset-0 bg-bgBlack/90 backdrop-blur-[3px] border-b-[#363636] border-b-2"></div>
 
-      <div className="relative z-10 h-full min-h-[92vh] w-full max-w-7xl mx-auto pt-[10vh] md:pt-[20vh] lg:pt-[24vh] xl:pt-[26vh] space-y-6">
+      <div className="relative z-10 h-full min-h-[92vh] w-full max-w-7xl mx-auto pt-[9vh] md:pt-[20vh] lg:pt-[23vh] space-y-6">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="text-[42px] md:text-6xl mb-4 font-medium"
+          className="text-[42px] md:text-[44px] lg:text-6xl mb-4 font-medium leading-tight"
         >
           Adote um novo <br className="md:hidden" />
           <Typewriter
@@ -29,7 +29,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-lg md:text-2xl max-w-[700px] mb-5 md:mb-8 font-[250]"
+          className="text-lg md:text-xl lg:text-2xl max-w-[700px] mb-5 md:mb-8 font-[250]"
         >
           Encontre seu novo melhor amigo ou ajude um bichinho a encontrar um
           lar. Dê um final feliz para quem só precisa de amor.
