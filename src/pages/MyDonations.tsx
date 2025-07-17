@@ -78,8 +78,8 @@ const MyDonations = () => {
           name="description"
           content="Acompanhe e gerencie os seus pets disponíveis para adoção. Edite informações, visualize solicitações de contato, marque um pet como adotado ou remova-o da lista de disponíveis."
         />
-      </Helmet>
-      <main className="pt-4 px-2 md:px-6">
+      </Helmet> 
+      <main className="pt-4 px-2 md:px-6 mb-14 md:mb-20">
         <div className="w-full max-w-7xl mx-auto">
           <h1 className="font-semibold text-3xl md:text-4xl mb-6 md:mb-10 after:content-[''] after:block after:h-[2px] after:w-20 after:bg-primaryRed">
             Minhas Doações

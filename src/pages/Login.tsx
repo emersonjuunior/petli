@@ -35,7 +35,7 @@ const Login = () => {
           content="Faça login para acessar sua conta e doar ou adotar os bichinhos! Junte-se à nossa comunidade e ajude a transformar vidas."
         />
       </Helmet>
-      <main className="w-full px-3 sm:px-6 md:px-20 lg:px-6">
+      <main className="w-full px-3 sm:px-6 md:px-20 lg:px-6 mb-12 md:mb-18">
         <div className="w-full max-w-6xl h-[580px] sm:h-[650px] mx-auto flex">
           <section className="hidden lg:block flex-1 bg-accentBlue rounded-tl-2xl rounded-bl-2xl relative">
             <div className="flex flex-col items-center justify-center h-full py-4 px-5 text-stone-900">

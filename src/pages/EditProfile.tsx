@@ -201,7 +201,7 @@ const EditProfile = () => {
           content="Altere as informações do seu perfil."
         />
       </Helmet>
-      <main className="px-2 md:px-5">
+      <main className="px-2 md:px-5 mb-12 md:mb-16">
         <form
           onSubmit={handleEditProfile}
           className="w-full max-w-7xl mx-auto md:px-4 flex gap-7 md:gap-10 flex-col lg:flex-row"

@@ -126,7 +126,7 @@ const EditPet = () => {
           content="Edite as informações de seu pet e ajude a encontrar um novo lar cheio de amor e cuidado. Contribua para transformar vidas!"
         />
       </Helmet>
-      <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8">
+      <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 mb-20 md:mb-28">
         <section className="flex-1 h-[720px] px-2 md:px-6">
           <div className="min-h-[125px] mb-3 md:mb-0">
             <h1 className="font-medium text-2xl lg:text-3xl mb-6 max-w-[92%] md:max-w-full md:whitespace-nowrap">

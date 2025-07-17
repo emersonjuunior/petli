@@ -255,7 +255,7 @@ const WantAdopt = () => {
             </div>
           </div>
         </section>
-        <section className="bg-[#282828] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)] px-4 xl:px-0">
+        <section className="bg-[#282828] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.25)] px-4 xl:px-0 pb-12 md:pb-16">
           <div className="w-full max-w-7xl mx-auto pt-8 md:pt-12">
             <h2 className="text-3xl md:text-[42px] font-semibold tracking-widest after:content-[''] after:block after:h-[3px] after:w-10 md:after:w-40 after:bg-accentBlue mb-4 md:mb-8">
               Pets disponíveis

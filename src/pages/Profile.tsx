@@ -41,7 +41,7 @@ const Profile = () => {
           content={`Conheça ${userProfile.username}, uma pessoa incrível que ajuda os bichinhos a encontrarem um novo lar.`}
         />
       </Helmet>
-      <main className="w-full">
+      <main className="w-full mb-12 md:mb-16">
         <div className="w-full max-w-7xl mx-auto md:px-12 lg:px-2 flex gap-10 flex-col lg:flex-row">
           <section className="flex flex-col gap-5 px-4 lg:px-2 basis-[330px] md:w-full md:max-w-[520px] md:mx-auto">
             <img

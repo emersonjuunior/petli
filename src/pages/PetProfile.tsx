@@ -73,7 +73,7 @@ const PetProfile = () => {
           content={`Conheça ${pet.name}, um ${pet.species} que está em busca de um novo lar em ${pet.city}, ${pet.state}.`}
         />
       </Helmet>
-      <main className="w-full">
+      <main className="w-full mb-12 md:mb-16">
         <div className="w-full max-w-7xl mx-auto px-2 md:px-4">
           <section className="flex flex-col gap-5 md:flex-row max-w-full items-center px-4 py-2 md:px-2">
             {imgLoad && (
