@@ -39,37 +39,40 @@ const Faq = () => {
   };
 
   return (
-    <section ref={sectionRef} className="w-full bg-[#292929] pt-12 pb-20">
+    <section
+      ref={sectionRef}
+      className="w-full bg-[#292929] pt-8 md:pt-12 pb-12 md:pb-20 px-4 xl:px-0"
+    >
       <div className="w-full max-w-7xl mx-auto">
         <motion.div
           ref={motionRef}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="w-fit mx-auto mb-5 min-w-[635px] mih-h-[48px]"
+          className="w-fit mx-auto mb-3 md:mb-5 min-w-[292px] md:min-w-[635px] mih-h-[48px]"
         >
-          <h2 className="text-5xl tracking-widest font-mont font-semibold mb-2">
+          <h2 className="text-[23px] md:text-5xl tracking-widest font-mont font-semibold mb-2">
             Perguntas f
             {startTyping && (
               <Typewriter words={["requentes"]} loop={1} typeSpeed={100} />
             )}
             {!startTyping && <span className="opacity-0">adotar?</span>}
           </h2>
-          <div className="h-[3px] w-[27%] bg-primaryRed"></div>
+          <div className="h-[3px] w-[24%] md:w-[27%] bg-primaryRed"></div>
         </motion.div>
         <motion.article
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
         >
-          <h3 className="text-2xl mb-4">Adoção </h3>
+          <h3 className="text-xl md:text-2xl mb-2 md:mb-4">Adoção </h3>
           <ul className="flex flex-col gap-2 mb-5">
             <li
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(1)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   Como funciona o processo de adoção?
                 </h4>
                 <i
@@ -86,7 +89,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   Você pode olhar os pets disponíveis para adoção e encontrar
                   aquele que te interesse. Ao clicar em "Quero Adotar", o
                   contato com o doador será iniciado de acordo com as
@@ -103,8 +106,8 @@ const Faq = () => {
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(2)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   Preciso pagar algo para adotar um pet?
                 </h4>
                 <i
@@ -121,7 +124,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   Não! A plataforma é totalmente gratuita e sem fins lucrativos,
                   tanto para quem deseja adotar quanto para quem quer doar um
                   animal.
@@ -132,8 +135,8 @@ const Faq = () => {
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(3)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   E se o pet não se adaptar à minha casa?
                 </h4>
                 <i
@@ -150,7 +153,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   Sabemos que a adaptação pode levar um tempo e nem sempre
                   ocorre como esperado. Se surgir alguma dificuldade, o ideal é
                   entrar em contato com o doador para conversar sobre a
@@ -167,14 +170,14 @@ const Faq = () => {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
         >
-          <h3 className="text-2xl mb-4">Doação</h3>
+          <h3 className="text-xl md:text-2xl mb-2 md:mb-4">Doação</h3>
           <ul className="flex flex-col gap-2 mb-5">
             <li
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(4)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   Como faço para doar um animal na plataforma?
                 </h4>
                 <i
@@ -191,7 +194,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   O primeiro passo é criar uma conta! Depois disso, acessar a
                   página "Quero Doar", e cadastrar as informações do animal,
                   como nome, fotos, características e informações de contato.
@@ -205,8 +208,8 @@ const Faq = () => {
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(5)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   Posso escolher quem vai adotar o pet?
                 </h4>
                 <i
@@ -223,7 +226,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   Sim! Você pode decidir se quer exibir seu contato para todos
                   ou se prefere receber solicitações e aprovar manualmente quem
                   poderá falar com você. Isso permite que você avalie o perfil
@@ -236,8 +239,8 @@ const Faq = () => {
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(6)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   Preciso ser ONG para doar um animal?
                 </h4>
                 <i
@@ -254,7 +257,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   Não. Qualquer pessoa pode cadastrar um pet para doação, desde
                   que se responsabilize pelas informações fornecidas e tenha
                   boas intenções no processo. ONGs, protetores independentes e
@@ -269,14 +272,14 @@ const Faq = () => {
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
         >
-          <h3 className="text-2xl mb-4">Plataforma</h3>
+          <h3 className="text-xl md:text-2xl mb-2 md:mb-4">Plataforma</h3>
           <ul className="flex flex-col gap-2">
             <li
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(7)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   Meus dados ficam visíveis para outras pessoas?
                 </h4>
                 <i
@@ -293,7 +296,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   Seus dados pessoais ficam protegidos e só são compartilhados
                   com o outro usuário quando você autoriza o contato. Você pode
                   controlar quem vê suas informações, garantindo privacidade e
@@ -305,8 +308,8 @@ const Faq = () => {
               className="border-[#363636] border-1"
               onClick={() => handleQuestion(8)}
             >
-              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-3 px-5 cursor-pointer">
-                <h4 className="text-lg font-medium">
+              <div className="bg-linear-to-r from-[#282828] via-[#292929] to-[#303030] w-full flex justify-between items-center bg-bgBlack py-2 md:py-3 px-3 md:px-5 cursor-pointer">
+                <h4 className="font-medium">
                   A plataforma interfere no processo de adoção?
                 </h4>
                 <i
@@ -323,7 +326,7 @@ const Faq = () => {
                     : "max-h-0 py-0 px-5"
                 } bg-[#333333] font-light`}
               >
-                <p>
+                <p className="text-sm md:text-base">
                   Não. A plataforma atua apenas como um meio para conectar os
                   doadores e adotantes, facilitando o contato entre as partes.
                   Todo o processo de adoção é feito diretamente entre o doador e
