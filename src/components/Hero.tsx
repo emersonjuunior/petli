@@ -5,7 +5,6 @@ const Hero = () => {
   return (
     <section className="relative min-h-fit md:min-h-[92vh] w-screen bg-[url('/dogs.jpg')] bg-cover bg-size bg-no-repeat bg-[position:79%_0%] md:bg-[position:75%_0%] lg:bg-center px-4 md:px-5 pb-4">
       <div className="absolute inset-0 bg-bgBlack/90 backdrop-blur-[3px] border-b-[#363636] border-b-2"></div>
-
       <div className="relative z-10 h-full min-h-[92vh] w-full max-w-7xl mx-auto pt-[9vh] md:pt-[20vh] lg:pt-[23vh] space-y-6">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
