@@ -7,7 +7,7 @@ const NotFound = () => {
   return (
     <>
       <Helmet>
-        <title>Página Não Encontrada | Petli</title>
+        <title>Página não encontrada | Petli</title>
         <meta
           name="description"
           content="Desculpe, a página que você está procurando não existe. Verifique o link ou volte para a página inicial."
