@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -47,30 +48,34 @@ const Hero = () => {
             },
           }}
         >
-          <motion.button
-            variants={{
-              hidden: { opacity: 0, x: -40 },
-              visible: { opacity: 1, x: 0 },
-            }}
-            transition={{ duration: 0.8 }}
-            className="font-semibold text-[15px] md:text-base flex-1 max-w-[250px] h-[50px] md:h-[56px] text-slate-900 bg-white border-white border-2 rounded-2xl tracking-widest uppercase font-mont duration-300 cursor-pointer hover:bg-transparent hover:text-white shadow-lg"
-          >
-            Quero Doar
-          </motion.button>
+          <Link to="/novo-pet">
+            <motion.button
+              variants={{
+                hidden: { opacity: 0, x: -40 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              transition={{ duration: 0.8 }}
+              className="font-semibold text-[15px] md:text-base flex-1 max-w-[250px] h-[50px] md:h-[56px] text-slate-900 bg-white border-white border-2 rounded-2xl tracking-widest uppercase font-mont duration-300 cursor-pointer hover:bg-transparent hover:text-white shadow-lg"
+            >
+              Quero Doar
+            </motion.button>
+          </Link>
 
-          <motion.button
-            variants={{
-              hidden: { opacity: 0, x: 40 },
-              visible: { opacity: 1, x: 0 },
-            }}
-            transition={{ duration: 0.8 }}
-            className="border-accentBlue text-[15px] md:text-base font-mont flex-1 max-w-[250px] h-[50px] md:h-[56px] cursor-pointer rounded-lg pet-btn inline-block font-bold text-white border-3 relative overflow-hidden z-10 bg-transparent"
-          >
-            <span className="relative z-10 uppercase tracking-wider">
-              Quero Adotar
-            </span>
-            <span className="absolute button-span inset-0 bg-accentBlue transform -translate-x-full transition-all duration-300 z-0"></span>
-          </motion.button>
+          <Link to="/quero-adotar">
+            <motion.button
+              variants={{
+                hidden: { opacity: 0, x: 40 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              transition={{ duration: 0.8 }}
+              className="border-accentBlue text-[15px] md:text-base font-mont flex-1 max-w-[250px] h-[50px] md:h-[56px] cursor-pointer rounded-lg pet-btn inline-block font-bold text-white border-3 relative overflow-hidden z-10 bg-transparent"
+            >
+              <span className="relative z-10 uppercase tracking-wider">
+                Quero Adotar
+              </span>
+              <span className="absolute button-span inset-0 bg-accentBlue transform -translate-x-full transition-all duration-300 z-0"></span>
+            </motion.button>
+          </Link>
         </motion.div>
       </div>
     </section>

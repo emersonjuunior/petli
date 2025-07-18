@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
-import { benefits } from "../data/benefits";
+import { benefits } from "../../data/benefits";
 
 const Benefits = () => {
   const motionRef = useRef(null);

@@ -6,10 +6,10 @@ import Loading from "../components/Loading";
 const Home = () => {
   const [imgLoad, setImgLoad] = useState(true);
   const { fetchInitialPets, loading } = usePets();
-  const Hero = lazy(() => import("../components/Hero"));
-  const Benefits = lazy(() => import("../components/Benefits"));
-  const PetsSlide = lazy(() => import("../components/PetsSlide"));
-  const Faq = lazy(() => import("../components/Faq"));
+  const Hero = lazy(() => import("../components/Home/Hero"));
+  const Benefits = lazy(() => import("../components/Home/Benefits"));
+  const PetsSlide = lazy(() => import("../components/Home/PetsSlide"));
+  const Faq = lazy(() => import("../components/Home/Faq"));
 
   // busca os pets mais recentes para exibir na home
   useEffect(() => {
