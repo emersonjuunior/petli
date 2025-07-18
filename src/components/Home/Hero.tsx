@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-fit md:min-h-[92vh] w-screen bg-[url('/dogs.jpg')] bg-cover bg-size bg-no-repeat bg-[position:79%_0%] md:bg-[position:75%_0%] lg:bg-center px-4 md:px-5 pb-4">
+    <section className="relative min-h-fit md:min-h-[92vh] w-screen bg-[url('/dogs.jpg')] bg-cover bg-size bg-no-repeat bg-[position:79%_0%] md:bg-[position:75%_0%] lg:bg-center px-4 md:px-7 lg:px-10 pb-4">
       <div className="absolute inset-0 bg-bgBlack/90 backdrop-blur-[3px] border-b-[#363636] border-b-2"></div>
       <div className="relative z-10 h-full min-h-[92vh] w-full max-w-7xl mx-auto pt-[9vh] md:pt-[20vh] lg:pt-[23vh] space-y-6">
         <motion.h1
@@ -48,27 +48,27 @@ const Hero = () => {
             },
           }}
         >
-          <Link to="/novo-pet">
+          <Link className="flex-1 max-w-[250px]" to="/novo-pet">
             <motion.button
               variants={{
                 hidden: { opacity: 0, x: -40 },
                 visible: { opacity: 1, x: 0 },
               }}
               transition={{ duration: 0.8 }}
-              className="font-semibold text-[15px] md:text-base flex-1 max-w-[250px] h-[50px] md:h-[56px] text-slate-900 bg-white border-white border-2 rounded-2xl tracking-widest uppercase font-mont duration-300 cursor-pointer hover:bg-transparent hover:text-white shadow-lg"
+              className="font-semibold w-full text-[15px] md:text-base h-[50px] md:h-[56px] text-slate-900 bg-white border-white border-2 rounded-2xl tracking-widest uppercase font-mont duration-300 cursor-pointer hover:bg-transparent hover:text-white shadow-lg"
             >
               Quero Doar
             </motion.button>
           </Link>
 
-          <Link to="/quero-adotar">
+          <Link className="flex-1 max-w-[250px]" to="/quero-adotar">
             <motion.button
               variants={{
                 hidden: { opacity: 0, x: 40 },
                 visible: { opacity: 1, x: 0 },
               }}
               transition={{ duration: 0.8 }}
-              className="border-accentBlue text-[15px] md:text-base font-mont flex-1 max-w-[250px] h-[50px] md:h-[56px] cursor-pointer rounded-lg pet-btn inline-block font-bold text-white border-3 relative overflow-hidden z-10 bg-transparent"
+              className="border-accentBlue w-full text-[15px] md:text-base font-mont h-[50px] md:h-[56px] cursor-pointer rounded-lg pet-btn inline-block font-bold text-white border-3 relative overflow-hidden z-10 bg-transparent"
             >
               <span className="relative z-10 uppercase tracking-wider">
                 Quero Adotar

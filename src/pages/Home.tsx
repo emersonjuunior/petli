@@ -20,10 +20,7 @@ const Home = () => {
     return (
       <>
         <img
-          onLoad={() => {
-            setImgLoad(false);
-            console.log("Imagem carregada");
-          }}
+          onLoad={() => setImgLoad(false)}
           className="w-0 h-0 opacity-0"
           src="/dogs.jpg"
           alt="Imagem de cachorros"
