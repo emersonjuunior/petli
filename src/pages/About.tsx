@@ -13,7 +13,7 @@ const About = () => {
           content="Petli é uma plataforma de adoção de animais que conecta pessoas com pets em busca de um novo lar."
         />
       </Helmet>
-      <main className="min-h-[2000px]">
+      <main>
         <FirstSection />
         <MVV />
         <Info />

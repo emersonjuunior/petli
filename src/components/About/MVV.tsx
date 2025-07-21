@@ -11,7 +11,7 @@ const MVV = () => {
               loading="lazy"
             />
             <h3 className="uppercase font-mont font-semibold tracking-widest text-xl mb-3">
-              Missão
+              <span className="rectangle h-4"></span> Missão
             </h3>
             <p className="text-center max-w-[316px]">
               Facilitar e incentivar a adoção responsável de animais, conectando
@@ -30,7 +30,7 @@ const MVV = () => {
                 loading="lazy"
               />
               <h3 className="uppercase font-mont font-semibold tracking-widest text-xl mb-3">
-                Visão
+                <span className="rectangle h-4"></span> Visão
               </h3>
               <p className="text-center max-w-[316px]">
                 Ajudar animais a encontrarem um lar acolhedor, com carinho e
@@ -46,7 +46,7 @@ const MVV = () => {
               loading="lazy"
             />
             <h3 className="uppercase font-mont font-semibold tracking-widest text-xl mb-3">
-              Valores
+              <span className="rectangle h-4"></span> Valores
             </h3>
             <p className="text-center max-w-[316px]">
               Amor, empatia, responsabilidade, transparência e tecnologia a

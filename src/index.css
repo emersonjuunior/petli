@@ -27,6 +27,9 @@
   option {
     @apply bg-bgGray text-textWhite outline-none;
   }
+  .rectangle {
+    @apply inline-block bg-primaryRed w-[6px] mr-1
+  }
 }
 
 @layer utilities {
