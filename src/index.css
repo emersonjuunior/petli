@@ -14,7 +14,7 @@
   --animate-notification: show-notification 0.4s ease forwards,
     close-notification 0.5s ease 2.5s forwards;
   --animate-timer-animation: timer-animation 2s ease 0.2s forwards;
-  --animate-text-slide: text-slide 20s ease infinite
+  --animate-text-slide: text-slide 20s linear infinite
 }
 
 @layer base {
@@ -78,15 +78,9 @@
 
 @keyframes text-slide {
   0% {
-    
-    transform: translateX(-95%);
-  }
-  50% {
-   
-    transform: translateX(0);
+    transform: translateX(-100%);
   }
   100% {
-   
     transform: translateX(100%);
   }
 }

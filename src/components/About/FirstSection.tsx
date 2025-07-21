@@ -29,10 +29,11 @@ const FirstSection = () => {
             Sobre nós
           </h1>
 
-          <p className="mb-8 text-xl tracking-[3px] uppercase font-medium whitespace-nowrap animate-text-slide">
-            Conectando vidas, transformando histórias. Conectando vidas,
-            transformando histórias.
-          </p>
+          <div className="bg-bgGray py-1 rounded-md px-2 h-fit mb-7">
+            <p className="text-xl tracking-[3px] uppercase font-medium whitespace-nowrap animate-text-slide inline-block font-mont">
+              Conectando vidas, transformando histórias.
+            </p>
+          </div>
 
           <p className="text-xl mb-12">
             A <span className="text-accentBlue">Petli</span> nasceu com o

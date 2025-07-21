@@ -1,5 +1,7 @@
 import { Helmet } from "react-helmet";
 import FirstSection from "../components/About/FirstSection";
+import MVV from "../components/About/MVV";
+import Info from "../components/About/Info";
 
 const About = () => {
   return (
@@ -13,6 +15,8 @@ const About = () => {
       </Helmet>
       <main className="min-h-[2000px]">
         <FirstSection />
+        <MVV />
+        <Info />
       </main>
     </>
   );
