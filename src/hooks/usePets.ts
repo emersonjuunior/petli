@@ -48,9 +48,10 @@ export const usePets = () => {
     setLastFilters,
     currentPets,
     setCurrentPets,
+    lastVisible,
+    setLastVisible,
   } = usePetContext();
   const { uploadImages } = useImages();
-  const [lastVisible, setLastVisible] = useState<DocumentData | null>(null);
   const limitPerPage = 6;
 
   // busca os pets iniciais exibidos na home
