@@ -104,7 +104,7 @@ body {
   content: "";
 }
 
-#available-pets .swiper {
+#esperando-um-lar .swiper {
   width: 100%;
   max-width: 1280px;
 }
@@ -161,7 +161,7 @@ body {
 }
 
 @media screen and (max-width: 1200px) {
-  #available-pets .swiper {
+  #esperando-um-lar .swiper {
     width: 100%;
     max-width: 950px;
   }

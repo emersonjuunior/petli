@@ -12,8 +12,9 @@ const MVV = () => {
 
   return (
     <section
+    id="motivacao"
       ref={sectionRef}
-      className="w-full bg-[#292929] pt-10 md:pt-15 lg:pt-20 pb-15 md:pb-25 lg:pb-30 border-b-[#363636] border-b-2 px-4 xl:px-0"
+      className="w-full bg-[#292929] pt-10 md:pt-15 lg:pt-20 pb-15 md:pb-25 lg:pb-30 border-b-[#363636] border-b-2 px-4 xl:px-0 scroll-mt-10"
     >
       <div ref={motionRef} className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-center gap-7 md:gap-12 lg:gap-16 xl:gap-20 md:h-[450px] lg:h-[500px] md:items-center">

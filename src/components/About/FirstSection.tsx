@@ -7,7 +7,7 @@ const FirstSection = () => {
   const [imgLoad, setImgLoad] = useState(true);
 
   return (
-    <section className="min-h-fit px-4 border-b-[#363636] border-b-2 pt-6 md:pt-10 pb-12 md:pb-15">
+    <section id="sobre-nos" className="min-h-fit px-4 border-b-[#363636] border-b-2 pt-6 md:pt-10 pb-12 md:pb-15 scroll-mt-12">
       <div className="w-full max-w-7xl mx-auto flex items-center md:gap-4 lg:gap-5 xl:gap-6">
         <aside className="hidden md:block">
           {imgLoad && (

@@ -11,7 +11,7 @@ const Benefits = () => {
   });
 
   return (
-    <section className="w-full bg-[#292929] pt-10 md:pt-15 lg:pt-20 pb-15 md:pb-25 lg:pb-30 border-b-[#363636] border-b-2 px-4 xl:px-0">
+    <section id="por-que-adotar" className="w-full bg-[#292929] pt-10 md:pt-15 lg:pt-20 pb-15 md:pb-25 lg:pb-30 border-b-[#363636] border-b-2 px-4 xl:px-0 scroll-mt-10">
       <motion.div
         ref={motionRef}
         initial={{ opacity: 0, y: 50 }}

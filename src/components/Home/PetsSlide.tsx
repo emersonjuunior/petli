@@ -44,8 +44,8 @@ const PetsSlide = () => {
 
   return (
     <section
-      className="border-b-[#363636] border-b-2 py-15 md:py-20 lg:py-25 px-4 xl:px-0"
-      id="available-pets"
+      className="border-b-[#363636] border-b-2 py-15 md:py-20 lg:py-25 px-4 xl:px-0 scroll-mt-8"
+      id="esperando-um-lar"
       ref={sectionRef}
     >
       <motion.div

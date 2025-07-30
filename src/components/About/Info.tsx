@@ -12,7 +12,7 @@ const Info = () => {
   const [donateImg, setDonateImg] = useState(true);
 
   return (
-    <section className="border-b-[#363636] border-b-2 py-15 md:py-20 lg:py-25 px-4 xl:px-0">
+    <section id="como-funciona" className="border-b-[#363636] border-b-2 py-15 md:py-20 lg:py-25 px-4 xl:px-0 scroll-mt-12">
       <motion.div
         ref={motionRef}
         initial={{ opacity: 0, y: 50 }}

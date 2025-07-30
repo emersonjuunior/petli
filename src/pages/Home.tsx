@@ -2,8 +2,10 @@ import { Helmet } from "react-helmet";
 import { useEffect, useState, lazy, Suspense } from "react";
 import { usePets } from "../hooks/usePets";
 import Loading from "../components/Loading";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
+  const location = useLocation();
   const [imgLoad, setImgLoad] = useState(true);
   const { fetchInitialPets, loading } = usePets();
   const Hero = lazy(() => import("../components/Home/Hero"));
@@ -15,6 +17,19 @@ const Home = () => {
   useEffect(() => {
     fetchInitialPets();
   }, []);
+
+  useEffect(() => {
+    if (location.hash) {
+      console.log("executando location")
+      const element = document.querySelector(location.hash);
+      if (element) {
+        // Dar um pequeno delay opcional pra garantir que o DOM esteja carregado
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   if (loading || imgLoad) {
     return (

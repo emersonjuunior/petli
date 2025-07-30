@@ -40,8 +40,9 @@ const Faq = () => {
 
   return (
     <section
+    id="perguntas-frequentes"
       ref={sectionRef}
-      className="w-full bg-[#292929] pt-8 md:pt-12 pb-12 md:pb-20 px-4 xl:px-0"
+      className="w-full bg-[#292929] pt-8 md:pt-12 pb-12 md:pb-20 px-4 xl:px-0 scroll-mt-19"
     >
       <div className="w-full max-w-7xl mx-auto">
         <motion.div
