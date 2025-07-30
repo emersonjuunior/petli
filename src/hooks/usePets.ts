@@ -15,7 +15,6 @@ import {
   arrayUnion,
   orderBy,
   limit,
-  DocumentData,
   startAfter,
 } from "firebase/firestore";
 import { IPet, ISearchPet } from "../interfaces/Pet";

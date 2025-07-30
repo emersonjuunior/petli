@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { IPet, ISearchPet } from "../interfaces/Pet";
+import { DocumentData } from "firebase/firestore";
 
 interface IPetContext {
   displayPets: IPet[];
@@ -12,8 +13,8 @@ interface IPetContext {
   setInitialPetLoad: React.Dispatch<React.SetStateAction<boolean>>;
   lastFilters: ISearchPet | null;
   setLastFilters: React.Dispatch<React.SetStateAction<ISearchPet | null>>;
-  lastVisible: Number | null;
-  setLastVisible: React.Dispatch<React.SetStateAction<Number | null>>;
+  lastVisible: DocumentData | null;
+  setLastVisible: React.Dispatch<React.SetStateAction<DocumentData | null>>;
 }
 
 const PetContext = createContext<IPetContext | null>(null);
@@ -27,7 +28,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({
   const [allPets, setAllPets] = useState<IPet[]>([]);
   const [initialPetLoad, setInitialPetLoad] = useState(false);
   const [lastFilters, setLastFilters] = useState<ISearchPet | null>(null);
-  const [lastVisible, setLastVisible] = useState<Number | null>(null);
+  const [lastVisible, setLastVisible] = useState<DocumentData | null>(null);
 
   return (
     <PetContext.Provider
