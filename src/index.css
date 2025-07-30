@@ -14,7 +14,8 @@
   --animate-notification: show-notification 0.4s ease forwards,
     close-notification 0.5s ease 2.5s forwards;
   --animate-timer-animation: timer-animation 2s ease 0.2s forwards;
-  --animate-text-slide: text-slide 20s linear infinite
+  --animate-text-slide: text-slide 18s linear infinite;
+  --breakpoint-xs: 360px;
 }
 
 @layer base {
@@ -28,7 +29,7 @@
     @apply bg-bgGray text-textWhite outline-none;
   }
   .rectangle {
-    @apply inline-block bg-primaryRed w-[6px] mr-1
+    @apply inline-block bg-primaryRed w-[6px] mr-1;
   }
 }
 

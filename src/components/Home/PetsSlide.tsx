@@ -66,7 +66,7 @@ const PetsSlide = () => {
             {startTyping && (
               <Typewriter words={["m lar"]} loop={1} typeSpeed={100} />
             )}
-            {!startTyping && <span className="opacity-0">adotar?</span>}
+            {!startTyping && <span className="opacity-0">m lar</span>}
           </h2>
           <div className="h-[3px] w-[23%] md:w-[27%] bg-primaryRed"></div>
         </motion.div>

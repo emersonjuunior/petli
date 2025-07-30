@@ -1,24 +1,54 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Typewriter } from "react-simple-typewriter";
 
 const Info = () => {
+  const motionRef = useRef(null);
+  const isInView = useInView(motionRef, {
+    once: true,
+    margin: "-130px 0px", // ativa a animação só depois de o conteúdo entrar mais
+  });
   const [adoptImg, setAdoptImg] = useState(true);
   const [donateImg, setDonateImg] = useState(true);
 
   return (
     <section className="border-b-[#363636] border-b-2 py-15 md:py-20 lg:py-25 px-4 xl:px-0">
-      <div className="w-full max-w-7xl mx-auto">
-        <h2 className="text-center text-3xl md:text-5xl tracking-widest font-mont font-semibold mb-8">
-          Como funciona?
-        </h2>
-        <article className="flex gap-6 items-center">
+      <motion.div
+        ref={motionRef}
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="w-full max-w-7xl mx-auto"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="mb-6 md:mb-8 w-fit min-w-[470px] max-w-[470px] mx-auto"
+        >
+          <h2 className="text-3xl md:text-5xl tracking-widest font-mont font-semibold">
+            Como fun
+            {isInView && (
+              <Typewriter words={["ciona?"]} loop={1} typeSpeed={100} />
+            )}
+            {!isInView && <span className="opacity-0">ciona?</span>}
+          </h2>
+          <div className="h-[3px] w-[14%] md:w-[17%] bg-primaryRed"></div>
+        </motion.div>
+        <motion.article
+          initial={{ opacity: 0, x: -300 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 2.4, delay: 0.5 }}
+          className="flex flex-col-reverse lg:flex-row gap-6 items-center"
+        >
           <aside>
             {adoptImg && (
-              <div className="animate-pulse w-xl h-[576px] bg-[#323232] rounded-xl"></div>
+              <div className="animate-pulse w-[300px] h-[300px] md:w-lg md:h-[576px] xl:w-xl xl:h-[576px] bg-[#323232] rounded-xl"></div>
             )}
             <div
               className={`${
                 adoptImg ? "hidden" : ""
-              } flex items-center justify-center w-xl`}
+              } flex items-center justify-center w-[300px] md:w-lg xl:w-xl`}
             >
               <img
                 onLoad={() => setAdoptImg(false)}
@@ -28,11 +58,11 @@ const Info = () => {
               />
             </div>
           </aside>
-          <div className="flex-1">
-            <h3 className="text-3xl font-semibold mb-6">
+          <div className="flex-1 md:px-4 lg:px-0">
+            <h3 className="text-3xl font-semibold mb-4 md:mb-6">
               <span className="rectangle h-6"></span> Como adotar?
             </h3>
-            <ul className="flex flex-col gap-5 list-disc">
+            <ul className="flex flex-col gap-5 list-disc px-2 md:px-0">
               <li>
                 Crie uma{" "}
                 <span className="font-medium">
@@ -67,7 +97,7 @@ const Info = () => {
                 Após concluir a adoção, você pode pedir ao doador que{" "}
                 <span className="font-medium">marque você como adotante</span>{" "}
                 do pet na plataforma. Assim, a adoção será registrada no seu
-                perfil, criando um
+                perfil, criando um{" "}
                 <span className="font-medium">
                   histórico das suas adoções e fortalecendo sua credibilidade
                 </span>{" "}
@@ -79,14 +109,19 @@ const Info = () => {
               </span>
             </ul>
           </div>
-        </article>
-        <hr className="text-[#505050] my-12" />
-        <article className="flex gap-6 items-center">
-          <div className="flex-1">
-            <h3 className="text-3xl font-semibold mb-6">
+        </motion.article>
+        <hr className="text-[#505050] my-8 md:my-12" />
+        <motion.article
+          initial={{ opacity: 0, x: 300 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 2.4, delay: 0.8 }}
+          className="flex flex-col lg:flex-row gap-6 items-center"
+        >
+          <div className="flex-1 md:px-4 lg:px-0">
+            <h3 className="text-3xl font-semibold mb-4 md:mb-6">
               <span className="rectangle h-6"></span> Como doar?
             </h3>
-            <ul className="flex flex-col gap-5 list-disc">
+            <ul className="flex flex-col gap-5 list-disc px-2 md:px-0">
               <li>
                 Crie uma{" "}
                 <span className="font-medium">
@@ -142,12 +177,12 @@ const Info = () => {
           </div>
           <aside>
             {donateImg && (
-              <div className="animate-pulse w-xl h-[576px] bg-[#323232] rounded-xl"></div>
+              <div className="animate-pulse w-[300px] h-[300px] md:w-lg md:h-[576px] xl:w-xl xl:h-[576px] bg-[#323232] rounded-xl"></div>
             )}
             <div
               className={`${
                 donateImg ? "hidden" : ""
-              } flex items-center justify-center w-xl`}
+              } flex items-center justify-center w-[300px] h-[300px] md:w-lg xl:w-xl`}
             >
               <img
                 onLoad={() => setDonateImg(false)}
@@ -157,8 +192,8 @@ const Info = () => {
               />
             </div>
           </aside>
-        </article>
-      </div>
+        </motion.article>
+      </motion.div>
     </section>
   );
 };
