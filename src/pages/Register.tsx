@@ -9,6 +9,7 @@ import Error from "../components/Error";
 import InputWarning from "../components/InputWarning";
 
 const Register = () => {
+  const [loadImg, setLoadImg] = useState(true);
   const [username, setUsername] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -85,10 +86,16 @@ const Register = () => {
                 Seu melhor amigo pode estar esperando por você. Que tal mudar
                 uma vida hoje?
               </h2>
+              {loadImg && (
+                <div className="w-[440px] h-[440px] mb-5 animate-pulse bg-[#44b9a4] rounded-xl"></div>
+              )}
               <img
-                src="./register-illustration.png"
-                alt="Ilustração de um gatinho no espaço"
-                className="mb-5"
+                src="/register-illustration.svg"
+                alt="Ilustração de um gato no espaço"
+                onLoad={() => setLoadImg(false)}
+                className={`${
+                  loadImg ? "hidden" : ""
+                } mb-5 w-[440px] h-[440px] min-w-[440px] min-h-[440px]`}
               />
               <p className="font-medium italic">
                 Faça do mundo um lugar melhor.{" "}
