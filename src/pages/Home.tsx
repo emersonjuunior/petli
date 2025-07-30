@@ -20,7 +20,6 @@ const Home = () => {
 
   useEffect(() => {
     if (location.hash) {
-      console.log("executando location")
       const element = document.querySelector(location.hash);
       if (element) {
         // Dar um pequeno delay opcional pra garantir que o DOM esteja carregado

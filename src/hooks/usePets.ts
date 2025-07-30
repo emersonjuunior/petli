@@ -62,14 +62,12 @@ export const usePets = () => {
 
     // se a busca já tiver sido feita, retorna
     if (initialPetLoad) {
-      console.log("Busca já foi feita anteriormente.");
       setLoading(false);
       return;
     }
 
     // se o cache existir, atualiza o state global pets com os dados do cache
     if (cache) {
-      console.log("cachezada");
       const cachedPets: IPet[] = JSON.parse(cache);
 
       // busca no firebase o último documento de pet, pra salvar o DocumentData como lastVisible para paginação
@@ -87,7 +85,6 @@ export const usePets = () => {
       setDisplayPets(cachedPets);
       setInitialPetLoad(true);
     } else {
-      console.log("não caiu no cache");
       // busca no firestore os 6 pets mais recentes
       const q = query(
         collection(db, "pets"),
@@ -403,7 +400,6 @@ export const usePets = () => {
 
       // verifica se os filtros mudaram desde a última pesquisa
       if (isEqual(lastFilters, filters)) {
-        console.log("Não mudou os filtros, busca nao realizada");
         return;
       }
 
@@ -440,8 +436,6 @@ export const usePets = () => {
         conditions.push(where("neutered", "==", false));
       }
 
-      console.log("chegou aqui");
-
       // monta a busca com todas as condições
       q = query(
         petRef,
@@ -467,7 +461,6 @@ export const usePets = () => {
       setDisplayPets(results);
     } catch (error) {
       setError("Algo deu errado com a busca, tente alterar os filtros!");
-      console.log(error);
     } finally {
       setSearchPetsLoad(false);
     }
@@ -476,14 +469,11 @@ export const usePets = () => {
   // carrega a próxima página
   const loadNextPage = async (currentPage: number, filters: ISearchPet) => {
     // indices
-    console.log("executando");
     const startIndex = (currentPage - 1) * limitPerPage;
     const endIndex = startIndex + limitPerPage;
 
     // verifica se a próxima página já foi carregada localmente
     if (currentPets.length > startIndex) {
-      console.log("Já carregou a próxima página (local)");
-
       const actualPets = currentPets.slice(startIndex, endIndex);
       setDisplayPets(actualPets);
       return;
@@ -491,7 +481,6 @@ export const usePets = () => {
 
     // se não tiver como buscar mais, interrompe
     if (!lastVisible || !filters) {
-      console.log(lastVisible);
       setSearchPetsLoad(false);
       return;
     }
@@ -544,10 +533,7 @@ export const usePets = () => {
         setAllPets((prev) => [...prev, ...results]);
 
         const newCurrentPets = updatedPets.slice(startIndex, endIndex);
-        console.log(updatedPets);
         setDisplayPets(newCurrentPets);
-      } else {
-        console.log("Não há mais pets para carregar.");
       }
     } catch (error) {
       setError("Algo deu errado com a busca, tente alterar os filtros!");
