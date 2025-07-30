@@ -30,7 +30,7 @@ const CreateUsernameModal = () => {
 
   return (
     <div className="w-full h-full inset-0 bg-black/30 fixed flex justify-center items-center z-50">
-      <div className="bg-bgGray w-full max-w-[520px] mx-2 rounded-lg">
+      <div className="bg-bgGray w-full max-w-[550px] mx-2 rounded-lg">
         <form
           className="flex flex-col gap-5 p-5 md:p-10"
           onSubmit={handleSubmit}
@@ -79,9 +79,15 @@ const CreateUsernameModal = () => {
                 text={
                   "O Nome de Usuário deve conter pelo menos 4 caracteres, e não pode conter espaços ou caracteres especiais."
                 }
+                modal={true}
               />
             )}
           </label>
+          <p className="text-sm">
+            <span className="font-medium">Obs:</span> Você{" "}
+            <span className="font-medium">não poderá alterar</span> seu nome de
+            usuário depois.
+          </p>
           {error && <Error error={error} setError={setError} />}
           <button
             type="submit"

@@ -108,7 +108,7 @@ const Profile = () => {
               </p>
             </div>
           </section>
-          <section className="flex-1 flex flex-col gap-4 border-1 border-[#424242] rounded-lg md:rounded-2xl py-8 md:p-8">
+          <section className="flex-1 flex flex-col gap-4 border-1 border-[#424242] rounded-lg md:rounded-2xl mx-1 md:mx-0 py-8 md:p-8">
             <div className="flex flex-col gap-4 px-3 md:px-0">
               <h2 className="text-3xl font-medium after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
                 Sobre
@@ -191,7 +191,7 @@ const Profile = () => {
                 {" "}
                 <hr className="text-[#424242]" />
                 <div className="flex flex-col md:gap-3 mb-2 md:mb-4 w-full swiper-min">
-                  <h2 className="px:0 md:px-0 text-2xl font-medium mb-3 after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
+                  <h2 className="px-3 md:px-0 text-2xl font-medium mb-3 after:content-[''] after:block after:h-[2px] after:w-13 after:bg-primaryRed">
                     Doados
                   </h2>
 

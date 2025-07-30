@@ -132,7 +132,7 @@ const Register = () => {
                   {isFocused && (
                     <InputWarning
                       text={
-                        "O Nome de Usuário deve conter pelo menos 4 caracteres, e não pode conter espaços ou caracteres especiais."
+                        "O Nome de Usuário deve conter pelo menos 4 caracteres, e não pode conter espaços ou caracteres especiais. Escolha com cuidado, você não poderá alterá-lo depois."
                       }
                     />
                   )}
@@ -184,7 +184,7 @@ const Register = () => {
                     onClick={() => setViewPassword((prev) => !prev)}
                   />
                   {isPasswordFocused && (
-                    <div className="w-full mt-4 p-3 bg-[#242424] text-white rounded-xl rounded-tl-none shadow-lg absolute z-10 bottom-[-70px] md:bottom-[-55px] lg:bottom-[-80px]">
+                    <div className="w-full mt-4 p-3 bg-[#242424] text-white rounded-xl rounded-tl-none shadow-lg absolute z-10 bottom-[-74px] md:bottom-[-55px] lg:bottom-[-80px]">
                       <div className="flex w-full bg-gray-700 h-[4px]">
                         <div
                           className={`h-full transition-all duration-800 bg-green-600 ${
