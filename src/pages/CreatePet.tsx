@@ -135,7 +135,7 @@ const CreatePet = () => {
         />
       </Helmet>
       <main className="flex flex-row-reverse w-full max-w-7xl justify-center lg:justify-between mx-auto gap-8 mb-12 md:mb-16">
-        <section className="flex-1 h-[720px] px-2 md:px-6">
+        <section className="flex-1 h-[720px] min-h-fit px-2 md:px-6">
           <div className="min-h-[125px] mb-3 md:mb-0">
             <h1 className="font-medium text-2xl lg:text-3xl mb-6 max-w-[92%] md:max-w-full md:whitespace-nowrap">
               Encontre um <span className="text-accentBlue">novo lar</span> para
@@ -149,7 +149,7 @@ const CreatePet = () => {
               >
                 1
               </div>
-              <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
+              <div className="h-[2px] bg-bgGray flex-1"></div>
               <div
                 className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
                   step === 2 ? "border-secondaryYellow" : ""
@@ -157,7 +157,7 @@ const CreatePet = () => {
               >
                 2
               </div>
-              <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
+              <div className="h-[2px] bg-bgGray flex-1"></div>
               <div
                 className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
                   step === 3 ? "border-secondaryYellow" : ""
@@ -165,7 +165,7 @@ const CreatePet = () => {
               >
                 3
               </div>
-              <div className="h-[2px] bg-bgGray w-12 md:w-30 xl:w-40"></div>
+              <div className="h-[2px] bg-bgGray flex-1"></div>
               <div
                 className={`rounded-full border-2 size-9 md:size-10 flex justify-center items-center ${
                   step === 4 ? "border-secondaryYellow" : ""
